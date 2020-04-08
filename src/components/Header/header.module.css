@@ -1,0 +1,9 @@
+.header {
+  background: var(--orange);
+  height: 6rem;
+  display: grid;
+  padding: 0 2rem;
+  display: grid;
+  width: 100%;
+  align-content: center;
+}

@@ -1,0 +1,122 @@
+.lineChartWrap {
+  border-radius: 0.4rem;
+  display: grid;
+  grid-gap: 1rem;
+  justify-content: center;
+  grid-template-columns: 1fr 4fr;
+  max-width: 100vw;
+  overflow: hidden;
+  background:var(--purple);
+  padding: 1rem;
+}
+
+@media only screen and (max-width: 900px) {
+  .lineChartWrap {
+    grid-template-rows: 1fr 2fr;
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+.svgWrap {
+  background: var(--white);
+  min-width: 0;
+  display: grid;
+  justify-content: center;
+  border-radius: 0.4rem;
+  align-content: center;
+  align-items: center;
+}
+.svgWrap svg {
+  max-width: 100%;
+  fill: var(--black);
+}
+
+@media only screen and (min-width: 900px) {
+ 
+  .svgWrap svg {
+    padding: 1rem 0;
+  }
+}
+.lineChartLeftWrap {
+  display:grid;
+  grid-gap: 1rem;
+  /* align-items: center; */
+}
+
+.sectionHeader {
+  display: grid;
+  /* background: var(--white); */
+  /* padding: 1rem; */
+  border-radius: 0.4rem;
+  justify-items: center;
+  align-items: center;
+  background: var(--white);
+}
+
+.sectionHeader h2 {
+  color: var(--purple);
+  letter-spacing: 0.08rem;
+  text-align: center;
+  background: var(--white);
+ 
+}
+.hoverTextBoxWrap{
+  background: var(--white);
+  border-radius: 0.4rem;
+  padding: 1rem;
+  display:grid;
+  align-content: center;
+}
+.btnGroup {
+  display: grid;
+  grid-gap: 0.5rem;
+  padding:1rem;
+  background: var(--white); 
+  border-radius: 0.4rem;
+  display:grid;
+  align-content: center;
+}
+.btn {
+  background: var(--blue);
+  border: none;
+  height: 2.5rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.4rem;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  outline-color: var(--purple);
+}
+
+
+.lineChartXAxis text {
+  transform: rotate(-90deg) translate(-1.8rem, -0.5rem);
+  font-size: 0.8rem;
+}
+
+.lineChartYAxis text {
+  font-size: 0.8rem;
+}
+
+.lineChartYAxis path {
+  display: none;
+}
+
+line {
+  stroke: var(--purple);
+  opacity: 0.1;
+}
+
+.lineGraphCircle {
+  cursor: pointer;
+  transition: all 0s ease-out;
+  z-index: 11;
+}
+
+.lineGraphCircle:hover {
+  stroke: var(--blue);
+  stroke-width: 0.5rem;
+}

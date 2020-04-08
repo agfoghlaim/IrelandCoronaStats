@@ -1,0 +1,7 @@
+.pageWrap {
+  display: grid;
+  margin: 1rem;
+  grid-gap: 2rem;
+  max-width: 100%;
+  overflow: hidden;
+}

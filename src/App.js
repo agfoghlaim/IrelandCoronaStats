@@ -1,24 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Layout from './components/layout';
+import Daily from './components/Daily/daily';
+import Breakdown from './components/Breakdown/breakdown';
+import Header from './components/Header/header';
+import ProfileStats from './components/ProfileStats/profileStats';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Layout>
+        <ProfileStats />
+        <Daily />
+        <Breakdown />
+        {/* <ChartHooks /> */}
+      </Layout>
     </div>
   );
 }

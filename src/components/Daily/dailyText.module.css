@@ -1,0 +1,54 @@
+.dailyTextWrap {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+}
+
+.dailyTextWrap h2 {
+  color: var(--white);
+  display: grid;
+  justify-self: center;
+  align-self: center;
+  letter-spacing: 0.08rem;
+}
+.dailyTextItem {
+  display: grid;
+  background: var(--purple);
+  padding: 0.4rem;
+  border-radius: 0.4rem;
+  align-content: center;
+  grid-gap: 0.2rem;
+}
+
+.infoWrap {
+  display: flex;
+  justify-content: space-between;
+  background: var(--white);
+  padding-left: 1rem;
+  border-radius: 0.4rem;
+}
+
+.infoWrap h3 {
+  padding:0.5rem 0;
+}
+.dailyTextItem p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: black;
+  display: inline;
+}
+
+.dailyTextItem h3 {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.rightSpan {
+  background: var(--blue);
+  font-size: 0.8rem;
+  color: white;
+  padding: 0 1rem;
+  width: 3rem;
+  display: grid;
+  justify-content: center;
+}

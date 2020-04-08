@@ -1,0 +1,57 @@
+
+
+.genericTextItem {
+  display: grid;
+  background: var(--purple);
+  padding: 0.4rem;
+  border-radius: 0.4rem;
+  align-content: center;
+  grid-gap: 0.1rem;
+}
+
+.infoWrap {
+  display: flex;
+  justify-content: space-between;
+  background: var(--white);
+  padding-left: 1rem;
+  border-radius: 0.4rem;
+}
+
+.infoWrap h3 {
+  /* padding:0.5rem 0; */
+  margin: 0;
+}
+.infoWrap p {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--black);
+  display: inline;
+}
+
+.genericTextItem h3 {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.rightSpan {
+  background: var(--blue);
+  font-size: 0.8rem;
+  color: white;
+  padding: 0 1rem;
+  width: 3rem;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+/* .genericTextItem p, .genericTextItem span {
+  font-size: 0.7rem;
+  font-weight: 600;
+} */
+
+.genericTextItem span {
+  /* width: 5rem; */
+}
+
+

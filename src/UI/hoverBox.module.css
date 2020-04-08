@@ -1,0 +1,19 @@
+.hoverBox{
+  opacity: 0;
+  transition: opacity 0.1s linear;
+  cursor: pointer;
+  position: relative;
+  transform: translate(-0.5rem, -0.1rem);
+  font-weight: bold;
+  z-index: 10;
+  width: 5rem;
+  height: 3rem;
+  font-size: 1rem;
+
+}
+
+.hoverBox:hover{
+  opacity: 1;
+
+}
+
