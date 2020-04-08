@@ -129,7 +129,7 @@ const GraphSection = ({section, initName, initTitle}) => {
   const [selectedGraphTitle, setSelectedGraphTitle] = useState(initTitle);
   
   const [selectedGraphData, setSelectedGraphData] = useState([]);
-  console.log(section)
+  
   const[testIdeaAttr, setTestIdeaAttr] = useState('');
   const[testIdeaData, setTestIdeaData] = useState()
 

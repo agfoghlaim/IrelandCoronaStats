@@ -209,7 +209,7 @@ const ProfileStats = () => {
   const getProfileStats = async () => {
     try {
       const response = await axios.get(profileStatsUrlEverything);
-      console.log(response.data.features)
+      // console.log(response.data.features)
       return response.data.features;
     } catch (e) {
       console.log('profile stats error', e);

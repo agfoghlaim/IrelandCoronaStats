@@ -7,9 +7,11 @@ import axios from 'axios';
 import BreakdownChart from './breakdownChart';
 
 // Summary
-const breakdownUrl =
-  'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidDailyStatisticsProfileHPSCIreland/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json';
+// const breakdownUrl =
+  // 'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidDailyStatisticsProfileHPSCIreland/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json';
 
+// other endpoint (above) only returns latest data but isn't updated regurally. Use this, it contains data for each day and filter for the newest.
+const breakdownUrl = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=StatisticsProfileDate,CovidCasesConfirmed,HospitalisedCovidCases,RequiringICUCovidCases,Male,Female,Unknown,Aged1,Aged1to4,Aged5to14,Aged15to24,Aged25to34,Aged35to44,Aged45to54,Aged55to64,Aged65up,CommunityTransmission,CloseContact,TravelAbroad,UnderInvestigation,FID&outSR=4326&f=json`;
 const Breakdown = () => {
   //const [roi, setRoi] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +28,7 @@ const Breakdown = () => {
       try {
         setIsLoading(true);
         const data = await getBreakdownStats();
-
+        // console.log(data)
         setIsLoading(false);
         setBreakdown(data);
         sortData(data[0]);
@@ -90,13 +92,23 @@ const Breakdown = () => {
     );
   };
 
+  const getNewestBreakdown = (data) => {
+    
+    const datesOnly = data.map(d=>d.attributes.StatisticsProfileDate);
+   
+    const newestDate = Math.max(...datesOnly);
+
+    const ans = data.filter(d=>d.attributes.StatisticsProfileDate === newestDate);
+    console.log(ans)
+    return ans;
+    
+  }
   const getBreakdownStats = useCallback(async () => {
     try {
       const response = await axios.get(breakdownUrl);
-
-      return response.data.features;
+      const latest = getNewestBreakdown(response.data.features)
+      return latest;
     } catch (e) {
-      console.log(e);
       setIsError(true);
       throw new Error('Could not get data', e);
     }

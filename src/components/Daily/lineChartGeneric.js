@@ -15,6 +15,7 @@ const width = 800;
 const height = 600;
 
 const LineChartGeneric = ({ dataToShow, attribute }) => {
+
   const [data] = useState(dataToShow);
   const dataAttrs = [
     { title: 'percentageChange', display: 'Daily Percentage Change' },
