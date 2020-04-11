@@ -8,8 +8,8 @@
 // The further breakdown of these counts (age, gender, transmission, etc.) is part of a Daily Statistics Profile of Covid-19, an analysis that utilises the data that dates back to 12am two days previous to help identify patterns and trends.
 
 // The primary Date applies to the following fields:
-// ConfirmedCovidCases,
-// TotalConfirmedCovidCases,
+// CovidCasesConfirmed,
+// TotalCovidCasesConfirmed,
 // ConfirmedCovidDeaths,
 // TotalCovidDeaths,
 // ConfirmedCovidRecovered,
@@ -36,7 +36,6 @@
 // TravelAbroad,
 // UnderInvestigation.
 
-
 import React, { useEffect, useState, useCallback } from 'react';
 import Layout from '../layout';
 import classes from './profileStats.module.css';
@@ -44,6 +43,7 @@ import axios from 'axios';
 import TextGeneric from './TextSections/textGeneric';
 // import ProfileStatsGraph from './Graphs/profileStatsGraph';
 import GraphSection from './GraphSections/graphSection';
+import GraphSectionCheckBoxes from './GraphSections/graphSectionCheckBoxes';
 
 const sections = [
   {
@@ -52,99 +52,169 @@ const sections = [
     avail: [
       {
         name: 'Community Transmission',
-        urlPart: `StatisticsProfileDate,CommunityTransmission`,
+        urlPart: `StatisticsProfileDate,CommunityTransmission,CovidCasesConfirmed`,
         fieldName: 'CommunityTransmission',
+        selected: true,
+        color: 'var(--purple)',
+        data: [],
       },
       {
         name: 'Under Investigation',
-        urlPart: `StatisticsProfileDate,UnderInvestigation`,
+        urlPart: `StatisticsProfileDate,UnderInvestigation,CovidCasesConfirmed`,
         fieldName: 'UnderInvestigation',
+        selected: false,
+        color: 'var(--orange)',
+        data: [],
       },
       {
         name: 'Close Contact',
-        urlPart: `StatisticsProfileDate,CloseContact`,
+        urlPart: `StatisticsProfileDate,CloseContact,CovidCasesConfirmed`,
         fieldName: 'CloseContact',
+        selected: false,
+        color: 'var(--blue)',
+        data: [],
       },
       {
         name: 'Travel Abroad',
-        urlPart: `StatisticsProfileDate,TravelAbroad`,
+        urlPart: `StatisticsProfileDate,TravelAbroad,CovidCasesConfirmed`,
         fieldName: 'TravelAbroad',
+        selected: false,
+        color: 'var(--yellow)',
+        data: [],
       },
-    ]
+      {
+        name: 'Total Cases',
+        urlPart: `StatisticsProfileDate,CovidCasesConfirmed`,
+        fieldName: 'CovidCasesConfirmed',
+        selected: false,
+        color: 'var(--black)',
+        data: [],
+      },
+    ],
   },
-  { name:  'hospitalisations',
+  {
+    name: 'hospitalisations',
     sectionName: 'Hospitalisations',
     avail: [
       {
         name: 'Hospitalised',
-        urlPart: `StatisticsProfileDate,HospitalisedCovidCases`,
+        urlPart: `StatisticsProfileDate,HospitalisedCovidCases,CovidCasesConfirmed`,
         fieldName: 'HospitalisedCovidCases',
+        selected: true,
+        color: 'var(--purple)',
+        data: [],
       },
       {
         name: 'Requiring ICU',
-        urlPart: `StatisticsProfileDate,RequiringICUCovidCases`,
+        urlPart: `StatisticsProfileDate,RequiringICUCovidCases,CovidCasesConfirmed`,
         fieldName: 'RequiringICUCovidCases',
-      }
-    ]
+        selected: false,
+        color: 'var(--green)',
+        data: [],
+      },
+
+      {
+        name: 'Total Cases',
+        urlPart: `StatisticsProfileDate,CovidCasesConfirmed`,
+        fieldName: 'CovidCasesConfirmed',
+        selected: false,
+        color: 'var(--black)',
+        data: [],
+      },
+    ],
   },
-  { name: 'ageProfiles',
+  {
+    name: 'ageProfiles',
     sectionName: 'Age Profiles',
     avail: [
       {
-        name: 'Aged 1',
-        urlPart: `StatisticsProfileDate,Aged1`,
-        fieldName: 'Aged1',
-      },
-      {
-        name: 'Aged 1 to 4',
-        urlPart: `StatisticsProfileDate,Aged1to4`,
-        fieldName: 'Aged1to4',
-      },
-      {
-        name: 'Aged 5 to 14',
-        urlPart: `StatisticsProfileDate,Aged5to14`,
-        fieldName: 'Aged5to14',
-      },
-      {
-        name: 'Aged 15 to 24',
-        urlPart: `StatisticsProfileDate,Aged15to24`,
-        fieldName: 'Aged15to24',
-      },
-      {
-        name: 'Aged 25 to 34',
-        urlPart: `StatisticsProfileDate,Aged25to34`,
-        fieldName: 'Aged25to34',
-      },
-      {
-        name: 'Aged 35 to 44',
-        urlPart: `StatisticsProfileDate,Aged35to44`,
-        fieldName: 'Aged35to44',
-      },
-      {
-        name: 'Aged 45 to 54',
-        urlPart: `StatisticsProfileDate,Aged45to54`,
-        fieldName: 'Aged45to54',
+        name: 'Aged 65 and up',
+        urlPart: `StatisticsProfileDate,Aged65up,CovidCasesConfirmed`,
+        fieldName: 'Aged65up',
+        selected: true,
+        color: 'pink',
+        data: [],
       },
       {
         name: 'Aged 55 to 64',
-        urlPart: `StatisticsProfileDate,Aged55to64`,
+        urlPart: `StatisticsProfileDate,Aged55to64,CovidCasesConfirmed`,
         fieldName: 'Aged55to64',
+        selected: false,
+        color: 'var(--purple)',
+        data: [],
       },
       {
-        name: 'Aged 65 and up',
-        urlPart: `StatisticsProfileDate,Aged65up`,
-        fieldName: 'Aged65up',
-      }
-    ]
+        name: 'Aged 45 to 54',
+        urlPart: `StatisticsProfileDate,Aged45to54,CovidCasesConfirmed`,
+        fieldName: 'Aged45to54',
+        selected: false,
+        color: 'blue',
+        data: [],
+      },
+      {
+        name: 'Aged 35 to 44',
+        urlPart: `StatisticsProfileDate,Aged35to44,CovidCasesConfirmed`,
+        fieldName: 'Aged35to44',
+        color: 'violet',
+        selected: false,
+        data: [],
+      },
+      {
+        name: 'Aged 25 to 34',
+        urlPart: `StatisticsProfileDate,Aged25to34,CovidCasesConfirmed`,
+        fieldName: 'Aged25to34',
+        selected: false,
+        color: 'darkgreen',
+        data: [],
+      },
+      {
+        name: 'Aged 15 to 24',
+        urlPart: `StatisticsProfileDate,Aged15to24,CovidCasesConfirmed`,
+        fieldName: 'Aged15to24',
+        selected: false,
+        color: 'var(--yellow)',
+        data: [],
+      },
+      {
+        name: 'Aged 5 to 14',
+        urlPart: `StatisticsProfileDate,Aged5to14,CovidCasesConfirmed`,
+        fieldName: 'Aged5to14',
+        selected: false,
+        color: 'var(--green)',
+        data: [],
+      },
+      {
+        name: 'Aged 1 to 4',
+        urlPart: `StatisticsProfileDate,Aged1to4,CovidCasesConfirmed`,
+        fieldName: 'Aged1to4',
+        selected: false,
+        color: 'var(--orange)',
+        data: [],
+      },
+      {
+        name: 'Aged 1',
+        urlPart: `StatisticsProfileDate,Aged1,CovidCasesConfirmed`,
+        fieldName: 'Aged1',
+        selected: false,
+        color: 'var(--purple)',
+        data: [],
+      },
+      {
+        name: 'Total Cases',
+        urlPart: `StatisticsProfileDate,CovidCasesConfirmed`,
+        fieldName: 'CovidCasesConfirmed',
+        selected: false,
+        color: 'var(--black)',
+        data: [],
+      },
+    ],
   },
-
-]
-
+];
 
 const primaryDateKeys = [
   'Date',
-  'ConfirmedCovidCases',
-  'TotalConfirmedCovidCases',
+  'CovidCasesConfirmed',
+  'TotalCovidCasesConfirmed',
   'ConfirmedCovidDeaths',
   'TotalCovidDeaths',
   'ConfirmedCovidRecovered',
@@ -174,7 +244,7 @@ const secondaryDateKeys = [
   'UnderInvestigation',
 ];
 
-const profileStatsUrlPrimaryDateOnly = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=Date,ConfirmedCovidCases,TotalConfirmedCovidCases,ConfirmedCovidDeaths,TotalCovidDeaths,ConfirmedCovidRecovered,TotalCovidRecovered&outSR=4326&f=json`;
+const profileStatsUrlPrimaryDateOnly = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=Date,CovidCasesConfirmed,TotalCovidCasesConfirmed,ConfirmedCovidDeaths,TotalCovidDeaths,ConfirmedCovidRecovered,TotalCovidRecovered&outSR=4326&f=json`;
 
 const profileStatsUrlSecondaryDateOnly = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=StatisticsProfileDate,CovidCasesConfirmed,Female,Male,RequiringICUCovidCases,HospitalisedCovidCases,Unknown,Aged35to44,CommunityTransmission,Aged45to54,Aged1,Aged1to4,Aged5to14,Aged15to24,Aged25to34,Aged65up,Aged55to64,CloseContact,TravelAbroad,UnderInvestigation&outSR=4326&f=json`;
 
@@ -185,7 +255,7 @@ const ProfileStats = () => {
   const [statsForText, setStatsForText] = useState([]);
   const [primaryDateData, setPrimaryDateData] = useState([]);
   const [secondaryDateData, setSecondaryDateData] = useState([]);
-
+  const [totalCovidCasesConfirmed, setTotalCovidCasesConfirmed] = useState([]);
   // this doesnt work for numbers eg. aged45to54
   const helper_camelCaseToText = (text) => {
     const space = text.replace(/([A-Z])/g, ' $1');
@@ -221,8 +291,6 @@ const ProfileStats = () => {
       const stats = await getProfileStats();
       setAllStats(stats);
       convertAttributesToArrayOfObjsWithDiaplayName(stats);
-      //   getPrimaryDateData();
-      // getSecondaryDateData();
     })();
   }, []);
 
@@ -249,22 +317,43 @@ const ProfileStats = () => {
 
       setSecondaryDateData(ans);
     };
+
     getPrimaryDateData();
     getSecondaryDateData();
   }, [statsForText]);
 
+  useEffect(() => {
+    // const getTotalCovidCasesConfirmed = () => {
+    //   const copy = allStats;
+    //   const ans = copy.map((stat) => {
+    //     return {
+    //       Date: stat.attributes.Date,
+    //       TotalCovidCasesConfirmed: stat.attributes.TotalCovidCasesConfirmed,
+    //     };
+    //   });
+    //   setTotalCovidCasesConfirmed(ans);
+    // };
+    // getTotalCovidCasesConfirmed();
+  }, [allStats]);
+
   return (
     <Layout>
-      {/* <div className={classes.profileStatsGraphWrap}>
-        <GraphSection />
-      </div> */}
-        {
-          sections.map( section => (
-            <GraphSection section={section} initTitle={section.avail[0].name} initName={section.avail[0].fieldName} />
-          ))
-        }
-        
-      
+      {sections.map((section) => (
+        <GraphSectionCheckBoxes
+          section={section}
+          initTitle={section.avail[0].name}
+          initName={section.avail[0].fieldName}
+          // totalCovidCasesConfirmed={totalCovidCasesConfirmed}
+        />
+      ))}
+      {sections.map((section) => (
+        <GraphSection
+          section={section}
+          initTitle={section.avail[0].name}
+          initName={section.avail[0].fieldName}
+          // totalCovidCasesConfirmed={totalCovidCasesConfirmed}
+        />
+      ))}
 
       <div className={classes.profileStatsTextWrap}>
         <TextGeneric

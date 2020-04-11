@@ -99,7 +99,7 @@ const Breakdown = () => {
     const newestDate = Math.max(...datesOnly);
 
     const ans = data.filter(d=>d.attributes.StatisticsProfileDate === newestDate);
-    console.log(ans)
+
     return ans;
     
   }

@@ -14,6 +14,7 @@ const height = 600;
 const LineGraph = ({ data, name, handleTextBox, title }) => {
   const selectedAttribute = name;
 
+
   const svgRef = useRef(null);
   const xAxisRef = useRef(null);
   const yAxisRef = useRef(null);
@@ -38,7 +39,7 @@ const LineGraph = ({ data, name, handleTextBox, title }) => {
     .scaleLinear()
     .domain([Math.min(yExtent[0], 0), yExtent[1]])
     .range([height - margin.top, margin.bottom]);
-
+ 
   const yTickWidth = -Math.abs(width - margin.right - margin.left);
 
   const xTickWidth = -Math.abs(height - margin.top - margin.bottom);
@@ -62,7 +63,9 @@ const LineGraph = ({ data, name, handleTextBox, title }) => {
 
 
   const doCircles = () => {
+
     return data.map((d) => {
+  
       const y = yScale(d.attributes[selectedAttribute]);
       const x = xScale(d.attributes.StatisticsProfileDate);
       if( y && x) {
@@ -87,10 +90,14 @@ const LineGraph = ({ data, name, handleTextBox, title }) => {
   const doLine = () => {
     const line = d3
       .line()
-      .x((d) => xScale(d.attributes.StatisticsProfileDate))
+      .x((d) => {
+   
+        return xScale(d.attributes.StatisticsProfileDate);
+      })
       .y((d) => yScale(d.attributes[selectedAttribute]));
     // .curve(d3.curveCardinal);
 
+   
     const path = line(data);
     return (
       <path
