@@ -103,7 +103,19 @@ const GraphSectionCheckBoxes = ({
       return a;
     });
     setSectionAvail(sectionUpdate);
-    setShouldUpdate(true);
+
+    // Should check if already have the data first
+    const haveData = (name) => {
+      const checkThis = sectionAvail.filter(s =>s.fieldName === name)[0];
+      return checkThis && checkThis.data.length ? false : true;
+    }
+    const needToGetData = haveData(name);
+  
+    if(needToGetData){
+      setShouldUpdate(true);
+    }
+    
+
   };
 
   const renderCheckButtons = () => {
