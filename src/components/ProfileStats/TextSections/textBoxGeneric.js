@@ -18,16 +18,16 @@ const TextBoxGeneric = ({ data, attributeForBoxTitle }) => {
   );
 
   return data.map((d) => (
-    <>
+    <div key={d.name}>
       {d.name === attributeForBoxTitle ? (
         doDate(d)
       ) : (
-        <div className={classes.infoWrap}>
+        <div className={classes.infoWrap} key={d.name}>
           <p>{d.display}: </p>
           <RightSpan text={d}></RightSpan>
         </div>
       )}
-    </>
+    </div>
   ));
 };
 

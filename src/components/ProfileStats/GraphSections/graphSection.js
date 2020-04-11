@@ -1,10 +1,9 @@
+// Shows one attribute at a time on it's own scale
 import React, { useState, useEffect, useCallback } from 'react';
 import classes from './graphSection.module.css';
 import Axios from 'axios';
 import LineGraph from './lineGraph';
-// import GraphTextBox from './graphTextBox';
 import GraphTinyTextBox from './graphTinyTextBox';
-import { findRenderedDOMComponentWithTag } from 'react-dom/test-utils';
 
 const GraphSection = ({
   section,
@@ -16,11 +15,6 @@ const GraphSection = ({
   const [selectedGraphName, setSelectedGraphName] = useState(initName);
   const [selectedGraphTitle, setSelectedGraphTitle] = useState(initTitle);
   const [selectedGraphData, setSelectedGraphData] = useState([]);
-
-  // Checkboxes - select many
-  const [selectedGraphNames, setSelectedGraphNames] = useState([initName]);
-  const [selectedGraphTitles, setSelectedGraphTitles] = useState([initTitle]);
-  const [selectedGraphDatas, setSelectedGraphDatas] = useState([]);
 
   const [testIdeaAttr, setTestIdeaAttr] = useState('');
   const [testIdeaData, setTestIdeaData] = useState();
@@ -36,7 +30,6 @@ const GraphSection = ({
     return ans.urlPart;
   }, [selectedGraphName, section.avail]);
 
-  // Buttons
   useEffect(() => {
     (async () => {
       const specificUrlPart = getSelectedGraph();
@@ -54,65 +47,7 @@ const GraphSection = ({
     })();
   }, [selectedGraphName, getSelectedGraph, totalConfirmedCovidCases]);
 
-  const getSelectedGraphs = useCallback(
-    (selected) => {
-      const ans = section.avail.filter((a) => a.fieldName === selected)[0];
-
-      return ans.urlPart;
-    },
-    [selectedGraphName, section.avail]
-  );
-  // Checkboxes
-  useEffect(() => {
-    (async () => {
-      const specificUrlParts = selectedGraphNames.map((selected) =>
-        getSelectedGraphs(selected)
-      );
-
-      const filterOutNullValues = (resp) => {
-      
-        const filtered = resp.filter((r) => {
-//  console.log(selectedGraphNames)
-         return selectedGraphNames.map(selectedGraphName=>{
-         
-            return r.attributes[selectedGraphName] !== null;
-         })
-    
-        });
-
-        return filtered;
-      };
-      let getAll = async () => {
-        return await Promise.all(specificUrlParts.map((item) => getOne(item)));
-      };
-      const getOne = async (part) => {
-        const response = await Axios.get(baseUrl(part));
-        return response.data.features;
-      };
-
-      const all = await getAll();
-
-      // console.log(all);
-
-      const getDataForEachSelectedCheckbox = async () => {
-        specificUrlParts.map(async (part) => {
-          const response = await getOne(part);
-    
-          const filteredResponse = filterOutNullValues(response); 
-  
-         const newSelectedGraphDatas = [...selectedGraphDatas, filteredResponse]
-   
-          setSelectedGraphDatas(newSelectedGraphDatas);
-         
-        });
-      };
-      await getDataForEachSelectedCheckbox();;
-
-    })();
-  }, [selectedGraphNames, getSelectedGraphs, totalConfirmedCovidCases]);
-
-  const handleTextBox = (x, y, d) => {
-    console.log(x, y, d);
+  const handleTextBox = (d) => {
     setTestIdeaData(d);
     setTestIdeaAttr(selectedGraphName);
   };
@@ -120,6 +55,7 @@ const GraphSection = ({
   const renderLineGraph = () => {
     return selectedGraphData && selectedGraphData.length ? (
       <LineGraph
+    
         data={selectedGraphData}
         name={selectedGraphName}
         title={selectedGraphTitle}
@@ -130,57 +66,29 @@ const GraphSection = ({
     );
   };
 
-  // Buttons
   const selectGraphDataName = (fieldName, title) => {
     setSelectedGraphName(fieldName);
     setSelectedGraphTitle(title);
   };
 
-  // Checkboxes
-  const selectGraphDataNames = (name, title) => {
-    const names = [...selectedGraphNames, name];
-    const titles = [...selectedGraphTitles, title];
-    setSelectedGraphNames(names);
-    setSelectedGraphTitles(titles);
-  };
-
   const renderButtons = () => {
     return section.avail.map((a) => (
-      <button onClick={() => selectGraphDataName(a.fieldName, a.name)}>
+      <button key={a.fieldName} onClick={() => selectGraphDataName(a.fieldName, a.name)}>
         {a.name}
       </button>
     ));
   };
 
-  const handleCheckBox = (e) => {
-    console.log('checkbox', e.target.name);
-    selectGraphDataNames(e.target.name, e.target.id);
-  };
-  const renderCheckBoxes = () => {
-    return section.avail.map((a) => (
-      <label key={a.fieldName}>
-        {a.name}
-        <input
-          type="checkbox"
-          id={a.name}
-          name={a.fieldName}
-          checked={false}
-          onChange={(e) => handleCheckBox(e)}
-        />
-      </label>
-    ));
-  };
   return (
     <div className={classes.profileStatsGraphWrap}>
       <div className={classes.profileStatsGraphLeft}>
         <div className={classes.sectionHeader}>
-          <h3>{section.sectionName}</h3>
+          <h3>
+            {section.sectionName} <br />
+            <small>- graphSectionComponent</small>
+          </h3>
         </div>
 
-        {/* <GraphTextBox
-          data={selectedGraphData}
-          attributeForBoxTitle={selectedGraphName}
-        /> */}
         {testIdeaAttr && testIdeaData ? (
           <GraphTinyTextBox
             data={testIdeaData}
@@ -198,7 +106,6 @@ const GraphSection = ({
 
         <div className={classes.graphSectionBtnGroupWrap}>
           {renderButtons()}
-          {renderCheckBoxes()}
         </div>
       </div>
       <div className={classes.profileStatsGraphMain}>{renderLineGraph()}</div>

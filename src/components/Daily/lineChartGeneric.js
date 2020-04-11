@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-// import HoverBox from '../../UI/hoverBox';
 import classes from './lineChartGeneric.module.css';
 import HoverTextBox from './HoverTextBox';
 
@@ -65,7 +64,11 @@ const LineChartGeneric = ({ dataToShow, attribute }) => {
 
   const renderButtons = () => {
     return dataAttrs.map((attr) => (
-      <button className={classes.btn} onClick={() => switchAttr(attr.title)}>
+      <button 
+      key={attr.title}
+      className={classes.btn} 
+      onClick={() => switchAttr(attr.title)}
+      >
         {attr.display}
       </button>
     ));
@@ -109,7 +112,7 @@ const LineChartGeneric = ({ dataToShow, attribute }) => {
       const x = xScale(d.date);
 
       return (
-        <>
+       
           <circle
             className={classes.lineGraphCircle}
             onClick={() => handleShowTextBox(x, y, d)}
@@ -120,8 +123,7 @@ const LineChartGeneric = ({ dataToShow, attribute }) => {
             fill="var(--blue)"
           ></circle>
 
-          {/* <HoverBox pos={[x, y]} text={d[selectedAttribute]} date={d.date} /> */}
-        </>
+   
       );
     });
   };

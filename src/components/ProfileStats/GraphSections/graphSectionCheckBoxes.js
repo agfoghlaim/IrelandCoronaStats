@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './graphSection.module.css';
 import Axios from 'axios';
 import LineGraphCheckBoxes from './lineGraphCheckBoxes';

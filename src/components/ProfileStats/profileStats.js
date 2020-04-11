@@ -36,7 +36,7 @@
 // TravelAbroad,
 // UnderInvestigation.
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../layout';
 import classes from './profileStats.module.css';
 import axios from 'axios';
@@ -244,9 +244,9 @@ const secondaryDateKeys = [
   'UnderInvestigation',
 ];
 
-const profileStatsUrlPrimaryDateOnly = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=Date,CovidCasesConfirmed,TotalCovidCasesConfirmed,ConfirmedCovidDeaths,TotalCovidDeaths,ConfirmedCovidRecovered,TotalCovidRecovered&outSR=4326&f=json`;
+// const profileStatsUrlPrimaryDateOnly = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=Date,CovidCasesConfirmed,TotalCovidCasesConfirmed,ConfirmedCovidDeaths,TotalCovidDeaths,ConfirmedCovidRecovered,TotalCovidRecovered&outSR=4326&f=json`;
 
-const profileStatsUrlSecondaryDateOnly = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=StatisticsProfileDate,CovidCasesConfirmed,Female,Male,RequiringICUCovidCases,HospitalisedCovidCases,Unknown,Aged35to44,CommunityTransmission,Aged45to54,Aged1,Aged1to4,Aged5to14,Aged15to24,Aged25to34,Aged65up,Aged55to64,CloseContact,TravelAbroad,UnderInvestigation&outSR=4326&f=json`;
+// const profileStatsUrlSecondaryDateOnly = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=StatisticsProfileDate,CovidCasesConfirmed,Female,Male,RequiringICUCovidCases,HospitalisedCovidCases,Unknown,Aged35to44,CommunityTransmission,Aged45to54,Aged1,Aged1to4,Aged5to14,Aged15to24,Aged25to34,Aged65up,Aged55to64,CloseContact,TravelAbroad,UnderInvestigation&outSR=4326&f=json`;
 
 const profileStatsUrlEverything = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
 
@@ -255,7 +255,7 @@ const ProfileStats = () => {
   const [statsForText, setStatsForText] = useState([]);
   const [primaryDateData, setPrimaryDateData] = useState([]);
   const [secondaryDateData, setSecondaryDateData] = useState([]);
-  const [totalCovidCasesConfirmed, setTotalCovidCasesConfirmed] = useState([]);
+
   // this doesnt work for numbers eg. aged45to54
   const helper_camelCaseToText = (text) => {
     const space = text.replace(/([A-Z])/g, ' $1');
@@ -322,36 +322,23 @@ const ProfileStats = () => {
     getSecondaryDateData();
   }, [statsForText]);
 
-  useEffect(() => {
-    // const getTotalCovidCasesConfirmed = () => {
-    //   const copy = allStats;
-    //   const ans = copy.map((stat) => {
-    //     return {
-    //       Date: stat.attributes.Date,
-    //       TotalCovidCasesConfirmed: stat.attributes.TotalCovidCasesConfirmed,
-    //     };
-    //   });
-    //   setTotalCovidCasesConfirmed(ans);
-    // };
-    // getTotalCovidCasesConfirmed();
-  }, [allStats]);
+
 
   return (
     <Layout>
       {sections.map((section) => (
         <GraphSectionCheckBoxes
+          key={section.avail[0].fieldName}
           section={section}
           initTitle={section.avail[0].name}
-          initName={section.avail[0].fieldName}
-          // totalCovidCasesConfirmed={totalCovidCasesConfirmed}
         />
       ))}
       {sections.map((section) => (
         <GraphSection
+          key={section.avail[0].fieldName}
           section={section}
           initTitle={section.avail[0].name}
           initName={section.avail[0].fieldName}
-          // totalCovidCasesConfirmed={totalCovidCasesConfirmed}
         />
       ))}
 

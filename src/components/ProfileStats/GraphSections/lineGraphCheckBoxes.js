@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import classes from './lineGraph.module.css';
 
@@ -26,7 +26,7 @@ const LineGraphCheckBoxes = ({ theData, handleTextBox, section, selected }) => {
   const xExtent = d3.extent(data[0].data, (d) =>  d.attributes.StatisticsProfileDate);
 
   // Switched to log scale, yExtent is hardcoded
-  const yExtent = d3.extent(data[0].data, (d) => d.attributes.CovidCasesConfirmed);
+  // const yExtent = d3.extent(data[0].data, (d) => d.attributes.CovidCasesConfirmed);
 
   const xScale = d3
     .scaleTime()
@@ -60,23 +60,23 @@ const LineGraphCheckBoxes = ({ theData, handleTextBox, section, selected }) => {
   const doCircles = (graphData) => {
 
     return (graphData.data.length && graphData.selected)
-      ? graphData.data.map((attr) => {
+      ? graphData.data.map((attr, i) => {
     
           const y = yScale(attr.attributes[graphData.fieldName]);
           const x = xScale(attr.attributes.StatisticsProfileDate);
 
           return x && y ? (
-            <>
+         
               <circle
+                key={`${graphData.fieldName}-${i}`}
                 className={classes.lineGraphCircle}
                 onClick={() => handleTextBox(attr, graphData.fieldName)}
                 cx={x}
                 cy={y}
-                key={`${graphData.StatisticsProfileDate}`}
                 r="0.4rem"
                 fill={graphData.color}
               ></circle>
-            </>
+          
           ) : null;
         })
       : null;
@@ -94,6 +94,7 @@ const LineGraphCheckBoxes = ({ theData, handleTextBox, section, selected }) => {
         const path = line(graphData.data); //ok
         return (
           <path
+            key={graphData.fieldName}
             d={path}
             fill="none"
             stroke={graphData.color}

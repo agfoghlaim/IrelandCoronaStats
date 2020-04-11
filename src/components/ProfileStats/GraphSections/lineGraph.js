@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import classes from './lineGraph.module.css';
 
@@ -59,28 +59,28 @@ const LineGraph = ({ data, name, handleTextBox, title }) => {
   useEffect(() => {
     const newYExtent = d3.extent(data, (d) => d.attributes[selectedAttribute]);
     setYExtent(newYExtent);
-  }, [data]);
+  }, [data, selectedAttribute]);
 
 
   const doCircles = () => {
 
-    return data.map((d) => {
+    return data.map((d,i) => {
   
       const y = yScale(d.attributes[selectedAttribute]);
       const x = xScale(d.attributes.StatisticsProfileDate);
       if( y && x) {
         return (
-          <>
+         
             <circle
               className={classes.lineGraphCircle}
-              onClick={() => handleTextBox(x, y, d)}
+              onClick={() => handleTextBox(d)}
               cx={x}
               cy={y}
-              key={`${d.StatisticsProfileDate}`}
+              key={`${d.StatisticsProfileDate}-${i}`}
               r="0.4rem"
               fill="var(--blue)"
             ></circle>
-          </>
+          
         );
       }
 
@@ -90,17 +90,13 @@ const LineGraph = ({ data, name, handleTextBox, title }) => {
   const doLine = () => {
     const line = d3
       .line()
-      .x((d) => {
-   
-        return xScale(d.attributes.StatisticsProfileDate);
-      })
+      .x((d) => xScale(d.attributes.StatisticsProfileDate))
       .y((d) => yScale(d.attributes[selectedAttribute]));
     // .curve(d3.curveCardinal);
-
-   
     const path = line(data);
     return (
       <path
+        key={data[0].attributes.StatisticsProfileDate}
         d={path}
         fill="none"
         stroke="var(--purple)"
