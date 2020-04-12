@@ -5,6 +5,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Layout from '../layout';
 import axios from 'axios';
 import BreakdownChart from './breakdownChart';
+import classes from './breakdown.module.css';
+
 
 // Summary
 // const breakdownUrl =
@@ -34,7 +36,6 @@ const Breakdown = () => {
         sortData(data[0]);
       } catch (e) {
         setIsError(true);
-        console.log(e);
       }
     })();
   }, []);
@@ -115,8 +116,8 @@ const Breakdown = () => {
   }, []);
 
   return (
-    <Layout>
-      {isError ? <h1>Error! breakdown</h1> : null}
+    <div className={classes.breakdownWrap}>
+      {isError ? <p>There was an error.</p> : null}
       {genderBreakdown.length &&
       transTypeBreakdown.length &&
       ageBreakdown.length &&
@@ -189,7 +190,7 @@ const Breakdown = () => {
             })
           : 'oops'}
       </ul> */}
-    </Layout>
+    </div>
   );
 };
 

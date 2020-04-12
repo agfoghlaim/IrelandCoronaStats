@@ -5,6 +5,7 @@ import LineGraphCheckBoxes from './lineGraphCheckBoxes';
 // import GraphTextBox from './graphTextBox';
 import GraphTinyTextBox from './graphTinyTextBox';
 
+
 const baseUrl = (specificUrlPart) =>
   `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=${specificUrlPart}&outSR=4326&f=json`;
 
@@ -140,6 +141,7 @@ const GraphSectionCheckBoxes = ({
   };
 
   return (
+    <>
     <div className={classes.profileStatsGraphWrap}>
       <div className={classes.profileStatsGraphLeft}>
         <div className={classes.sectionHeader}>
@@ -166,7 +168,10 @@ const GraphSectionCheckBoxes = ({
         </div>
       </div>
       <div className={classes.profileStatsGraphMain}>{renderLineGraph()}</div>
+   
     </div>
+   
+    </>
   );
 };
 

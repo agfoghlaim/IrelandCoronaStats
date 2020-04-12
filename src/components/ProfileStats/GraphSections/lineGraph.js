@@ -110,6 +110,7 @@ const LineGraph = ({ data, name, handleTextBox, title }) => {
     <div className={classes.svgWrap}>
       <h4>{title}</h4>
       <svg ref={svgRef} viewBox="0 0 800 600" width={width} height={height}>
+      <text fill="var(--black)" x={-Math.abs(height/2+100)} y="20" style={{transform: 'rotate(-90deg)'}} className={classes.yLabel}>#cases</text>
         {doLine()}
         {doCircles()}
         <g

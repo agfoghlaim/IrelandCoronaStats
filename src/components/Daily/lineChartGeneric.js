@@ -16,9 +16,9 @@ const height = 600;
 const LineChartGeneric = ({ dataToShow }) => {
   const [data] = useState(dataToShow);
   const dataAttrs = [
-    { title: 'percentageChange', display: 'Daily Percentage Change' },
-    { title: 'todaysCases', display: 'Daily Cases' },
-    { title: 'totalSoFar', display: 'Total' },
+    { title: 'percentageChange', display: 'Daily Percentage Change', graphTitleY: '% change since previous day' },
+    { title: 'todaysCases', display: 'Daily Cases', graphTitleY: '#cases' },
+    { title: 'totalSoFar', display: 'Total', graphTitleY: '#cases' },
   ];
 
   const [selectedAttribute, setSelectedAttribute] = useState('todaysCases');
@@ -167,6 +167,7 @@ const LineChartGeneric = ({ dataToShow }) => {
       </div>
       <div className={classes.svgWrap}>
         <svg ref={svgRef} viewBox="0 0 900 600" width={width} height={height}>
+        <text fill="var(--black)" x={-Math.abs(height/2+100)} y="10" style={{transform: 'rotate(-90deg)'}} className={classes.yLabel}>{dataAttrs.filter((d) => d.title === selectedAttribute)[0].graphTitleY}</text>
           <g
             className={classes.lineChartXAxis}
             ref={xAxisRef}

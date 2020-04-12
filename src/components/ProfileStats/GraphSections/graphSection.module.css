@@ -1,41 +1,31 @@
 .profileStatsGraphLeft {
-
-    border-radius: 0.4rem;
-    padding: 0.4rem;
-    display: grid;
-    grid-gap: 1rem;
-
-    grid-template-rows: 1fr 8rem 1fr;
-    justify-content: center;
-   
-
-  
+  border-radius: 0.4rem;
+  padding: 0.4rem;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-rows: 1fr 8rem 1fr;
+  justify-content: center;
 }
 
 .sectionHeader {
   display: grid;
-  /* background: var(--white); */
-  /* padding: 1rem; */
-
   justify-items: center;
   align-items: center;
-  background: var(--white);
-
+  /* background: var(--white); */
   min-width: 15rem;
 }
 
 .sectionHeader h3 {
-  color: var(--purple);
+  color: var(--white);
   letter-spacing: 0.08rem;
   text-align: center;
-  background: var(--white);
+  /* background: var(--white); */
   padding: 1rem;
   width: 100%;
- 
 }
 
-.profileStatsGraphMain{
-  background: var(--white);
+.profileStatsGraphMain {
+  /* background: var(--white); */
   min-width: 0;
   display: grid;
   justify-content: center;
@@ -44,20 +34,19 @@
   align-items: center;
 }
 
-
 .profileStatsGraphMain svg {
   max-width: 100%;
   fill: var(--black);
 }
 
-.profileStatsGraphWrap{
+.profileStatsGraphWrap {
   padding: 1rem;
   border-radius: 0.4rem;
   display: grid;
   grid-template-columns: 1fr 4fr;
   grid-gap: 1rem;
   padding: 0;
-  background: var(--purple);
+  background: var(--lightBlack);
   padding: 1rem;
 }
 
@@ -66,20 +55,19 @@
     grid-template-rows: 1fr 1fr;
     grid-auto-flow: row;
     grid-template-columns: 1fr;
-  
   }
 }
 
 .graphSectionBtnGroupWrap {
-  background: var(--white);
+  /* background: var(--white); */
   display: grid;
   justify-content: center;
   align-content: center;
   padding: 1rem;
   border-radius: 0.4rem;
   /* grid-gap: 1rem; */
-  grid-template-columns: repeat( auto-fit, minmax(5rem, 1fr) );
-    grid-gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+  grid-gap: 0.5rem;
 }
 
 .graphSectionBtnGroupWrap button {

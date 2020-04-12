@@ -7,6 +7,7 @@ import axios from 'axios';
 import DailyText from './dailyText';
 import LineChartGeneric from './lineChartGeneric';
 import Summary from '../Summary/summary';
+import Error from '../../UI/error';
 // import DailyChart2 from './dailyChart2_del';
 
 // TODO - error handling is dodge.
@@ -23,17 +24,17 @@ const Daily = () => {
   useEffect(() => {
     (async () => {
       setIsLoading(true);
+      setIsError(false);
       try {
         const data = await getDailyStats();
         setDaily(data);
         const change = calculatePercentageChange(data);
         setDailyPercentageChange(change);
-
         setIsLoading(false);
       } catch (e) {
- 
         setIsLoading(false);
         setIsError(true);
+    
       }
     })();
   }, []);
@@ -49,9 +50,7 @@ const Daily = () => {
     }
   }, []);
 
-  const renderError = () => (
-    <h4 style={{ color: 'var(--purple)' }}>Couldn't load data.</h4>
-  );
+
 
   const calculatePercentageChange = useCallback((data) => {
     const ans = data.reduce((acc, d, i, data) => {
@@ -88,7 +87,7 @@ const Daily = () => {
   return (
 
     <Layout>
-      {isError ? renderError() : null}
+      {isError ? <Error msg="Could not load data." /> : null}
       {isLoading ? 'Loading' : null}
       {daily && daily.length && dailyPercentageChange.length && !isLoading ? (
         <>

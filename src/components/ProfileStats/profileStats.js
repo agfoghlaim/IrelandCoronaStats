@@ -45,6 +45,8 @@ import TextGeneric from './TextSections/textGeneric';
 // import ProfileStatsGraph from './Graphs/profileStatsGraph';
 import GraphSection from './GraphSections/graphSection';
 import GraphSectionCheckBoxes from './GraphSections/graphSectionCheckBoxes';
+import Breakdown from '../Breakdown/breakdown';
+import Error from '../../UI/error';
 
 const sections = [
   {
@@ -252,10 +254,11 @@ const secondaryDateKeys = [
 const profileStatsUrlEverything = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
 
 const ProfileStats = () => {
-
   const [statsForText, setStatsForText] = useState([]);
   const [primaryDateData, setPrimaryDateData] = useState([]);
   const [secondaryDateData, setSecondaryDateData] = useState([]);
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // this doesnt work for numbers eg. aged45to54
   const helper_camelCaseToText = (text) => {
@@ -279,18 +282,24 @@ const ProfileStats = () => {
 
   const getProfileStats = async () => {
     try {
+  
+      setIsError(false);
+      setIsLoading(true);
       const response = await axios.get(profileStatsUrlEverything);
-      // console.log(response.data.features)
       return response.data.features;
     } catch (e) {
-      console.log('profile stats error', e);
+      setIsError(true);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     (async () => {
       const stats = await getProfileStats();
-      convertAttributesToArrayOfObjsWithDiaplayName(stats);
+
+      if (!isError && stats && stats.length) {
+        convertAttributesToArrayOfObjsWithDiaplayName(stats);
+      }
     })();
   }, []);
 
@@ -322,10 +331,9 @@ const ProfileStats = () => {
     getSecondaryDateData();
   }, [statsForText]);
 
-
-
   return (
     <Layout>
+      {isError ? <Error msg="Could not load data." /> : null}
       {/* <Summary stats={statsForText} /> */}
       {sections.map((section) => (
         <GraphSectionCheckBoxes
@@ -334,22 +342,22 @@ const ProfileStats = () => {
           initTitle={section.avail[0].name}
         />
       ))}
-      {sections.map((section) => (
+      {/* {sections.map((section) => (
         <GraphSection
           key={section.avail[0].fieldName}
           section={section}
           initTitle={section.avail[0].name}
           initName={section.avail[0].fieldName}
         />
-      ))}
+      ))} */}
 
-      <div className={classes.profileStatsTextWrap}>
+      {/* <div className={classes.profileStatsTextWrap}>
         <TextGeneric
           title="Daily Cases"
           attributeForTitle={'Date'}
           data={primaryDateData}
         />
-      </div>
+      </div> */}
       <div className={classes.profileStatsTextWrap}>
         <TextGeneric
           title="Profile Statistics"
@@ -357,6 +365,7 @@ const ProfileStats = () => {
           data={secondaryDateData}
         />
       </div>
+      <Breakdown />
     </Layout>
   );
 };

@@ -3,6 +3,7 @@
   min-height: 19rem;
   padding: 1rem;
   color: var(--white);
+  border-radius: 0.4rem;
 }
 .summaryWrap {
   min-height: 10rem;
@@ -17,6 +18,7 @@
 
 .summaryBox {
   background: var(--purple);
+  border-radius: 0.4rem;
   padding: 1rem;
   color: var(--white);
   display: grid;

@@ -10,7 +10,7 @@
 }
 .tinyTextBoxWrap {
   border-radius: 0.4rem;
-  background: var(--white);
+  /* background: var(--white); */
   padding: 1rem;
   display: grid;
   align-content: center;
