@@ -13,13 +13,12 @@ const margin = {
 const width = 800;
 const height = 600;
 
-const LineChartGeneric = ({ dataToShow, attribute }) => {
-
+const LineChartGeneric = ({ dataToShow }) => {
   const [data] = useState(dataToShow);
   const dataAttrs = [
     { title: 'percentageChange', display: 'Daily Percentage Change' },
     { title: 'todaysCases', display: 'Daily Cases' },
-    { title: 'totalSoFar', display: 'Total' }
+    { title: 'totalSoFar', display: 'Total' },
   ];
 
   const [selectedAttribute, setSelectedAttribute] = useState('todaysCases');
@@ -27,9 +26,7 @@ const LineChartGeneric = ({ dataToShow, attribute }) => {
   const [yExtent, setYExtent] = useState(
     d3.extent(data, (d) => d[selectedAttribute])
   );
-  const [shouldShowHoverTextBox, setShouldSetShowHoverTextBox] = useState(
-    false
-  );
+  const [shouldShowHoverTextBox, setShouldSetShowHoverTextBox] = useState(true);
   const [selectedDayData, setSelectedDayData] = useState({});
 
   const svgRef = useRef(null);
@@ -38,7 +35,23 @@ const LineChartGeneric = ({ dataToShow, attribute }) => {
   const xAxis = d3.axisBottom();
   const yAxis = d3.axisLeft();
 
+  const getNewestData = () => {
+    const datesOnly = data.map((d) => new Date(d.date).getTime());
+
+    const newestDate = Math.max(...datesOnly);
+
+    const ans = data.filter((d) => new Date(d.date).getTime() === newestDate);
+
+    return ans[0];
+  };
+
+  useEffect(() => {
+    const newestData = getNewestData();
+    setSelectedDayData(newestData);
+  }, []);
+
   const handleShowTextBox = (x, y, data) => {
+    console.log(data);
     setSelectedDayData(data);
     setShouldSetShowHoverTextBox(true);
   };
@@ -64,10 +77,10 @@ const LineChartGeneric = ({ dataToShow, attribute }) => {
 
   const renderButtons = () => {
     return dataAttrs.map((attr) => (
-      <button 
-      key={attr.title}
-      className={classes.btn} 
-      onClick={() => switchAttr(attr.title)}
+      <button
+        key={attr.title}
+        className={classes.btn}
+        onClick={() => switchAttr(attr.title)}
       >
         {attr.display}
       </button>
@@ -90,8 +103,6 @@ const LineChartGeneric = ({ dataToShow, attribute }) => {
     .domain([Math.min(yExtent[0]), yExtent[1]])
     .range([height - margin.top, margin.bottom]);
 
-
-
   const yTickWidth = -Math.abs(width - margin.right - margin.left);
 
   const xTickWidth = -Math.abs(height - margin.top - margin.bottom);
@@ -112,18 +123,15 @@ const LineChartGeneric = ({ dataToShow, attribute }) => {
       const x = xScale(d.date);
 
       return (
-       
-          <circle
-            className={classes.lineGraphCircle}
-            onClick={() => handleShowTextBox(x, y, d)}
-            cx={x}
-            cy={y}
-            key={`${d.date}`}
-            r="0.4rem"
-            fill="var(--blue)"
-          ></circle>
-
-   
+        <circle
+          className={classes.lineGraphCircle}
+          onClick={() => handleShowTextBox(x, y, d)}
+          cx={x}
+          cy={y}
+          key={`${d.date}`}
+          r="0.4rem"
+          fill="var(--blue)"
+        ></circle>
       );
     });
   };

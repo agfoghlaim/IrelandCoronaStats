@@ -1,12 +1,12 @@
 // opendata.gov info: https://opendata-geohive.hub.arcgis.com/datasets/58f883d6f4054574a1a885acd847bd51_0/data
 
-
 // Doesn't look  like they're updating this data, see component ProfileStats instead and probably delete.
 import React, { useState, useEffect, useCallback } from 'react';
 import Layout from '../layout';
 import axios from 'axios';
 import DailyText from './dailyText';
 import LineChartGeneric from './lineChartGeneric';
+import Summary from '../Summary/summary';
 // import DailyChart2 from './dailyChart2_del';
 
 // TODO - error handling is dodge.
@@ -20,7 +20,6 @@ const Daily = () => {
   const [daily, setDaily] = useState([]);
   const [dailyPercentageChange, setDailyPercentageChange] = useState([]);
 
-
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -32,19 +31,17 @@ const Daily = () => {
 
         setIsLoading(false);
       } catch (e) {
-        // console.log(e);
+ 
         setIsLoading(false);
         setIsError(true);
-        
       }
     })();
   }, []);
 
-
   const getDailyStats = useCallback(async () => {
     try {
       const response = await axios.get(dailyStatsSoFarUrl);
-     
+
       return response.data.features;
     } catch (e) {
       setIsLoading(false);
@@ -52,9 +49,9 @@ const Daily = () => {
     }
   }, []);
 
-  const renderError = () =>(
-    <h4 style={{color: 'var(--purple)'}}>Couldn't load data.</h4>
-  )
+  const renderError = () => (
+    <h4 style={{ color: 'var(--purple)' }}>Couldn't load data.</h4>
+  );
 
   const calculatePercentageChange = useCallback((data) => {
     const ans = data.reduce((acc, d, i, data) => {
@@ -65,7 +62,7 @@ const Daily = () => {
         const yesterdaysCases = data[i - 1].attributes.ConfirmedCovidCases;
         const change = todaysCases - yesterdaysCases;
         const percentageChange = Math.round((change * 100) / yesterdaysCases);
- 
+
         // console.log(`(${todaysCases} - ${yesterdaysCases} * 100) / ${yesterdaysCases} = ${percentageChange}`)
         acc.push({
           percentageChange,
@@ -86,24 +83,22 @@ const Daily = () => {
       return acc;
     }, []);
     return ans;
-
   });
 
   return (
+
     <Layout>
       {isError ? renderError() : null}
       {isLoading ? 'Loading' : null}
       {daily && daily.length && dailyPercentageChange.length && !isLoading ? (
         <>
-          {/* <DailyChart2 dailyData={daily} /> */}
-          <DailyText daily={daily}/>
-          <LineChartGeneric dataToShow={dailyPercentageChange} />
-
+          <Summary stats={daily} />
+          <LineChartGeneric dailyData={daily} dataToShow={dailyPercentageChange} />
+          <DailyText daily={daily} />
         </>
       ) : (
         'loading...'
       )}
-      
     </Layout>
   );
 };

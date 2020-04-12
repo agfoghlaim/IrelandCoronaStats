@@ -1,7 +1,8 @@
 :root {
   --yellow: #f0ab00;
   --blue: #008fd3;
-  --black: #272727;
+  --black: #191919;
+  --lightBlack: #313131;
   --purple: #970a82;
   --orange: #e35500;
   --green: #4fb81c;
@@ -26,8 +27,10 @@ html {
 
 body {
   background: linear-gradient(110deg, var(--black), #4c4a4a);
+  /* background: linear-gradient(110deg, var(--white), #fff); */
   background-repeat: no-repeat;
   min-height: calc(100vh - 100px);
+  
 }
 
 @media only screen and (max-width: 780px){

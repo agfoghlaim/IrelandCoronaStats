@@ -26,10 +26,6 @@ const HoverTextBox = ({ todaysData, show }) => {
         <p>Since Pervious Day: </p>
         <RightSpan text={calcSinceYesterday()}></RightSpan>
       </div>
-      {/* <div className={classes.infoWrap}>
-        <p>Yesterday: </p>
-        <RightSpan text={todaysData.yesterdaysCases}></RightSpan>
-      </div> */}
       <div className={classes.infoWrap}>
         <p>Percentage Change: </p>
         <RightSpan text={formatPercentageChange()}></RightSpan>

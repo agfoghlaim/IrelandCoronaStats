@@ -97,7 +97,7 @@ const GraphSectionCheckBoxes = ({
     const name = e.target.name;
     const sectionUpdate = sectionAvail.map((a) => {
       if (a.fieldName === name) {
-        console.log('switch ' + a.fieldName + ' to ' + !a.selected);
+        // console.log('switch ' + a.fieldName + ' to ' + !a.selected);
         a.selected = !a.selected;
       }
       return a;
@@ -115,7 +115,6 @@ const GraphSectionCheckBoxes = ({
       setShouldUpdate(true);
     }
     
-
   };
 
   const renderCheckButtons = () => {
@@ -129,7 +128,7 @@ const GraphSectionCheckBoxes = ({
           opacity: `${a.selected ? '0.5' : `1`}`,
           background: `${a.selected ? 'gray' : `${a.color}`}`,
           border: `${
-            a.selected ? `0.2rem solid ${a.color}` : `0.1rem solid clear`
+            a.selected ? `0.2rem solid ${a.color}` : `0.1rem solid `
           }`,
           outline: 'none',
         }}

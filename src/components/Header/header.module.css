@@ -6,4 +6,5 @@
   display: grid;
   width: 100%;
   align-content: center;
+  color: var(--white);
 }

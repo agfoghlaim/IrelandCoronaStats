@@ -1,0 +1,27 @@
+.summarySectionWrap {
+  background: var(--lightBlack);
+  min-height: 19rem;
+  padding: 1rem;
+  color: var(--white);
+}
+.summaryWrap {
+  min-height: 10rem;
+  /* padding: 1rem; */
+}
+
+.summaryInfoWrap {
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  grid-gap: 1rem;
+  display: grid;
+}
+
+.summaryBox {
+  background: var(--purple);
+  padding: 1rem;
+  color: var(--white);
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+}

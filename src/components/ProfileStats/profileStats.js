@@ -40,6 +40,7 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../layout';
 import classes from './profileStats.module.css';
 import axios from 'axios';
+// import Summary from './Summary/summary';
 import TextGeneric from './TextSections/textGeneric';
 // import ProfileStatsGraph from './Graphs/profileStatsGraph';
 import GraphSection from './GraphSections/graphSection';
@@ -251,7 +252,7 @@ const secondaryDateKeys = [
 const profileStatsUrlEverything = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
 
 const ProfileStats = () => {
-  const [allStats, setAllStats] = useState([]);
+
   const [statsForText, setStatsForText] = useState([]);
   const [primaryDateData, setPrimaryDateData] = useState([]);
   const [secondaryDateData, setSecondaryDateData] = useState([]);
@@ -289,7 +290,6 @@ const ProfileStats = () => {
   useEffect(() => {
     (async () => {
       const stats = await getProfileStats();
-      setAllStats(stats);
       convertAttributesToArrayOfObjsWithDiaplayName(stats);
     })();
   }, []);
@@ -326,6 +326,7 @@ const ProfileStats = () => {
 
   return (
     <Layout>
+      {/* <Summary stats={statsForText} /> */}
       {sections.map((section) => (
         <GraphSectionCheckBoxes
           key={section.avail[0].fieldName}

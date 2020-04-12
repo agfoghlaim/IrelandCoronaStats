@@ -16,10 +16,11 @@
   display: grid;
   /* background: var(--white); */
   /* padding: 1rem; */
-  border-radius: 0.4rem;
+
   justify-items: center;
   align-items: center;
   background: var(--white);
+
   min-width: 15rem;
 }
 
