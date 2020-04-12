@@ -1,6 +1,8 @@
 .dailyTextWrap {
   display: grid;
   grid-gap: 1rem;
+  background: var(--lightBlack);
+  padding: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
 }
 

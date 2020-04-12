@@ -10,7 +10,7 @@ const margin = {
   bottom: 50,
 };
 
-const width = 800;
+const width = 900;
 const height = 600;
 
 const LineChartGeneric = ({ dataToShow }) => {
@@ -110,7 +110,7 @@ const LineChartGeneric = ({ dataToShow }) => {
   const doAxis = () => {
     const xRef = d3.select(xAxisRef.current);
     const yRef = d3.select(yAxisRef.current);
-    xAxis.scale(xScale).ticks(d3.timeDay.every(1));
+    xAxis.scale(xScale).ticks(d3.timeDay.every(2));
     yAxis.scale(yScale).ticks(20);
     // xRef.call(xAxis);
     xRef.call(xAxis.tickSize(xTickWidth));
@@ -166,7 +166,7 @@ const LineChartGeneric = ({ dataToShow }) => {
         <div className={classes.btnGroup}>{renderButtons()}</div>
       </div>
       <div className={classes.svgWrap}>
-        <svg ref={svgRef} viewBox="0 0 800 600" width={width} height={height}>
+        <svg ref={svgRef} viewBox="0 0 900 600" width={width} height={height}>
           <g
             className={classes.lineChartXAxis}
             ref={xAxisRef}
