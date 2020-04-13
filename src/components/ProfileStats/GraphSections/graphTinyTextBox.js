@@ -1,7 +1,15 @@
 import React from 'react';
 import classes from './graphTinyTextBox.module.css';
 
-const GraphTinyTextBox = ({ data, attributeForBoxTitle }) => {
+const GraphTinyTextBox = ({ data, attributeForBoxTitle  }) => {
+
+
+  // This is DODGE, get attribute ('Date' or 'StatisticsProfileDate') to use
+  const getAttributeForDate = () => {
+   return data.attributes.StatisticsProfileDate ? 'StatisticsProfileDate' : 'Date';
+  }
+  const attributeForDate = getAttributeForDate();
+
   const RightSpan = ({ text }) => {
     return <span className={classes.rightSpan}>{text}</span>;
   };
@@ -19,7 +27,7 @@ const GraphTinyTextBox = ({ data, attributeForBoxTitle }) => {
         {
           <>
             <div className={classes.infoWrap}>
-              <p>{date(data.attributes['StatisticsProfileDate'])}</p>
+              <p>{date(data.attributes[attributeForDate])}</p>
               <RightSpan text={data.attributes[attributeForBoxTitle]} />
             </div>
           </>

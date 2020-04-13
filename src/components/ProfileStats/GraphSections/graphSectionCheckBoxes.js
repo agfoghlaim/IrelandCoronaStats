@@ -15,6 +15,7 @@ const GraphSectionCheckBoxes = ({
   initTitle,
   totalConfirmedCovidCases,
 }) => {
+
   const [sectionData, setSectionData] = useState(section);
   const [sectionAvail, setSectionAvail] = useState(section.avail);
   const [shouldUpdate, setShouldUpdate] = useState(true);
@@ -49,6 +50,7 @@ const GraphSectionCheckBoxes = ({
             sectionAvailCopy.map(async (a) => {
               if (a.selected) {
                 const response = await getOne(a.urlPart);
+                
                 const filteredResponse = removeNulls(response, a.fieldName);
                 console.log('response length ' + filteredResponse.length);
                 a.data = filteredResponse;
@@ -90,6 +92,7 @@ const GraphSectionCheckBoxes = ({
         theData={sectionAvail}
         section={sectionData}
         handleTextBox={handleTextBox}
+        
       />
     );
   };
@@ -152,6 +155,8 @@ const GraphSectionCheckBoxes = ({
           <GraphTinyTextBox
             data={tinyTextData}
             attributeForBoxTitle={tinyTextAttr}
+            attributeForDate={sectionAvail.xAxisAttribute}
+
           />
         ) : (
           <div

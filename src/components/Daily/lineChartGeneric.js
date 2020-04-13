@@ -28,6 +28,7 @@ const LineChartGeneric = ({ dataToShow }) => {
   );
   const [shouldShowHoverTextBox, setShouldSetShowHoverTextBox] = useState(true);
   const [selectedDayData, setSelectedDayData] = useState({});
+  // const [selectedCircleId, setSelectedCircleId] = useState('');
 
   const svgRef = useRef(null);
   const xAxisRef = useRef(null);
@@ -48,10 +49,11 @@ const LineChartGeneric = ({ dataToShow }) => {
   useEffect(() => {
     const newestData = getNewestData();
     setSelectedDayData(newestData);
+    
   }, []);
 
   const handleShowTextBox = (x, y, data) => {
-    console.log(data);
+
     setSelectedDayData(data);
     setShouldSetShowHoverTextBox(true);
   };
@@ -130,7 +132,8 @@ const LineChartGeneric = ({ dataToShow }) => {
           cy={y}
           key={`${d.date}`}
           r="0.4rem"
-          fill="var(--blue)"
+          id={`${d.date}`}
+          fill={(selectedDayData.date === d.date) ? 'var(--purple)' : 'var(--blue)'}
         ></circle>
       );
     });

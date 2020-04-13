@@ -11,21 +11,23 @@ const margin = {
 const width = 800;
 const height = 600;
 
-const LineGraphCheckBoxes = ({ theData, handleTextBox, section, selected }) => {
+const LineGraphCheckBoxes = ({ theData, handleTextBox, section}) => {
   const [data, setData] = useState(theData);
-
+  //  const xAxisAttribute='StatisticsProfileDate'
+ 
   const svgRef = useRef(null);
   const xAxisRef = useRef(null);
   const yAxisRef = useRef(null);
   const xAxis = d3.axisBottom();
   const yAxis = d3.axisLeft();
-
+ 
   const yTickWidth = -Math.abs(width - margin.right - margin.left);
   const xTickWidth = -Math.abs(height - margin.top - margin.bottom);
 
   const xExtent = d3.extent(
     data[0].data,
-    (d) => d.attributes.StatisticsProfileDate
+    // (d) => d.attributes.StatisticsProfileDate
+    (d) => d.attributes[data[0].xAxisAttribute]
   );
 
   // Switched to log scale, yExtent is hardcoded
@@ -65,7 +67,8 @@ const LineGraphCheckBoxes = ({ theData, handleTextBox, section, selected }) => {
     return graphData.data.length && graphData.selected
       ? graphData.data.map((attr, i) => {
           const y = yScale(attr.attributes[graphData.fieldName]);
-          const x = xScale(attr.attributes.StatisticsProfileDate);
+          // const x = xScale(attr.attributes.StatisticsProfileDate);
+          const x = xScale(attr.attributes[graphData.xAxisAttribute]);
 
           return x && y ? (
             <circle
@@ -75,6 +78,7 @@ const LineGraphCheckBoxes = ({ theData, handleTextBox, section, selected }) => {
               cx={x}
               cy={y}
               r="0.4rem"
+              // fill={(selectedDayData.date === d.date) ? 'var(--purple)' : 'var(--blue)'}
               fill={graphData.color}
             ></circle>
           ) : null;
@@ -87,7 +91,8 @@ const LineGraphCheckBoxes = ({ theData, handleTextBox, section, selected }) => {
       if (graphData.data.length && graphData.selected) {
         const line = d3
           .line()
-          .x((d) => xScale(d.attributes.StatisticsProfileDate))
+          // .x((d) => xScale(d.attributes.StatisticsProfileDate))
+          .x((d) => xScale(d.attributes[graphData.xAxisAttribute]))
           .y((d) => yScale(d.attributes[graphData.fieldName]));
 
         const path = line(graphData.data); //ok
