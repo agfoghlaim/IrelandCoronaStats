@@ -36,7 +36,7 @@
 // TravelAbroad,
 // UnderInvestigation.
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Layout from '../layout';
 import classes from './profileStats.module.css';
 import axios from 'axios';
@@ -401,13 +401,13 @@ const ProfileStats = () => {
       }
       return attributes;
     });
+    return ans;
     // console.log(ans);
-    setStatsForText(ans);
+    // setStatsForText(ans);
   };
-
+  const shouldCancel = useRef(false);
   const getProfileStats = async () => {
     try {
-  
       setIsError(false);
       setIsLoading(true);
       const response = await axios.get(profileStatsUrlEverything);
@@ -421,11 +421,14 @@ const ProfileStats = () => {
   useEffect(() => {
     (async () => {
       const stats = await getProfileStats();
-
-      if (!isError && stats && stats.length) {
-        convertAttributesToArrayOfObjsWithDiaplayName(stats);
+      if (stats && stats.length && !shouldCancel.current) {
+        const ans = convertAttributesToArrayOfObjsWithDiaplayName(stats);
+        setStatsForText(ans);
       }
     })();
+    return () => {
+      shouldCancel.current = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -459,12 +462,13 @@ const ProfileStats = () => {
   return (
     <Layout>
       {isError ? <Error msg="Could not load data." /> : null}
-      {/* <Summary stats={statsForText} /> */}
+
       {sections.map((section) => (
         <GraphSectionCheckBoxes
           key={section.avail[0].fieldName}
           section={section}
           initTitle={section.avail[0].name}
+          temp={shouldCancel.current}
         />
       ))}
       {/* {sections.map((section) => (

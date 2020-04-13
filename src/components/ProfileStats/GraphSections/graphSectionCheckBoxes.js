@@ -1,56 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import classes from './graphSection.module.css';
 import Axios from 'axios';
 import LineGraphCheckBoxes from './lineGraphCheckBoxes';
 // import GraphTextBox from './graphTextBox';
 import GraphTinyTextBox from './graphTinyTextBox';
 
-
 const baseUrl = (specificUrlPart) =>
   `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=${specificUrlPart}&outSR=4326&f=json`;
 
-const GraphSectionCheckBoxes = ({
-  section,
-  initName,
-  initTitle,
-  totalConfirmedCovidCases,
-}) => {
-
+const GraphSectionCheckBoxes = ({ section }) => {
   const [sectionData, setSectionData] = useState(section);
   const [sectionAvail, setSectionAvail] = useState(section.avail);
   const [shouldUpdate, setShouldUpdate] = useState(true);
-  
+
   const [tinyTextAttr, setTinyTextAttr] = useState('');
   const [tinyTextData, setTinyTextData] = useState();
+  const shouldCancel = useRef(false);
 
   useEffect(() => {
-    setSectionData();
+   
+      setSectionData();
+    
+      return () => {
+        shouldCancel.current = true;
+      };
   }, [section, sectionAvail]);
 
-
+  const removeNulls = (resp, fieldName) => {
+    const noNulls = resp.filter((m) => {
+      for (const i in m.attributes) {
+        return m.attributes[fieldName] !== null;
+      }
+    });
+    return noNulls;
+  };
+  const getOne = async (part) => {
+    try {
+      const response = await Axios.get(baseUrl(part));
+      return response.data.features;
+    } catch (e) {
+      console.log(e);
+    }
+  };
   useEffect(() => {
     (async () => {
-      const removeNulls = (resp, fieldName) => {
-        const noNulls = resp.filter((m) => {
-          for (const i in m.attributes) {
-            return m.attributes[fieldName] !== null;
-          }
-        });
-        return noNulls;
-      };
-      const getOne = async (part) => {
-        const response = await Axios.get(baseUrl(part));
-        return response.data.features;
-      };
-
       const getDataForEachSelectedCheckbox = async () => {
         let sectionAvailCopy = sectionAvail;
+
         const getAllSelectedData = async () =>
           await Promise.all(
             sectionAvailCopy.map(async (a) => {
               if (a.selected) {
                 const response = await getOne(a.urlPart);
-                
                 const filteredResponse = removeNulls(response, a.fieldName);
                 console.log('response length ' + filteredResponse.length);
                 a.data = filteredResponse;
@@ -59,22 +60,29 @@ const GraphSectionCheckBoxes = ({
               return a;
             })
           );
-        sectionAvailCopy = await getAllSelectedData();
-        setSectionAvail(sectionAvailCopy);
 
+        sectionAvailCopy = await getAllSelectedData();
+
+        if(shouldCancel.current){
+          return false;
+        }
+    
+        setSectionAvail(sectionAvailCopy);
+    
+     
         // set tiny text box to <find selected section>.data.<last>
         const selectedSection = sectionAvailCopy.find((s) => s.selected);
-        if (selectedSection) {
-          setTinyTextAttr(selectedSection.fieldName);
-          setTinyTextData(
-            selectedSection.data[selectedSection.data.length - 1]
-          );
-        }
+    
+        setTinyTextAttr(selectedSection.fieldName);
+        setTinyTextData(selectedSection.data[selectedSection.data.length - 1]);
         setShouldUpdate(false);
+    
       };
-      if (shouldUpdate) {
+      
+      if (shouldUpdate ) {
         await getDataForEachSelectedCheckbox();
       }
+
     })();
   }, [sectionAvail, shouldUpdate]);
 
@@ -84,7 +92,6 @@ const GraphSectionCheckBoxes = ({
     setTinyTextAttr(selectedAttribute);
   };
 
-
   const renderLineGraph = () => {
     if (!sectionAvail || !sectionAvail.length) return;
     return (
@@ -92,12 +99,12 @@ const GraphSectionCheckBoxes = ({
         theData={sectionAvail}
         section={sectionData}
         handleTextBox={handleTextBox}
-        
       />
     );
   };
 
   const handleSelectData = (e) => {
+ 
     const name = e.target.name;
     const sectionUpdate = sectionAvail.map((a) => {
       if (a.fieldName === name) {
@@ -110,15 +117,15 @@ const GraphSectionCheckBoxes = ({
 
     // Should check if already have the data first
     const haveData = (name) => {
-      const checkThis = sectionAvail.filter(s =>s.fieldName === name)[0];
+      const checkThis = sectionAvail.filter((s) => s.fieldName === name)[0];
       return checkThis && checkThis.data.length ? false : true;
-    }
+    };
     const needToGetData = haveData(name);
-  
-    if(needToGetData){
+
+    if (needToGetData ) {
+
       setShouldUpdate(true);
     }
-    
   };
 
   const renderCheckButtons = () => {
@@ -131,9 +138,7 @@ const GraphSectionCheckBoxes = ({
         style={{
           opacity: `${a.selected ? '0.5' : `1`}`,
           background: `${a.selected ? 'gray' : `${a.color}`}`,
-          border: `${
-            a.selected ? `0.2rem solid ${a.color}` : `0.1rem solid `
-          }`,
+          border: `${a.selected ? `0.2rem solid ${a.color}` : `0.1rem solid `}`,
           outline: 'none',
         }}
         onClick={(e) => handleSelectData(e)}
@@ -145,37 +150,34 @@ const GraphSectionCheckBoxes = ({
 
   return (
     <>
-    <div className={classes.profileStatsGraphWrap}>
-      <div className={classes.profileStatsGraphLeft}>
-        <div className={classes.sectionHeader}>
-          <h3>{section.sectionName}</h3>
+      <div className={classes.profileStatsGraphWrap}>
+        <div className={classes.profileStatsGraphLeft}>
+          <div className={classes.sectionHeader}>
+            <h3>{section.sectionName}</h3>
+          </div>
+
+          {tinyTextAttr && tinyTextData ? (
+            <GraphTinyTextBox
+              data={tinyTextData}
+              attributeForBoxTitle={tinyTextAttr}
+              attributeForDate={sectionAvail.xAxisAttribute}
+            />
+          ) : (
+            <div
+              style={{
+                background: 'var(--white)',
+                borderRadius: '0.4rem',
+                height: '8rem',
+              }}
+            ></div>
+          )}
+
+          <div className={classes.graphSectionBtnGroupWrap}>
+            {renderCheckButtons()}
+          </div>
         </div>
-
-        {tinyTextAttr && tinyTextData ? (
-          <GraphTinyTextBox
-            data={tinyTextData}
-            attributeForBoxTitle={tinyTextAttr}
-            attributeForDate={sectionAvail.xAxisAttribute}
-
-          />
-        ) : (
-          <div
-            style={{
-              background: 'var(--white)',
-              borderRadius: '0.4rem',
-              height: '8rem',
-            }}
-          ></div>
-        )}
-
-        <div className={classes.graphSectionBtnGroupWrap}>
-          {renderCheckButtons()}
-        </div>
+        <div className={classes.profileStatsGraphMain}>{renderLineGraph()}</div>
       </div>
-      <div className={classes.profileStatsGraphMain}>{renderLineGraph()}</div>
-   
-    </div>
-   
     </>
   );
 };

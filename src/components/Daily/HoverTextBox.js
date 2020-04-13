@@ -3,7 +3,7 @@ import classes from './dailyText.module.css';
 const HoverTextBox = ({ todaysData, show }) => {
 
   const RightSpan = ({ text }) => {
-    return <span className={classes.rightSpan}>{text}</span>;
+    return <span className={classes.rightSpan}>{`${text}`}</span>;
   };
   const calcSinceYesterday = () => {
     const diff = todaysData.todaysCases - todaysData.yesterdaysCases;
