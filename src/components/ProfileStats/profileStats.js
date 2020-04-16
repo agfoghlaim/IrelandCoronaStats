@@ -488,11 +488,11 @@ const ProfileStats = () => {
         />
       </div> */}
       <div className={classes.profileStatsTextWrap}>
-        <TextGeneric
+        {/* <TextGeneric
           title="Profile Statistics"
           attributeForTitle={'StatisticsProfileDate'}
           data={secondaryDateData}
-        />
+        /> */}
       </div>
       <Breakdown />
     </Layout>

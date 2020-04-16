@@ -1,44 +1,32 @@
-
-
 .genericTextItem {
   display: grid;
-  background: var(--purple);
-  padding: 0.4rem;
-  border-radius: 0.4rem;
-  align-items: center;
-  grid-gap: 0.1rem;
-}
-.tinyTextBoxWrap {
-  border-radius: 0.4rem;
-  /* background: var(--white); */
   padding: 1rem;
-  display: grid;
-  align-content: center;
-  min-height: 100%;
+  border: 0.1rem solid var(--white);
+  border-radius: 0.4rem;
+  grid-gap: 0.4rem;
 }
+
 .infoWrap {
   display: flex;
   justify-content: space-between;
-  background: var(--white);
+  background: var(--purple);
   padding-left: 1rem;
+  color: var(--white);
   border-radius: 0.4rem;
+  align-content: center;
+  align-items: center;
 }
 
-.infoWrap h4 {
-  font-size: 0.8rem;
-  padding:0.5rem;
-  margin: 0;
+.infoWrap h3 {
+  padding: 0.5rem 0;
+  color: var(--white);
 }
 .infoWrap p {
   margin: 0;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--black);
-  display: inline;
+  font-size: 0.8rem;
 }
 
 .genericTextItem h3 {
-  /* margin: 0; */
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-size: 0.8rem;
@@ -52,16 +40,6 @@
   width: 3rem;
   display: grid;
   justify-content: center;
+  height: 100%;
   align-content: center;
 }
-
-/* .genericTextItem p, .genericTextItem span {
-  font-size: 0.7rem;
-  font-weight: 600;
-} */
-
-.genericTextItem span {
-  /* width: 5rem; */
-}
-
-

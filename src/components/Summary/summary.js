@@ -50,7 +50,7 @@ const Summary = ({ stats }) => {
         {latest ? (
           <div className={classes.summaryWrap}>
             <div className={classes.sectionHeading}>
-              <h2>{new Date(latest.Date).toString().substring(0, 15)}</h2>
+              <h2>Last Updated {new Date(latest.Date).toString().substring(0, 15)}</h2>
               <p>
                 <small>
                   The graphs below are based on data from data.gov.ie, available{' '}

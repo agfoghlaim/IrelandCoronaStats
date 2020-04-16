@@ -1,49 +1,33 @@
-.dailyTextWrap {
-  display: grid;
-  grid-gap: 1rem;
-  background: var(--lightBlack);
-  padding: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-}
-
-.dailyTextWrap h2 {
-  color: var(--white);
-  display: grid;
-  justify-self: center;
-  align-self: center;
-  letter-spacing: 0.08rem;
-}
 .dailyTextItem {
   display: grid;
-  background: var(--purple);
-  padding: 0.4rem;
+  padding: 1rem;
+  border: 0.1rem solid var(--white);
   border-radius: 0.4rem;
-  align-content: center;
-  grid-gap: 0.2rem;
+  grid-gap: 0.4rem;
 }
 
 .infoWrap {
   display: flex;
   justify-content: space-between;
-  background: var(--white);
+  background: var(--purple);
   padding-left: 1rem;
+  color:var(--white);
   border-radius: 0.4rem;
+  align-content: center;
+  align-items: center;
 }
 
 .infoWrap h3 {
   padding:0.5rem 0;
-}
-.dailyTextItem p {
-  margin: 0;
-  font-size: 0.8rem;
-  color: black;
-  display: inline;
+  color: var(--white);
 }
 
-.dailyTextItem h3 {
+.infoWrap p {
   margin: 0;
   font-size: 0.8rem;
+
 }
+
 
 .rightSpan {
   background: var(--blue);
@@ -53,4 +37,6 @@
   width: 3rem;
   display: grid;
   justify-content: center;
+  height: 100%;
+  align-content: center;
 }

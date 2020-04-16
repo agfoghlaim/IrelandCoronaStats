@@ -60,12 +60,12 @@ const LineChartGeneric = ({ dataToShow }) => {
   // TODO - rename, no hovering involved now
   const showHoverTextbox = (x, y, data) => {
     return (
-      <div className={classes.hoverTextBoxWrap}>
+   
         <HoverTextBox
           todaysData={selectedDayData}
           show={shouldShowHoverTextBox}
         />
-      </div>
+  
     );
   };
   useEffect(() => {

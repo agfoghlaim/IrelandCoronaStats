@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
 import classes from './counties.module.css';
 import Layout from '../layout';
 import axios from 'axios';
@@ -12,8 +12,6 @@ INFO = https://opendata-geohive.hub.arcgis.com/datasets/07b8a45b715d4e4eb4ad39fc
 ALL DATA URI = https://opendata-geohive.hub.arcgis.com/datasets/07b8a45b715d4e4eb4ad39fc44c4bd06_0/geoservice?geometry=-13.504%2C52.290%2C-2.353%2C54.580
 
 2. 
-NAME = Covid19CountyStatisticsHPSCIrelandOpenData  
-INFO = https://opendata-geohive.hub.arcgis.com/datasets/4779c505c43c40da9101ce53f34bb923_0/geoservice?geometry=-12.691%2C52.290%2C-3.166%2C54.580
 ALL DATA URI =  https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json
 
 */
@@ -54,7 +52,7 @@ const sections = [
         selected: false,
         color: 'var(--orange)',
         data: [],
-      }
+      },
     ],
   },
 ];
@@ -62,132 +60,125 @@ const sections = [
 const uri2 = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
 
 const Counties = () => {
+  const [data, setData] = useState([]);
+  const [countyCases, setCountyCases] = useState([]);
+  const [countyProportion, setCountyProportion] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [theSections, setTheSections] = useState(sections);
 
-const [data, setData] = useState([]);
-const [countyCases, setCountyCases] = useState([]);
-const [countyProportion, setCountyProportion] = useState([]);
-const [isLoading, setIsLoading] = useState(false);
-const [theSections, setTheSections] = useState(sections);
-
-useEffect(()=>{
- (async () => {
-   
-    try {
-      setIsLoading(true);
-      const response = await axios.get(uri2);
-      setData(response.data.features);
-      setIsLoading(false);
-  
-    } catch(e) {
-      console.log(e);
-      setIsLoading(false)
-    }
- })();
-},[])
-
-const getCountyCases = useCallback(()=> {
-  const cases = data.map(d=> {
-    return {
-      CountyName: d.attributes.CountyName, 
-      ConfirmedCovidCases: d.attributes.ConfirmedCovidCases,
-      FID: d.attributes.FID,
-      TimeStamp: d.attributes.TimeStamp
-    }
-  })
-  return cases;
-},[data])
-
-const getCountyProportion = useCallback(() => {
-  const proportion = data.map(c => {
-    return {
-      FID: c.attributes.FID,
-      CountyName: c.attributes.CountyName, 
-      PopulationProportionCovidCases: c.attributes.PopulationProportionCovidCases,
-      PopulationCensus16: c.attributes.PopulationCensus16,
-      TimeStamp: c.attributes.TimeStamp
-    }
-  })
-  return proportion;
-},[data])
-
-// too dangerous!!?
-const putIntoCorrectSection = (data, fieldName) => {
-  let newSections = sections.map(section => {
-    const toUpdate = section.avail.map(a=>{
-      if(a.fieldName === fieldName) {
-        a.data = data;
+  useEffect(() => {
+    (async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(uri2);
+        setData(response.data.features);
+        setIsLoading(false);
+      } catch (e) {
+        console.log(e);
+        setIsLoading(false);
       }
-      return a;
+    })();
+  }, []);
+
+  const getCountyCases = useCallback(() => {
+    const cases = data.map((d) => {
+      return {
+        CountyName: d.attributes.CountyName,
+        ConfirmedCovidCases: d.attributes.ConfirmedCovidCases,
+        FID: d.attributes.FID,
+        TimeStamp: d.attributes.TimeStamp,
+      };
     });
-    section.avail = toUpdate;
-    return section;
-  })
-  // console.log(newSections); 
-  setTheSections(newSections);
-}
+    return cases;
+  }, [data]);
 
-useEffect(()=>{
-  const cases = getCountyCases();
-  putIntoCorrectSection(cases, 'ConfirmedCovidCases');
+  const getCountyProportion = useCallback(() => {
+    const proportion = data.map((c) => {
+      return {
+        FID: c.attributes.FID,
+        CountyName: c.attributes.CountyName,
+        PopulationProportionCovidCases:
+          c.attributes.PopulationProportionCovidCases,
+        PopulationCensus16: c.attributes.PopulationCensus16,
+        TimeStamp: c.attributes.TimeStamp,
+      };
+    });
+    return proportion;
+  }, [data]);
 
-  const proportion = getCountyProportion();
-  putIntoCorrectSection(proportion, 'PopulationProportionCovidCases');
-  putIntoCorrectSection(proportion, 'PopulationCensus16')
-  setCountyCases(cases);
-  setCountyProportion(proportion);
-}, [data, getCountyProportion, getCountyCases ])
+  // too dangerous!!?
+  const putIntoCorrectSection = (data, fieldName) => {
+    let newSections = sections.map((section) => {
+      const toUpdate = section.avail.map((a) => {
+        if (a.fieldName === fieldName) {
+          a.data = data;
+        }
+        return a;
+      });
+      section.avail = toUpdate;
+      return section;
+    });
+    // console.log(newSections);
+    setTheSections(newSections);
+  };
 
-//=====================HandleSelectOneCounty
+  useEffect(() => {
+    const cases = getCountyCases();
+    putIntoCorrectSection(cases, 'ConfirmedCovidCases');
+
+    const proportion = getCountyProportion();
+    putIntoCorrectSection(proportion, 'PopulationProportionCovidCases');
+    putIntoCorrectSection(proportion, 'PopulationCensus16');
+    setCountyCases(cases);
+    setCountyProportion(proportion);
+  }, [data, getCountyProportion, getCountyCases]);
+
+  //=====================HandleSelectOneCounty
   const [selectedCounty, setSelectedCounty] = useState('Galway');
   const [selectedCountyData, setSelectedCountyData] = useState([]);
-  const oneCountyAllFieldsUrl= (county) =>{
-    return `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=CountyName=%27${county}%27&1%3D1&outFields=*&f=json`
-  }
+  const oneCountyAllFieldsUrl = (county) => {
+    return `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=CountyName=%27${county}%27&1%3D1&outFields=*&f=json`;
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     const getOneCountyInfo = async () => {
       const response = await axios.get(oneCountyAllFieldsUrl(selectedCounty));
 
       return response.data.features;
-    }
-    (async ()=> {
-      if(selectedCounty) {
+    };
+    (async () => {
+      if (selectedCounty) {
         const oneCounty = await getOneCountyInfo(selectedCounty);
         setSelectedCountyData(oneCounty);
       }
-  
-    })()
-  },[selectedCounty])
+    })();
+  }, [selectedCounty]);
   const handleSelectOneCounty = (county) => {
-    console.log("select ", county);
+    console.log('select ', county);
     setSelectedCounty(county);
-  }
-//=====================EndHandleSelectOneCounty
-return(
-  <Layout>
- 
-    <div className={classes.countiesWrap}>
-    {
-      !isLoading && data && data.length ? (
-        theSections.map((section) => (
-          <Section
-          handleSelectOneCounty={handleSelectOneCounty}
-          selectedCountyData={selectedCountyData}
-            key={section.avail[0].fieldName}
-            section={section}
-            initTitle={section.avail[0].name}
-            cases={countyCases} 
-            proportion={countyProportion}
-            data={data}
-            selectedCountyName={selectedCounty}
-          />
-        ))
-
-      ): 'loading'
-    }
-    </div>
-  </Layout>
-)
-}
+  };
+  //=====================EndHandleSelectOneCounty
+  return (
+    <Layout>
+      <div className={classes.countiesWrap}>
+        {!isLoading && data && data.length
+          ? theSections.map((section) => (
+              <Section
+                handleSelectOneCounty={handleSelectOneCounty}
+                selectedCountyData={selectedCountyData}
+                key={section.avail[0].fieldName}
+                section={section}
+                initTitle={section.avail[0].name}
+                cases={countyCases}
+                proportion={countyProportion}
+                data={data}
+                selectedCountyName={selectedCounty}
+              />
+            ))
+          : 'loading'}
+      </div>
+    </Layout>
+  );
+};
 
 export default Counties;

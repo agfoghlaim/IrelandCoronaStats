@@ -3,11 +3,10 @@ import classes from './textBox.module.css';
 
 const TextBox = ({data}) => {
 
-  // const data = props.data[0].attributes;
-  const RightSpan = ({ text, loading }) => {
+  const RightSpan = ({ text }) => {
     return <span className={classes.rightSpan}>{text}</span>;
   };
-  // console.log(data);
+
   return data && data.length ? (
     <div
       className={classes.textItem}
@@ -55,13 +54,3 @@ const TextBox = ({data}) => {
 
 export default TextBox;
 
-// CountyName: 'Sligo';
-// PopulationCensus16: 65535;
-// TimeStamp: '13/04/2020 12:00:00AM';
-// IGEasting: 165130;
-// IGNorthing: 323355;
-// Lat: 54.1581;
-// Long: -8.5345;
-// UniqueGeographicIdentifier: 'http://data.geohive.ie/resource/county/2ae19629-1449-13a3-e055-000000000001';
-// ConfirmedCovidCases: 62;
-// PopulationProportionCovidCases;

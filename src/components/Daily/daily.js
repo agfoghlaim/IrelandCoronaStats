@@ -93,7 +93,7 @@ const Daily = () => {
         <>
           <Summary stats={daily} />
           <LineChartGeneric dailyData={daily} dataToShow={dailyPercentageChange} />
-          <DailyText daily={daily} />
+          {/* <DailyText daily={daily} /> */}
         </>
       ) : (
         'loading...'

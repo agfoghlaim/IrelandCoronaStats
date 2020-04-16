@@ -9,14 +9,14 @@
   background:var(--lightBlack);
   padding: 1rem;
 }
-
+/* 
 @media only screen and (max-width: 900px) {
   .lineChartWrap {
     grid-template-rows: 1fr 2fr;
     grid-template-columns: 1fr;
   }
 
-}
+} */
 
 
 .svgWrap {
@@ -40,9 +40,10 @@
   }
 }
 .lineChartLeftWrap {
-  display:grid;
+  border-radius: 0.4rem;
+  padding: 0.4rem;
+  display: grid;
   grid-gap: 1rem;
-  /* align-items: center; */
 }
 
 .sectionHeader {

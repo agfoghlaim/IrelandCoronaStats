@@ -19,7 +19,7 @@ const GraphTinyTextBox = ({ data, attributeForBoxTitle  }) => {
     return theDate;
   };
   return (
-    <div className={classes.tinyTextBoxWrap}>
+ 
       <div className={classes.genericTextItem}>
         <div className={classes.infoWrap}>
           <h4>{attributeForBoxTitle}</h4>
@@ -33,7 +33,7 @@ const GraphTinyTextBox = ({ data, attributeForBoxTitle  }) => {
           </>
         }
       </div>
-    </div>
+
   );
 };
 

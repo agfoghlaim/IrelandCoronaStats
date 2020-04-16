@@ -3,8 +3,8 @@
   padding: 0.4rem;
   display: grid;
   grid-gap: 1rem;
-  grid-template-rows: 1fr 8rem 1fr;
-  justify-content: center;
+  /* grid-template-rows: 1fr 8rem 1fr;
+  justify-content: center; */
 }
 
 .sectionHeader {
