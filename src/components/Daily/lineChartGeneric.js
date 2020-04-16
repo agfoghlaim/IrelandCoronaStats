@@ -18,7 +18,7 @@ const LineChartGeneric = ({ dataToShow }) => {
   const dataAttrs = [
     { title: 'percentageChange', display: 'Daily Percentage Change', graphTitleY: '% change since previous day' },
     { title: 'todaysCases', display: 'Daily Cases', graphTitleY: '#cases' },
-    { title: 'totalSoFar', display: 'Total', graphTitleY: '#cases' },
+    { title: 'totalSoFar', display: 'Total Confirmed Cases', graphTitleY: '#cases' },
   ];
 
   const [selectedAttribute, setSelectedAttribute] = useState('todaysCases');

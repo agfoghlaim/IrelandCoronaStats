@@ -1,0 +1,43 @@
+
+.textItem {
+  display: grid;
+  padding: 1rem;
+  border: 0.1rem solid var(--white);
+  border-radius: 0.4rem;
+  grid-gap: 0.4rem;
+}
+
+.infoWrap {
+  display: flex;
+  justify-content: space-between;
+  background: var(--purple);
+  padding-left: 1rem;
+  color:var(--white);
+  border-radius: 0.4rem;
+  align-content: center;
+  align-items: center;
+}
+
+.infoWrap p {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.infoWrap h3 {
+  padding:0.5rem 0;
+  color: var(--white);
+}
+.small {
+  font-size: 0.7rem;
+}
+.rightSpan {
+  background: var(--blue);
+  font-size: 0.8rem;
+  color: white;
+  padding: 0 1rem;
+  width: 3rem;
+  display: grid;
+  justify-content: center;
+  height: 100%;
+  align-content: center;
+}

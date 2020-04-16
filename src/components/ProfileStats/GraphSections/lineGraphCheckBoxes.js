@@ -12,24 +12,25 @@ const width = 800;
 const height = 600;
 
 const LineGraphCheckBoxes = ({ theData, handleTextBox, section}) => {
+  // console.log(theData)
   const [data, setData] = useState(theData);
-  //  const xAxisAttribute='StatisticsProfileDate'
- 
   const svgRef = useRef(null);
   const xAxisRef = useRef(null);
   const yAxisRef = useRef(null);
   const xAxis = d3.axisBottom();
   const yAxis = d3.axisLeft();
- 
   const yTickWidth = -Math.abs(width - margin.right - margin.left);
   const xTickWidth = -Math.abs(height - margin.top - margin.bottom);
-
   const xExtent = d3.extent(
     data[0].data,
     // (d) => d.attributes.StatisticsProfileDate
     (d) => d.attributes[data[0].xAxisAttribute]
   );
+  // const [selected] = useState(theData.map(d=>d.selected));
+  useEffect(()=>{
 
+    setData(theData);
+  },[theData])
   // Switched to log scale, yExtent is hardcoded
   // const yExtent = d3.extent(data[0].data, (d) => d.attributes.CovidCasesConfirmed);
 
@@ -37,11 +38,6 @@ const LineGraphCheckBoxes = ({ theData, handleTextBox, section}) => {
     .scaleTime()
     .domain([xExtent[0], xExtent[1]])
     .range([margin.left, width - margin.right]);
-
-  // const yScale = d3
-  //   .scaleLinear()
-  //   .domain([Math.min(yExtent[0], 0), yExtent[1]])
-  //   .range([height - margin.top, margin.bottom]);
 
   const yScale = d3
     .scaleLog()
@@ -60,7 +56,6 @@ const LineGraphCheckBoxes = ({ theData, handleTextBox, section}) => {
       yRef.attr('className', 'what').call(yAxis.tickSize(yTickWidth));
     };
     doAxis();
-    setData(theData);
   }, [theData, data, yScale, xScale, yAxis, xAxis, xTickWidth, yTickWidth]);
 
   const doCircles = (graphData) => {
@@ -87,15 +82,19 @@ const LineGraphCheckBoxes = ({ theData, handleTextBox, section}) => {
   };
 
   const doLine = () => {
+  
+   
     return data.map((graphData) => {
-      if (graphData.data.length && graphData.selected) {
+
+      if (graphData.data.length  && graphData.selected) {
+
         const line = d3
           .line()
           // .x((d) => xScale(d.attributes.StatisticsProfileDate))
           .x((d) => xScale(d.attributes[graphData.xAxisAttribute]))
           .y((d) => yScale(d.attributes[graphData.fieldName]));
 
-        const path = line(graphData.data); //ok
+        const path = line(graphData.data); 
         return (
           <path
             key={graphData.fieldName}
@@ -118,8 +117,10 @@ const LineGraphCheckBoxes = ({ theData, handleTextBox, section}) => {
         width={width} 
         height={height}>
           <text fill="var(--black)" x={-Math.abs(height/2+100)} y="20" style={{transform: 'rotate(-90deg)'}} className={classes.yLabel}>#cases (log scale)</text>
+       
           {doLine()}
           {data.map((graph) => {
+            
           return doCircles(graph);
         })}
         

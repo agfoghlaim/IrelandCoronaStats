@@ -21,11 +21,15 @@ const GraphSectionCheckBoxes = ({ section }) => {
    
       setSectionData();
     
-      return () => {
-        shouldCancel.current = true;
-      };
+      // return () => {
+      //   shouldCancel.current = true;
+      // };
   }, [section, sectionAvail]);
-
+  useEffect(()=>{
+    return () => {
+      shouldCancel.current = true;
+    };
+  },[])
   const removeNulls = (resp, fieldName) => {
     const noNulls = resp.filter((m) => {
       for (const i in m.attributes) {
@@ -53,23 +57,22 @@ const GraphSectionCheckBoxes = ({ section }) => {
               if (a.selected) {
                 const response = await getOne(a.urlPart);
                 const filteredResponse = removeNulls(response, a.fieldName);
-                console.log('response length ' + filteredResponse.length);
+                // console.log('response length ' + filteredResponse.length);
                 a.data = filteredResponse;
                 return a;
               }
               return a;
             })
           );
-
+        
         sectionAvailCopy = await getAllSelectedData();
 
         if(shouldCancel.current){
           return false;
         }
-    
+   
         setSectionAvail(sectionAvailCopy);
-    
-     
+  
         // set tiny text box to <find selected section>.data.<last>
         const selectedSection = sectionAvailCopy.find((s) => s.selected);
     
@@ -93,7 +96,10 @@ const GraphSectionCheckBoxes = ({ section }) => {
   };
 
   const renderLineGraph = () => {
-    if (!sectionAvail || !sectionAvail.length) return;
+    if (!sectionAvail || !sectionAvail.length) {
+      console.log("no");
+      return
+    };
     return (
       <LineGraphCheckBoxes
         theData={sectionAvail}

@@ -1,0 +1,35 @@
+.svgWrap {
+  background: var(--white);
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+  border-radius: 0.4rem;
+  align-content: center;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.svgWrap svg {
+  max-width: 100%;
+}
+
+/* @media only screen and (min-width: 900px) {
+ 
+  .svgWrap svg {
+    padding: 1rem 0;
+  }
+} */
+
+
+.barChartRect {
+  transition: all 0.1s ease-out;
+}
+
+.barChartRect:hover {
+  transform: scale(1.002);
+  opacity: 1;
+}
+
+.xAxisDescription {
+  font-size: 0.8rem;
+}
