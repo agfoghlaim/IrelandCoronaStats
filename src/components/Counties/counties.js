@@ -3,21 +3,7 @@ import classes from './counties.module.css';
 import Layout from '../layout';
 import axios from 'axios';
 import Section from './Sections/section';
-
-/* There's two apis, what is the difference?
-
-1. NO cors
-NAME = CovidCountyStatisticsHPSCIreland 
-INFO = https://opendata-geohive.hub.arcgis.com/datasets/07b8a45b715d4e4eb4ad39fc44c4bd06_0/geoservice?geometry=-13.504%2C52.290%2C-2.353%2C54.580
-ALL DATA URI = https://opendata-geohive.hub.arcgis.com/datasets/07b8a45b715d4e4eb4ad39fc44c4bd06_0/geoservice?geometry=-13.504%2C52.290%2C-2.353%2C54.580
-
-2. 
-ALL DATA URI =  https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json
-
-*/
-const oneCountyAllFieldsUrl_NOT_WORKING = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=CountyName=%27Clare%27&1%3D1&outFields=*&f=json`;
-
-// https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=CountyName='Clare'&1%3D1&outFields=*&f=json
+import ErrorComp from '../../UI/error';
 
 const sections = [
   {
@@ -26,7 +12,6 @@ const sections = [
     avail: [
       {
         name: 'Total Number of Cases',
-        // urlPart: `StatisticsProfileDate,HospitalisedCovidCases,CovidCasesConfirmed`,
         fieldName: 'ConfirmedCovidCases',
         yAxisAttribute: 'CountyName',
         xAxisDescription: 'Number of Confirmed Cases',
@@ -36,7 +21,6 @@ const sections = [
       },
       {
         name: 'Cases per 100,000',
-        // urlPart: `StatisticsProfileDate,RequiringICUCovidCases,CovidCasesConfirmed`,
         fieldName: 'PopulationProportionCovidCases',
         yAxisAttribute: 'CountyName',
         xAxisDescription: 'Cases per 100,000 of Population',
@@ -46,7 +30,6 @@ const sections = [
       },
       {
         name: 'Population (2016)',
-        // urlPart: `StatisticsProfileDate,RequiringICUCovidCases,CovidCasesConfirmed`,
         fieldName: 'PopulationCensus16',
         yAxisAttribute: 'CountyName',
         xAxisDescription: 'Population 2016',
@@ -58,40 +41,43 @@ const sections = [
   },
 ];
 
-//returning all, not just latest
-// const uri2 = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
-const uri2 = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidCountyStatisticsHPSCIreland/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
+// uri2 no longer has any date field, endpoint does have the latest for each county only but there's no way I can see to check what date the data refers to.
+// const uri2 = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidCountyStatisticsHPSCIreland/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
+
+// try this (see endpoints.txt, #5) - return only 26 results and order by newest first.  'resultRecordCount=26' is dodge? but it's the most foolproof query I can think of. (better than querying for now minus about 3 days). It works to get the latest county info only (including date). Note field names are different (ConfirmedCovidCases vs CovidCases).
+const uriLatestAllCounties = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&resultRecordCount=26&orderByFields=TimeStampDate%20DESC&f=json`;
+
 const Counties = () => {
   const [data, setData] = useState([]);
-  const [countyCases, setCountyCases] = useState([]);
-  const [countyProportion, setCountyProportion] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [theSections, setTheSections] = useState(sections);
+  const [isError, setIsError] = useState(false);
+  const [theSections, setTheSections] = useState(sections); // data stored in theSections.avail.data
 
   useEffect(() => {
     (async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(uri2);
-        // console.log(response);
+        setIsError(false);
+        const response = await axios.get(uriLatestAllCounties);
         setData(response.data.features);
         setIsLoading(false);
       } catch (e) {
-        console.log(e);
+        
         setIsLoading(false);
+        setIsError(true);
       }
     })();
   }, []);
 
   const getCountyCases = useCallback(() => {
-
     const cases = data.map((d) => {
       return {
         CountyName: d.attributes.CountyName,
-        ConfirmedCovidCases: d.attributes.CovidCases,
+        ConfirmedCovidCases: d.attributes.ConfirmedCovidCases,
         // CovidCases: d.attributes.CovidCases,
         FID: d.attributes.FID,
-        TimeStamp: d.attributes.TimeStamp,
+        TimeStamp: d.attributes.TimeStampDate,
+        // TimeStamp: d.attributes.TimeStamp,
       };
     });
     return cases;
@@ -105,7 +91,8 @@ const Counties = () => {
         PopulationProportionCovidCases:
           c.attributes.PopulationProportionCovidCases,
         PopulationCensus16: c.attributes.PopulationCensus16,
-        TimeStamp: c.attributes.TimeStamp,
+        // TimeStamp: c.attributes.TimeStamp,
+        TimeStamp: c.attributes.TimeStampDate,
       };
     });
     return proportion;
@@ -123,7 +110,6 @@ const Counties = () => {
       section.avail = toUpdate;
       return section;
     });
-    // console.log(newSections);
     setTheSections(newSections);
   };
 
@@ -134,8 +120,6 @@ const Counties = () => {
     const proportion = getCountyProportion();
     putIntoCorrectSection(proportion, 'PopulationProportionCovidCases');
     putIntoCorrectSection(proportion, 'PopulationCensus16');
-    setCountyCases(cases);
-    setCountyProportion(proportion);
   }, [data, getCountyProportion, getCountyCases]);
 
   //=====================HandleSelectOneCounty
@@ -145,49 +129,44 @@ const Counties = () => {
     return `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=CountyName=%27${county}%27&1%3D1&outFields=*&f=json`;
   };
 
-  // const oneCountyAllFieldsUrl = (county) => {
-  //   return `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidCountyStatisticsHPSCIreland/FeatureServer/0/query?where=CountyName=${county}&1%3D1&outFields=*&outSR=4326&f=json`;
-  // };
-  // const oneCountyAllFields =  `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidCountyStatisticsHPSCIreland/FeatureServer/0/query?where=CountyName='Clare'&1%3D1&outFields=*&outSR=4326&f=json`
-
   const getLatestEntryForSelectedCounty = (data) => {
     const dates = data.map((d) => d.attributes.TimeStampDate);
-
     const latestDate = Math.max(...dates.map((d) => d));
     const latestData = data.filter(
       (d) => d.attributes.TimeStampDate === latestDate
     );
-
     return latestData;
   };
+
   useEffect(() => {
     const getOneCountyInfo = async () => {
       const response = await axios.get(oneCountyAllFieldsUrl(selectedCounty));
-     // console.log(response);
 
-      // because endpoint changed:
+      // Eliminate this step with a better query? Could i be bothered?
       const latestEntryForSelectedCounty = getLatestEntryForSelectedCounty(
         response.data.features
       );
       return latestEntryForSelectedCounty;
-      // return response.data.features;
     };
+
     (async () => {
       if (selectedCounty) {
         const oneCounty = await getOneCountyInfo(selectedCounty);
-        // console.log(oneCounty);
         setSelectedCountyData(oneCounty);
       }
     })();
   }, [selectedCounty]);
+
   const handleSelectOneCounty = (county) => {
-    console.log('select ', county);
     setSelectedCounty(county);
   };
+
   //=====================EndHandleSelectOneCounty
+
   return (
     <Layout>
       <div className={classes.countiesWrap}>
+      {isError ? <ErrorComp msg="Could not load data." /> : null}
         {!isLoading && data && data.length
           ? theSections.map((section) => (
               <Section
@@ -196,8 +175,6 @@ const Counties = () => {
                 key={section.avail[0].fieldName}
                 section={section}
                 initTitle={section.avail[0].name}
-                cases={countyCases}
-                proportion={countyProportion}
                 data={data}
                 selectedCountyName={selectedCounty}
               />

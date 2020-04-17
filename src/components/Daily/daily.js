@@ -7,7 +7,7 @@ import axios from 'axios';
 import DailyText from './dailyText';
 import LineChartGeneric from './lineChartGeneric';
 import Summary from '../Summary/summary';
-import Error from '../../UI/error';
+import ErrorComp from '../../UI/error';
 import ExtraInfo from './ExtraInfo/extraInfo';
 // import DailyChart2 from './dailyChart2_del';
 
@@ -88,7 +88,7 @@ const Daily = () => {
   return (
 
     <Layout>
-      {isError ? <Error msg="Could not load data." /> : null}
+      {isError ? <ErrorComp msg="Could not load data." /> : null}
       {isLoading ? 'Loading' : null}
       {daily && daily.length && dailyPercentageChange.length && !isLoading ? (
         <>

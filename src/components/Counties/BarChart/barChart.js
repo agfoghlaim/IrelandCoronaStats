@@ -1,49 +1,40 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as d3 from 'd3';
 import classes from './barChart.module.css';
-import Axios from 'axios';
 
-// This is in bits because they've changed data to show all records ever for counties instead of one - the latest.
+const margin = {
+  left: 70,
+  right: 60,
+  top: 60,
+  bottom: 60,
+};
+const width = 800;
+const height = 800;
 
-// const oneCountyAllFieldsUrl = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=CountyName=%27Clare%27&1%3D1&outFields=*&f=json`;
+const BarChart = ({ theData, handleSelectOneCounty, selectedCountyName }) => {
 
-const BarChart = ({ cases, theData, handleSelectOneCounty, selectedCountyName }) => {
-//  console.log(theData)
-  const margin = {
-    left: 70,
-    right: 60,
-    top: 60,
-    bottom: 60,
-  };
-  const width = 800;
-  const height = 800;
-  
   // state
   const [availData] = useState(theData);
   const [toUse, setToUse] = useState(theData[0].data);
   const [toUseInfo, setToUseInfo] = useState();
   const [attribute, setAttribute] = useState(theData[0].fieldName);
   const [selectLogScale, setSelectLogScale] = useState(true);
-  // const [hoverRef, isHovered] = useHover();
   const [isHovered, setIsHovered] = useState(false);
   const [hoverInfo, setHoverInfo] = useState();
   const [hoverPosition, setHoverPosition] = useState([]);
   const [localIsSelectedCounty, setLocalIsSelectedCounty] = useState(selectedCountyName);
 
-  const xExtent = d3.extent(toUse, (county) => county[attribute]);
-  const countyNamesForAxisLabel = toUse.map((c) => c.CountyName);
-
+  // Refs
   const svgRef = useRef(null);
   const xAxisRef = useRef(null);
   const yAxisRef = useRef(null);
 
+  // Graph consts
+  const xExtent = d3.extent(toUse, (county) => county[attribute]);
+  const countyNamesForAxisLabel = toUse.map((c) => c.CountyName);
   const xAxis = d3.axisBottom();
   const yAxis = d3.axisLeft();
 
-  const toggleLogScale = () => {
-    const currentLog = selectLogScale;
-    setSelectLogScale(!currentLog);
-  };
   const yScale = d3
     .scaleBand()
     .domain(countyNamesForAxisLabel)
@@ -66,18 +57,24 @@ const BarChart = ({ cases, theData, handleSelectOneCounty, selectedCountyName })
     }
   };
   const xScale = getXScale();
+
+  const toggleLogScale = () => {
+    const currentLog = selectLogScale;
+    setSelectLogScale(!currentLog);
+  };
+
   const doAxis = useCallback(
     () => {
       const xRef = d3.select(xAxisRef.current);
       const yRef = d3.select(yAxisRef.current);
-      const yTickWidth = -Math.abs(width - margin.right - margin.left);
+      // const yTickWidth = -Math.abs(width - margin.right - margin.left);
       const xTickWidth = -Math.abs(height - margin.top - margin.bottom);
       xAxis.scale(xScale).ticks(10, ',.1s');
       yAxis.scale(yScale);
       xRef.call(xAxis.tickSize(xTickWidth));
       yRef.call(yAxis);
     },
-    [margin, yScale, xScale, xAxis, yAxis]
+    [yScale, xScale, xAxis, yAxis]
   );
 
   useEffect(() => {
@@ -179,7 +176,7 @@ const BarChart = ({ cases, theData, handleSelectOneCounty, selectedCountyName })
             <g>{renderRectangles()}</g>
           </>
         ) : null}
-        {/* <text>desc</text> */}
+
       </svg>
         <div className={classes.xAxisDescription}>{ toUseInfo ? toUseInfo.xAxisDescription : ''}</div>
       

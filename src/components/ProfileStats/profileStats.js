@@ -1,3 +1,6 @@
+
+// TODO ERROR
+
 // See here: https://opendata-geohive.hub.arcgis.com/datasets/d8eb52d56273413b84b0187a4e9117be_0/data?geometry=-18.252%2C51.131%2C2.138%2C55.708&page=4
 
 // Seems to be most complete dataset
@@ -46,7 +49,7 @@ import TextGeneric from './TextSections/textGeneric';
 import GraphSection from './GraphSections/graphSection';
 import GraphSectionCheckBoxes from './GraphSections/graphSectionCheckBoxes';
 import Breakdown from '../Breakdown/breakdown';
-import Error from '../../UI/error';
+import ErrorComp from '../../UI/error';
 
 const sections = [
   {
@@ -461,7 +464,7 @@ const ProfileStats = () => {
 
   return (
     <Layout>
-      {isError ? <Error msg="Could not load data." /> : null}
+      {isError ? <ErrorComp msg="Could not load data." /> : null}
 
       {sections.map((section) => (
         <GraphSectionCheckBoxes
