@@ -3,15 +3,12 @@
   padding: 0.4rem;
   display: grid;
   grid-gap: 1rem;
-  /* grid-template-rows: 1fr 8rem 1fr;
-  justify-content: center; */
 }
 
 .sectionHeader {
   display: grid;
   justify-items: center;
   align-items: center;
-  /* background: var(--white); */
   min-width: 15rem;
 }
 
@@ -19,13 +16,11 @@
   color: var(--white);
   letter-spacing: 0.08rem;
   text-align: center;
-  /* background: var(--white); */
   padding: 1rem;
   width: 100%;
 }
 
 .profileStatsGraphMain {
-  /* background: var(--white); */
   min-width: 0;
   display: grid;
   justify-content: center;
@@ -59,13 +54,11 @@
 }
 
 .graphSectionBtnGroupWrap {
-  /* background: var(--white); */
   display: grid;
   justify-content: center;
   align-content: center;
   padding: 1rem;
   border-radius: 0.4rem;
-  /* grid-gap: 1rem; */
   grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
   grid-gap: 0.5rem;
 }

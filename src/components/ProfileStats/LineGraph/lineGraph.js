@@ -11,7 +11,7 @@ const margin = {
 const width = 800;
 const height = 600;
 
-const LineGraphCheckBoxes = ({ theData, handleTextBox, section}) => {
+const LineGraph = ({ theData, handleTextBox, section}) => {
   // console.log(theData)
   const [data, setData] = useState(theData);
   const svgRef = useRef(null);
@@ -26,11 +26,12 @@ const LineGraphCheckBoxes = ({ theData, handleTextBox, section}) => {
     // (d) => d.attributes.StatisticsProfileDate
     (d) => d.attributes[data[0].xAxisAttribute]
   );
-  // const [selected] = useState(theData.map(d=>d.selected));
+
   useEffect(()=>{
 
     setData(theData);
   },[theData])
+
   // Switched to log scale, yExtent is hardcoded
   // const yExtent = d3.extent(data[0].data, (d) => d.attributes.CovidCasesConfirmed);
 
@@ -69,11 +70,10 @@ const LineGraphCheckBoxes = ({ theData, handleTextBox, section}) => {
             <circle
               key={`${graphData.fieldName}-${i}`}
               className={classes.lineGraphCircle}
-              onClick={() => handleTextBox(attr, graphData.fieldName)}
+              onClick={() => handleTextBox(attr, graphData.fieldName, graphData)}
               cx={x}
               cy={y}
               r="0.4rem"
-              // fill={(selectedDayData.date === d.date) ? 'var(--purple)' : 'var(--blue)'}
               fill={graphData.color}
             ></circle>
           ) : null;
@@ -82,8 +82,6 @@ const LineGraphCheckBoxes = ({ theData, handleTextBox, section}) => {
   };
 
   const doLine = () => {
-  
-   
     return data.map((graphData) => {
 
       if (graphData.data.length  && graphData.selected) {
@@ -137,4 +135,4 @@ const LineGraphCheckBoxes = ({ theData, handleTextBox, section}) => {
   );
 };
 
-export default LineGraphCheckBoxes;
+export default LineGraph;

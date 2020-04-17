@@ -1,12 +1,13 @@
 import React from 'react';
 import Layout from '../layout';
-import GraphSectionCheckBoxes from './GraphSections/graphSectionCheckBoxes';
+import Section from './Sections/section';
 import Breakdown from '../Breakdown/breakdown';
 
 const sections = [
   {
     name: 'transmissionType',
     sectionName: 'Transmission Type',
+    allUrl: `StatisticsProfileDate,CommunityTransmission,UnderInvestigation,CloseContact,CovidCasesConfirmed,TravelAbroad`,
     avail: [
       {
         name: 'Community Transmission',
@@ -292,13 +293,12 @@ const sections = [
 const ProfileStats = () => (
   <Layout>
     {sections.map((section) => (
-      <GraphSectionCheckBoxes
+      <Section
         key={section.avail[0].fieldName}
         section={section}
         initTitle={section.avail[0].name}
       />
     ))}
-
     <Breakdown />
   </Layout>
 );

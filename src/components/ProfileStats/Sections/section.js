@@ -1,36 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
-import classes from './graphSection.module.css';
-import Axios from 'axios';
-import LineGraphCheckBoxes from './lineGraphCheckBoxes';
-// import GraphTextBox from './graphTextBox';
-import GraphTinyTextBox from './graphTinyTextBox';
+import classes from './section.module.css';
+import axios from 'axios';
+import LineGraph from '../LineGraph/lineGraph';
+// import GraphTinyTextBox from '../TextBox/graphTinyTextBox';
+import TextBox from '../TextBox/textBox';
 
 const baseUrl = (specificUrlPart) =>
   `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=${specificUrlPart}&outSR=4326&f=json`;
 
-const GraphSectionCheckBoxes = ({ section }) => {
-  console.log("here")
+const Section = ({ section }) => {
   const [sectionData, setSectionData] = useState(section);
   const [sectionAvail, setSectionAvail] = useState(section.avail);
   const [shouldUpdate, setShouldUpdate] = useState(true);
-
   const [tinyTextAttr, setTinyTextAttr] = useState('');
   const [tinyTextData, setTinyTextData] = useState();
   const shouldCancel = useRef(false);
 
   useEffect(() => {
-   
-      setSectionData();
-    
-      // return () => {
-      //   shouldCancel.current = true;
-      // };
+    setSectionData();
   }, [section, sectionAvail]);
-  useEffect(()=>{
-    return () => {
-      shouldCancel.current = true;
-    };
-  },[])
+
   const removeNulls = (resp, fieldName) => {
     const noNulls = resp.filter((m) => {
       for (const i in m.attributes) {
@@ -41,7 +30,7 @@ const GraphSectionCheckBoxes = ({ section }) => {
   };
   const getOne = async (part) => {
     try {
-      const response = await Axios.get(baseUrl(part));
+      const response = await axios.get(baseUrl(part));
       return response.data.features;
     } catch (e) {
       console.log(e);
@@ -57,40 +46,40 @@ const GraphSectionCheckBoxes = ({ section }) => {
             sectionAvailCopy.map(async (a) => {
               if (a.selected) {
                 const response = await getOne(a.urlPart);
+
+                // data from the beginning of records but first few weeks are all null for profile stats
                 const filteredResponse = removeNulls(response, a.fieldName);
-                // console.log('response length ' + filteredResponse.length);
                 a.data = filteredResponse;
                 return a;
               }
               return a;
             })
           );
-        
+
         sectionAvailCopy = await getAllSelectedData();
 
-        if(shouldCancel.current){
+        if (shouldCancel.current) {
           return false;
         }
-   
+
         setSectionAvail(sectionAvailCopy);
-  
+
         // set tiny text box to <find selected section>.data.<last>
         const selectedSection = sectionAvailCopy.find((s) => s.selected);
-    
+
         setTinyTextAttr(selectedSection.fieldName);
         setTinyTextData(selectedSection.data[selectedSection.data.length - 1]);
         setShouldUpdate(false);
-    
       };
-      
-      if (shouldUpdate ) {
+
+      if (shouldUpdate) {
         await getDataForEachSelectedCheckbox();
       }
-
     })();
   }, [sectionAvail, shouldUpdate]);
 
   const handleTextBox = (data, selectedAttribute) => {
+
     if (!data || !selectedAttribute) return;
     setTinyTextData(data);
     setTinyTextAttr(selectedAttribute);
@@ -98,11 +87,10 @@ const GraphSectionCheckBoxes = ({ section }) => {
 
   const renderLineGraph = () => {
     if (!sectionAvail || !sectionAvail.length) {
-      console.log("no");
-      return
-    };
+      return;
+    }
     return (
-      <LineGraphCheckBoxes
+      <LineGraph
         theData={sectionAvail}
         section={sectionData}
         handleTextBox={handleTextBox}
@@ -111,7 +99,6 @@ const GraphSectionCheckBoxes = ({ section }) => {
   };
 
   const handleSelectData = (e) => {
- 
     const name = e.target.name;
     const sectionUpdate = sectionAvail.map((a) => {
       if (a.fieldName === name) {
@@ -122,15 +109,14 @@ const GraphSectionCheckBoxes = ({ section }) => {
     });
     setSectionAvail(sectionUpdate);
 
-    // Should check if already have the data first
+    // Check if already have the data first
     const haveData = (name) => {
       const checkThis = sectionAvail.filter((s) => s.fieldName === name)[0];
       return checkThis && checkThis.data.length ? false : true;
     };
     const needToGetData = haveData(name);
 
-    if (needToGetData ) {
-
+    if (needToGetData) {
       setShouldUpdate(true);
     }
   };
@@ -163,11 +149,13 @@ const GraphSectionCheckBoxes = ({ section }) => {
             <h3>{section.sectionName}</h3>
           </div>
 
-          {tinyTextAttr && tinyTextData ? (
+          {/* {tinyTextAttr && tinyTextData ? (
             <GraphTinyTextBox
               data={tinyTextData}
               attributeForBoxTitle={tinyTextAttr}
               attributeForDate={sectionAvail.xAxisAttribute}
+              temp_theData={sectionAvail}
+              temp_section={sectionData}
             />
           ) : (
             <div
@@ -177,7 +165,13 @@ const GraphSectionCheckBoxes = ({ section }) => {
                 height: '8rem',
               }}
             ></div>
-          )}
+          )} */}
+          {
+            tinyTextAttr && tinyTextData ? (
+              <TextBox avail={sectionAvail} attributeForDate={sectionAvail.xAxisAttribute} data={tinyTextData} />
+            ) : null
+          } 
+      
 
           <div className={classes.graphSectionBtnGroupWrap}>
             {renderCheckButtons()}
@@ -189,4 +183,4 @@ const GraphSectionCheckBoxes = ({ section }) => {
   );
 };
 
-export default GraphSectionCheckBoxes;
+export default Section;
