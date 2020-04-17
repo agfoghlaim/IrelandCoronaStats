@@ -34,6 +34,17 @@ body {
   
 }
 
+.globalSectionWrap {
+  
+  /* min-height: 19rem; */
+  padding: 1rem;
+  color: var(--white);
+  border-radius: 0.4rem;
+}
+
+.lightBlackBackground {
+  background: var(--lightBlack);
+}
 @media only screen and (max-width: 780px){
   html {
     font-size: 14px;

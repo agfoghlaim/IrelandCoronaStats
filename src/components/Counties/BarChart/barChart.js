@@ -3,11 +3,12 @@ import * as d3 from 'd3';
 import classes from './barChart.module.css';
 import Axios from 'axios';
 
+// This is in bits because they've changed data to show all records ever for counties instead of one - the latest.
 
 // const oneCountyAllFieldsUrl = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=CountyName=%27Clare%27&1%3D1&outFields=*&f=json`;
 
 const BarChart = ({ cases, theData, handleSelectOneCounty, selectedCountyName }) => {
- 
+//  console.log(theData)
   const margin = {
     left: 70,
     right: 60,
@@ -115,7 +116,9 @@ const BarChart = ({ cases, theData, handleSelectOneCounty, selectedCountyName })
   } 
 
   const renderRectangles = () => {
+
     return toUse.map((c) => {
+      
       const numCounties = 26;
       const barHeight = (height - margin.top - margin.bottom) / numCounties;
       const y = yScale(c.CountyName);

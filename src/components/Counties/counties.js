@@ -15,7 +15,8 @@ ALL DATA URI = https://opendata-geohive.hub.arcgis.com/datasets/07b8a45b715d4e4e
 ALL DATA URI =  https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json
 
 */
-const oneCountyAllFieldsUrl = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=CountyName=%27Clare%27&1%3D1&outFields=*&f=json`;
+const oneCountyAllFieldsUrl_NOT_WORKING = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=CountyName=%27Clare%27&1%3D1&outFields=*&f=json`;
+
 // https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=CountyName='Clare'&1%3D1&outFields=*&f=json
 
 const sections = [
@@ -57,8 +58,9 @@ const sections = [
   },
 ];
 
-const uri2 = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
-
+//returning all, not just latest
+// const uri2 = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
+const uri2 = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidCountyStatisticsHPSCIreland/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
 const Counties = () => {
   const [data, setData] = useState([]);
   const [countyCases, setCountyCases] = useState([]);
@@ -71,6 +73,7 @@ const Counties = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(uri2);
+        // console.log(response);
         setData(response.data.features);
         setIsLoading(false);
       } catch (e) {
@@ -81,10 +84,12 @@ const Counties = () => {
   }, []);
 
   const getCountyCases = useCallback(() => {
+
     const cases = data.map((d) => {
       return {
         CountyName: d.attributes.CountyName,
-        ConfirmedCovidCases: d.attributes.ConfirmedCovidCases,
+        ConfirmedCovidCases: d.attributes.CovidCases,
+        // CovidCases: d.attributes.CovidCases,
         FID: d.attributes.FID,
         TimeStamp: d.attributes.TimeStamp,
       };
@@ -140,15 +145,37 @@ const Counties = () => {
     return `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=CountyName=%27${county}%27&1%3D1&outFields=*&f=json`;
   };
 
+  // const oneCountyAllFieldsUrl = (county) => {
+  //   return `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidCountyStatisticsHPSCIreland/FeatureServer/0/query?where=CountyName=${county}&1%3D1&outFields=*&outSR=4326&f=json`;
+  // };
+  // const oneCountyAllFields =  `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidCountyStatisticsHPSCIreland/FeatureServer/0/query?where=CountyName='Clare'&1%3D1&outFields=*&outSR=4326&f=json`
+
+  const getLatestEntryForSelectedCounty = (data) => {
+    const dates = data.map((d) => d.attributes.TimeStampDate);
+
+    const latestDate = Math.max(...dates.map((d) => d));
+    const latestData = data.filter(
+      (d) => d.attributes.TimeStampDate === latestDate
+    );
+
+    return latestData;
+  };
   useEffect(() => {
     const getOneCountyInfo = async () => {
       const response = await axios.get(oneCountyAllFieldsUrl(selectedCounty));
+     // console.log(response);
 
-      return response.data.features;
+      // because endpoint changed:
+      const latestEntryForSelectedCounty = getLatestEntryForSelectedCounty(
+        response.data.features
+      );
+      return latestEntryForSelectedCounty;
+      // return response.data.features;
     };
     (async () => {
       if (selectedCounty) {
         const oneCounty = await getOneCountyInfo(selectedCounty);
+        // console.log(oneCounty);
         setSelectedCountyData(oneCounty);
       }
     })();

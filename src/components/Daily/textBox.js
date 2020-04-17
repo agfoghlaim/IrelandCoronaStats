@@ -1,6 +1,9 @@
 import React from 'react';
-import classes from './dailyText.module.css';
+import classes from './textBox.module.css';
+
+
 const TextBox = ({ todaysData }) => {
+
 
   const RightSpan = ({ text }) => {
     return <span className={classes.rightSpan}>{text}</span>;

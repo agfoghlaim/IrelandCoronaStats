@@ -1,6 +1,6 @@
 .dailyTextItem {
   display: grid;
-  padding: 1rem;
+  padding: 0.4rem;
   border: 0.1rem solid var(--white);
   border-radius: 0.4rem;
   grid-gap: 0.4rem;

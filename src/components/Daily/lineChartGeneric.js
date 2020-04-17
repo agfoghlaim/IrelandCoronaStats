@@ -158,7 +158,8 @@ const LineChartGeneric = ({ dataToShow }) => {
   };
 
   return (
-    <div className={classes.lineChartWrap}>
+ 
+   <div className={classes.lineChartWrap}> 
       <div className={classes.lineChartLeftWrap}>
         <div className={classes.sectionHeader}>
           <h2>
@@ -186,6 +187,7 @@ const LineChartGeneric = ({ dataToShow }) => {
         </svg>
       </div>
     </div>
+
   );
 };
 

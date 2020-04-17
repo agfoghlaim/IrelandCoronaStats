@@ -93,7 +93,7 @@ const Section = ({cases, proportion, section, handleSelectOneCounty, selectedCou
         </div>
       </div>
       <div className={classes.countiesGraphMain}>
-        <BarChart cases={countyCases} theData={sectionAvail} attribute="ConfirmedCovidCases" handleSelectOneCounty={handleSelectOneCounty} selectedCountyName={selectedCountyName} />
+        <BarChart cases={countyCases} theData={sectionAvail} attribute="CovidCases" handleSelectOneCounty={handleSelectOneCounty} selectedCountyName={selectedCountyName} />
       </div>
     </div>
   );

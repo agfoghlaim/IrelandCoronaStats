@@ -8,6 +8,7 @@ import DailyText from './dailyText';
 import LineChartGeneric from './lineChartGeneric';
 import Summary from '../Summary/summary';
 import Error from '../../UI/error';
+import ExtraInfo from './ExtraInfo/extraInfo';
 // import DailyChart2 from './dailyChart2_del';
 
 // TODO - error handling is dodge.
@@ -42,7 +43,7 @@ const Daily = () => {
   const getDailyStats = useCallback(async () => {
     try {
       const response = await axios.get(dailyStatsSoFarUrl);
-
+      console.log(response)
       return response.data.features;
     } catch (e) {
       setIsLoading(false);
@@ -93,7 +94,7 @@ const Daily = () => {
         <>
           <Summary stats={daily} />
           <LineChartGeneric dailyData={daily} dataToShow={dailyPercentageChange} />
-          {/* <DailyText daily={daily} /> */}
+          <ExtraInfo />
         </>
       ) : (
         'loading...'
