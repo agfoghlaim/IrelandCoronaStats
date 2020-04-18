@@ -10,14 +10,14 @@ const Header = () => (
           <Link to="/">Home</Link>
         </li>
         <li>
-        <Link to="/stats">Profiles</Link>
+          <Link to="/stats">Profiles</Link>
         </li>
         <li>
-        <Link to="/counties">Counties</Link>
+          <Link to="/counties">Counties</Link>
         </li>
       </ul>
     </nav>
   </header>
-)
+);
 
 export default Header;

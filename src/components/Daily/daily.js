@@ -1,21 +1,15 @@
-// opendata.gov info: https://opendata-geohive.hub.arcgis.com/datasets/58f883d6f4054574a1a885acd847bd51_0/data
-
-// Doesn't look  like they're updating this data, see component ProfileStats instead and probably delete.
 import React, { useState, useEffect, useCallback } from 'react';
 import Layout from '../layout';
 import axios from 'axios';
-import DailyText from './dailyText';
 import LineChartGeneric from './lineChartGeneric';
 import Summary from '../Summary/summary';
 import ErrorComp from '../../UI/error';
 import ExtraInfo from './ExtraInfo/extraInfo';
-// import DailyChart2 from './dailyChart2_del';
 
-// TODO - error handling is dodge.
-// const dailyStatsSoFarUrl = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidDailyStatisticsHPSCIreland/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
 
 // uri with data that's being updated
 const dailyStatsSoFarUrl = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
+
 const Daily = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -35,7 +29,6 @@ const Daily = () => {
       } catch (e) {
         setIsLoading(false);
         setIsError(true);
-    
       }
     })();
   }, []);
@@ -43,15 +36,12 @@ const Daily = () => {
   const getDailyStats = useCallback(async () => {
     try {
       const response = await axios.get(dailyStatsSoFarUrl);
-      console.log(response)
       return response.data.features;
     } catch (e) {
       setIsLoading(false);
       setIsError(true);
     }
   }, []);
-
-
 
   const calculatePercentageChange = useCallback((data) => {
     const ans = data.reduce((acc, d, i, data) => {

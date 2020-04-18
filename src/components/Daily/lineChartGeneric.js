@@ -16,9 +16,17 @@ const height = 600;
 const LineChartGeneric = ({ dataToShow }) => {
   const [data] = useState(dataToShow);
   const dataAttrs = [
-    { title: 'percentageChange', display: 'Daily Percentage Change', graphTitleY: '% change since previous day' },
+    {
+      title: 'percentageChange',
+      display: 'Daily Percentage Change',
+      graphTitleY: '% change since previous day',
+    },
     { title: 'todaysCases', display: 'Daily Cases', graphTitleY: '#cases' },
-    { title: 'totalSoFar', display: 'Total Confirmed Cases', graphTitleY: '#cases' },
+    {
+      title: 'totalSoFar',
+      display: 'Total Confirmed Cases',
+      graphTitleY: '#cases',
+    },
   ];
 
   const [selectedAttribute, setSelectedAttribute] = useState('todaysCases');
@@ -49,23 +57,19 @@ const LineChartGeneric = ({ dataToShow }) => {
   useEffect(() => {
     const newestData = getNewestData();
     setSelectedDayData(newestData);
-    
   }, []);
 
   const handleShowTextBox = (x, y, data) => {
-
     setSelectedDayData(data);
     setShouldSetShowHoverTextBox(true);
   };
   // TODO - rename, no hovering involved now
   const showHoverTextbox = (x, y, data) => {
     return (
-   
-        <HoverTextBox
-          todaysData={selectedDayData}
-          show={shouldShowHoverTextBox}
-        />
-  
+      <HoverTextBox
+        todaysData={selectedDayData}
+        show={shouldShowHoverTextBox}
+      />
     );
   };
   useEffect(() => {
@@ -133,7 +137,9 @@ const LineChartGeneric = ({ dataToShow }) => {
           key={`${d.date}`}
           r="0.4rem"
           id={`${d.date}`}
-          fill={(selectedDayData.date === d.date) ? 'var(--purple)' : 'var(--blue)'}
+          fill={
+            selectedDayData.date === d.date ? 'var(--purple)' : 'var(--blue)'
+          }
         ></circle>
       );
     });
@@ -158,8 +164,7 @@ const LineChartGeneric = ({ dataToShow }) => {
   };
 
   return (
- 
-   <div className={classes.lineChartWrap}> 
+    <div className={classes.lineChartWrap}>
       <div className={classes.lineChartLeftWrap}>
         <div className={classes.sectionHeader}>
           <h2>
@@ -171,7 +176,18 @@ const LineChartGeneric = ({ dataToShow }) => {
       </div>
       <div className={classes.svgWrap}>
         <svg ref={svgRef} viewBox="0 0 900 600" width={width} height={height}>
-        <text fill="var(--black)" x={-Math.abs(height/2+100)} y="10" style={{transform: 'rotate(-90deg)'}} className={classes.yLabel}>{dataAttrs.filter((d) => d.title === selectedAttribute)[0].graphTitleY}</text>
+          <text
+            fill="var(--black)"
+            x={-Math.abs(height / 2 + 100)}
+            y="10"
+            style={{ transform: 'rotate(-90deg)' }}
+            className={classes.yLabel}
+          >
+            {
+              dataAttrs.filter((d) => d.title === selectedAttribute)[0]
+                .graphTitleY
+            }
+          </text>
           <g
             className={classes.lineChartXAxis}
             ref={xAxisRef}
@@ -187,7 +203,6 @@ const LineChartGeneric = ({ dataToShow }) => {
         </svg>
       </div>
     </div>
-
   );
 };
 

@@ -45,6 +45,10 @@
     grid-template-rows: 1fr 2fr;
     grid-template-columns: 1fr;
   }
+  .lineChartLeftWrap {
+    padding: 0;
+  }
+  
 }
 
 .lineGraphCircle {

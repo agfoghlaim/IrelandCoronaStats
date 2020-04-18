@@ -79,7 +79,7 @@ const Section = ({ section }) => {
   }, [sectionAvail, shouldUpdate]);
 
   const handleTextBox = (data, selectedAttribute) => {
-
+console.log(data, selectedAttribute )
     if (!data || !selectedAttribute) return;
     setTinyTextData(data);
     setTinyTextAttr(selectedAttribute);
