@@ -111,7 +111,7 @@ const LineGraph = ({ theData, handleTextBox, section }) => {
     setIsHovered(false);
   };
   const handleHover = (e, info, attr) => {
-    console.log(info,attr)
+    // console.log(info,attr)
     setHoverInfo(
       `${attr.name}: ${info.attributes[attr.fieldName]}`
     );

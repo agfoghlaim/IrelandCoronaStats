@@ -3,7 +3,7 @@ import classes from './textBox.module.css';
 
 const TextBox = ({ data, attributeForBoxTitle, avail }) => {
   const [availableData, setAvailableData] = useState(avail);
-
+console.log(data)
   // because some are 'Date', some are 'StatisticsProfileDate'
   const getAttributeForDate = () => {
     return data.attributes.StatisticsProfileDate

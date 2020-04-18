@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import classes from './section.module.css';
 import axios from 'axios';
 import LineGraph from '../LineGraph/lineGraph';
-// import GraphTinyTextBox from '../TextBox/graphTinyTextBox';
 import TextBox from '../TextBox/textBox';
 
 const baseUrl = (specificUrlPart) =>
@@ -14,6 +13,7 @@ const Section = ({ section }) => {
   const [shouldUpdate, setShouldUpdate] = useState(true);
   const [tinyTextAttr, setTinyTextAttr] = useState('');
   const [tinyTextData, setTinyTextData] = useState();
+
   const shouldCancel = useRef(false);
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const Section = ({ section }) => {
   }, [sectionAvail, shouldUpdate]);
 
   const handleTextBox = (data, selectedAttribute) => {
-console.log(data, selectedAttribute )
+// console.log(data, selectedAttribute )
     if (!data || !selectedAttribute) return;
     setTinyTextData(data);
     setTinyTextAttr(selectedAttribute);

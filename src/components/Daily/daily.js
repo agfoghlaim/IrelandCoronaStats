@@ -6,7 +6,8 @@ import Summary from '../Summary/summary';
 import ErrorComp from '../../UI/error';
 import ExtraInfo from './ExtraInfo/extraInfo';
 
-
+// TODO - check state, not all needed and badly named... dailyPercentageChange sent as data to graph
+// %change / %change5days will be reusable
 // uri with data that's being updated
 const dailyStatsSoFarUrl = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
 
@@ -15,6 +16,7 @@ const Daily = () => {
   const [isError, setIsError] = useState(false);
   const [daily, setDaily] = useState([]);
   const [dailyPercentageChange, setDailyPercentageChange] = useState([]);
+  const [fiveDayAverageChange, setFiveDayAverageChange] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -23,8 +25,21 @@ const Daily = () => {
       try {
         const data = await getDailyStats();
         setDaily(data);
-        const change = calculatePercentageChange(data);
-        setDailyPercentageChange(change);
+
+        const dailyChange = calculatePercentageChangeOf(
+          data,
+          'ConfirmedCovidCases',
+          'Date'
+        );
+        setDailyPercentageChange(dailyChange);
+
+        const fiveDayAverage = calculate5DayAverage(
+          dailyChange,
+          'percentageChange'
+        );
+        console.log(fiveDayAverage)
+        setFiveDayAverageChange(fiveDayAverage);
+
         setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
@@ -43,28 +58,66 @@ const Daily = () => {
     }
   }, []);
 
-  const calculatePercentageChange = useCallback((data) => {
+  const calculate5DayAverage = (data, ofWhat) => {
+    const makeArrayOfFives = (dat) => {
+      data.map((d, i, dat) => {
+        if (i >= 4) {
+          d.fiveDayAverage = data.slice(i - 5, i);
+        }else{
+          d.fiveDayAverage = null;
+        }
+        return d;
+      });
+      return data;
+    };
+
+    const averageArrayOfFives = (data) => {
+      return data.map((d) => {
+        if (d.fiveDayAverage && d.fiveDayAverage.length === 5) {
+          const added = d.fiveDayAverage.reduce((acc, e) => {
+            console.log(e.percentageChange);
+            return acc + e.percentageChange;
+          }, 0);
+          if (added && !isNaN(added)) {
+            // TODO - empty array left over @ data[4]
+            // console.log(added, typeof added)
+            d.fiveDayAverage = added / 5;
+          }
+        }
+        return d;
+      });
+    };
+
+    const ans = [makeArrayOfFives, averageArrayOfFives].reduce(
+      (data, fn) => fn(data),
+      data
+    );
+
+    return ans;
+  };
+  
+  const calculatePercentageChangeOf = (data, ofWhat, dateAttr) => {
     const ans = data.reduce((acc, d, i, data) => {
-      const todaysCases = d.attributes.ConfirmedCovidCases;
-      const date = new Date(d.attributes.Date);
+      const v2 = d.attributes[ofWhat];
+      const date = new Date(d.attributes[dateAttr]);
       if (data[i - 1]) {
         // skip the first
-        const yesterdaysCases = data[i - 1].attributes.ConfirmedCovidCases;
-        const change = todaysCases - yesterdaysCases;
-        const percentageChange = Math.round((change * 100) / yesterdaysCases);
+        const v1 = data[i - 1].attributes[ofWhat];
+        const change = v2 - v1;
+        const percentageChange = Math.round((change * 100) / v1);
 
         // console.log(`(${todaysCases} - ${yesterdaysCases} * 100) / ${yesterdaysCases} = ${percentageChange}`)
         acc.push({
           percentageChange,
-          todaysCases,
-          yesterdaysCases,
+          todaysCases: v2,
+          yesterdaysCases: v1,
           date,
           totalSoFar: d.attributes.TotalConfirmedCovidCases,
         });
       } else {
         acc.push({
           percentageChange: 0,
-          todaysCases,
+          todaysCases: v2,
           yesterdaysCases: 0,
           date,
           totalSoFar: d.attributes.TotalConfirmedCovidCases,
@@ -73,17 +126,50 @@ const Daily = () => {
       return acc;
     }, []);
     return ans;
-  });
+  };
+  // const calculatePercentageChange = useCallback((data) => {
+  //   const ans = data.reduce((acc, d, i, data) => {
+  //     const todaysCases = d.attributes.ConfirmedCovidCases;
+  //     const date = new Date(d.attributes.Date);
+  //     if (data[i - 1]) {
+  //       // skip the first
+  //       const yesterdaysCases = data[i - 1].attributes.ConfirmedCovidCases;
+  //       const change = todaysCases - yesterdaysCases;
+  //       const percentageChange = Math.round((change * 100) / yesterdaysCases);
+
+  //       // console.log(`(${todaysCases} - ${yesterdaysCases} * 100) / ${yesterdaysCases} = ${percentageChange}`)
+  //       acc.push({
+  //         percentageChange,
+  //         todaysCases,
+  //         yesterdaysCases,
+  //         date,
+  //         totalSoFar: d.attributes.TotalConfirmedCovidCases,
+  //       });
+  //     } else {
+  //       acc.push({
+  //         percentageChange: 0,
+  //         todaysCases,
+  //         yesterdaysCases: 0,
+  //         date,
+  //         totalSoFar: d.attributes.TotalConfirmedCovidCases,
+  //       });
+  //     }
+  //     return acc;
+  //   }, []);
+  //   return ans;
+  // });
 
   return (
-
     <Layout>
       {isError ? <ErrorComp msg="Could not load data." /> : null}
       {isLoading ? 'Loading' : null}
       {daily && daily.length && dailyPercentageChange.length && !isLoading ? (
         <>
           <Summary stats={daily} />
-          <LineChartGeneric dailyData={daily} dataToShow={dailyPercentageChange} />
+          <LineChartGeneric
+            dailyData={daily}
+            dataToShow={dailyPercentageChange}
+          />
           <ExtraInfo />
         </>
       ) : (

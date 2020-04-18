@@ -17,15 +17,9 @@ function App() {
       <div className="App">
         <Header />
         <Layout>
-          {/* <Summary /> */}
           <Route exact path="/" component={Daily} />
-          {/* <Daily /> */}
           <Route exact path="/stats" component={ProfileStats} />
           <Route exact path="/counties" component={Counties} />
-          {/* <ProfileStats /> */}
-
-          {/* <Breakdown /> */}
-          {/* <ChartHooks /> */}
         </Layout>
       </div>
     </BrowserRouter>

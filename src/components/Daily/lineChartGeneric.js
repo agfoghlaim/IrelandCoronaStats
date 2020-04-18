@@ -14,17 +14,23 @@ const width = 900;
 const height = 600;
 
 const LineChartGeneric = ({ dataToShow }) => {
+  // console.log(dataToShow)
   const [data] = useState(dataToShow);
   const dataAttrs = [
     {
       title: 'percentageChange',
-      display: 'Daily Percentage Change',
+      display: 'Daily Cases Percentage Change',
       graphTitleY: '% change since previous day',
     },
     { title: 'todaysCases', display: 'Daily Cases', graphTitleY: '#cases' },
     {
       title: 'totalSoFar',
       display: 'Total Confirmed Cases',
+      graphTitleY: '#cases',
+    },
+    {
+      title: 'fiveDayAverage',
+      display: 'Five Day Average',
       graphTitleY: '#cases',
     },
   ];

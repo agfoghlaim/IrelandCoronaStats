@@ -1,7 +1,11 @@
 import React from 'react';
 import classes from './dailyText.module.css';
-const HoverTextBox = ({ todaysData, show }) => {
 
+// TODO 
+// handle nulls for %change
+// css fix height of text box
+const HoverTextBox = ({ todaysData, show }) => {
+console.log(todaysData)
   const RightSpan = ({ text }) => {
     return <span className={classes.rightSpan}>{`${text}`}</span>;
   };
@@ -33,6 +37,10 @@ const HoverTextBox = ({ todaysData, show }) => {
       <div className={classes.infoWrap}>
         <p>Total Confirmed Cases: </p>
         <RightSpan text={todaysData.totalSoFar}></RightSpan>
+      </div>
+      <div className={classes.infoWrap}>
+        <p>Five Day Average %Change (Daily Cases): </p>
+        <RightSpan text={`${todaysData.fiveDayAverage}%`}></RightSpan>
       </div>
   
     </div>
