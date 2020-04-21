@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as d3 from 'd3';
+
 import classes from './lineGraph2.module.css';
 import Axis from './axis';
 import YAxisLabel from './yAxisLabel';
 import Line from './line';
 // import HoverRect from '../HoverRect/hoverRect';
+import { useStore } from '../../../Store/store';
 
 const margin = {
   left: 50,
@@ -15,32 +17,30 @@ const margin = {
 const width = 800;
 const height = 600;
 
-const LineGraph2 = ({ theData, theNewData, handleTextBox, handleSelectCounty}) => {
-  // const [data, setData] = useState(theData);
-  const [newData, setNewData] = useState(theNewData);
-  // console.log(theData, theNewData)
+const LineGraph2 = ({ handleSelectCounty }) => {
+
+  // const testDispatch = useStore()[1];
+  const sections = useStore()[0].sections[0];
+  
   const svgRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
   const [hoverInfo, setHoverInfo] = useState();
   const [hoverColor, setHoverColor] = useState();
   const [hoverPosition, setHoverPosition] = useState([]);
   const [selectedAttribute, setSelectedAttribute] = useState('');
-
- 
+  const [selectedAttributeName, setSelectedAttributeName] = useState('');
+  // always run, this could be more efficient
   useEffect(() => {
     const findSelectedAttribute = () => {
-
-      const selected = newData.avail.filter(d=>d.selected)[0];
- 
+      const selected = sections.avail.filter((d) => d.selected)[0];
       return selected;
-    }
-    setNewData(theNewData);
-  
+    };
     const newSelected = findSelectedAttribute();
     setSelectedAttribute(newSelected.fieldName);
-  }, [ theNewData, newData]);
+    setSelectedAttributeName(newSelected.name);
+  });
 
-  const useForXExtent = newData.allData[0];
+  const useForXExtent = sections.allData[0];
   const xExtent = d3.extent(useForXExtent, (d) => d.TimeStamp);
   const xScale = d3
     .scaleTime()
@@ -57,23 +57,20 @@ const LineGraph2 = ({ theData, theNewData, handleTextBox, handleSelectCounty}) =
     .domain([0, 100])
     .interpolator(d3.interpolateRainbow);
 
-  const handleHover = (e, info, color) => {
-    const county = info[0].CountyName;
-    // console.log(e.target.attributes)
-    e.target.attributes['stroke-width'].value= '0.5rem';
+  const handleHover = (e, info) => {
+    const county = info.name;
+    // e.target.attributes['stroke-width'].value = '0.5rem';
     setHoverInfo(county);
-    setHoverColor(color);
+    setHoverColor(info.color);
     const xP = e.clientX + 20;
     const yP = e.clientY - 10;
     setHoverPosition([xP, yP]);
     setIsHovered(true);
   };
   const handleHoverLeave = (e) => {
-    e.target.attributes['stroke-width'].value= '2px';
     setIsHovered(false);
-
   };
-  
+
   return (
     <div className={classes.svgWrap}>
       {isHovered && hoverPosition.length ? (
@@ -93,6 +90,8 @@ const LineGraph2 = ({ theData, theNewData, handleTextBox, handleSelectCounty}) =
           {hoverInfo}
         </div>
       ) : null}
+ 
+        <h3 style={{textAlign: 'center'}}>{selectedAttributeName} by County</h3>
 
       <svg
         style={{ maxWidth: '100%' }}
@@ -107,11 +106,12 @@ const LineGraph2 = ({ theData, theNewData, handleTextBox, handleSelectCounty}) =
           yClass={classes.yLabel}
           height={height}
         />
-         {newData && newData.allData.length 
-          ? newData.allData.map((graphData, i) => (
+         {sections && sections.allCounties.length
+          ? sections.allCounties.map((graphData, i) => (
               <Line
                 graphData={graphData}
                 i={i}
+                key={i}
                 handleHover={handleHover}
                 handleHoverLeave={handleHoverLeave}
                 xScale={xScale}
@@ -119,10 +119,25 @@ const LineGraph2 = ({ theData, theNewData, handleTextBox, handleSelectCounty}) =
                 colorScale={colorScale}
                 selectedAttribute={selectedAttribute}
                 handleSelectCounty={handleSelectCounty}
-                
               />
             ))
           : null}
+        {/* {sections && sections.allData.length
+          ? sections.allData.map((graphData, i) => (
+              <Line
+                graphData={graphData}
+                i={i}
+                key={i}
+                handleHover={handleHover}
+                handleHoverLeave={handleHoverLeave}
+                xScale={xScale}
+                yScale={yScale}
+                colorScale={colorScale}
+                selectedAttribute={selectedAttribute}
+                handleSelectCounty={handleSelectCounty}
+              />
+            ))
+          : null} */}
       </svg>
     </div>
   );

@@ -11,17 +11,13 @@ const Line = ({
   yScale,
   colorScale,
   selectedAttribute,
-
 }) => {
   const [selectedAttr, setSelectedAttr] = useState(selectedAttribute);
-  // const [selectedCountyName, setSelectedCountyName] = useState();
-  // console.log(graphData)
 
   useEffect(() => {
     setSelectedAttr(selectedAttribute);
   }, [selectedAttribute, graphData]);
 
-  const color = colorScale(graphData[i].FID);
   const line = d3
     .line()
     .x((d) => xScale(d['TimeStamp']))
@@ -29,16 +25,17 @@ const Line = ({
       return yScale(d[selectedAttr]);
     });
 
-  const path = line(graphData);
+  const path = line(graphData.stats);
   return (
     <path
       d={path}
       fill="none"
-      stroke={color}
-      strokeWidth="2px"
-      onMouseOver={(e) => handleHover(e, graphData, color)}
+      stroke={graphData.color}
+      opacity={graphData.selected ? '1' : '0.4'}
+      strokeWidth={graphData.selected ? '4px' : '2px'}
+      onMouseOver={(e) => handleHover(e, graphData)}
       onMouseLeave={(e) => handleHoverLeave(e)}
-      onClick={e=>handleSelectCounty(e, graphData[0].CountyName)}
+      onClick={(e) => handleSelectCounty(e, graphData.name)}
     ></path>
   );
 };

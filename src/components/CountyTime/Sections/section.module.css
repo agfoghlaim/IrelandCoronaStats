@@ -77,13 +77,13 @@ min-width: 0;
   /* padding: 1rem; */
   border-radius: 0.4rem;
   /* grid-gap: 1rem; */
-  grid-template-columns: repeat(auto-fit, minmax(3rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(4rem, 1fr));
   grid-gap: 0.25rem;
 }
 .countiesTinyBtnGroupWrap button {
   background: var(--blue);
   border: none;
-  height: 2.5rem;
+  height: 2rem;
   padding: 0.1rem 0.2rem;
   border-radius: 0.4rem;
   color: var(--white);

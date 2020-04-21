@@ -1,53 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import classes from './section.module.css';
 import LineGraph2 from '../LineGraph2/lineGraph2';
 import TextBox from '../TextBox/textBox';
-const Section = ({ newSections }) => {
-  const [newVersionOfSections, setNewVersionOfSections] = useState(
-    newSections[0]
-  );
+import { useStore } from '../../../Store/store';
 
-  // rename -selectedCountyName
-  const [isCountySelected, setIsCountySelected] = useState(false);
+const Section = () => {
 
-  useEffect(() => {
-    setNewVersionOfSections(newSections[0]);
-  }, [newSections, newVersionOfSections]);
+  const testDispatch = useStore()[1];
+  const sections = useStore()[0].sections[0];
 
-  // ie choose attribute for linegraph
+  // choose attribute for line graph
   const handleSelectData = (e) => {
-    // set section.name = e.target.name to true
-    // all others to false
-    const name = e.target.name;
-    const sectionUpdate = newVersionOfSections.avail.map((a) => {
-      if (a.fieldName === name) {
-        // console.log('switch ' + a.fieldName + ' to ' + !a.selected);
-        a.selected = true;
-      } else {
-        a.selected = false;
-      }
-      return a;
-    });
-
-    const newSections = {
-      ...newVersionOfSections,
-      avail: sectionUpdate,
-    };
-
-    setNewVersionOfSections(newSections);
+    const fieldName = e.target.name;
+    testDispatch('SELECT_ATTRIBUTE', fieldName);
   };
 
   // TODO - Put into component
   const renderCheckButtons = () => {
-    return newVersionOfSections.avail.map((a) => (
+    return sections.avail.map((a) => (
       <button
         key={a.fieldName}
         id={a.name}
         name={a.fieldName}
         selected={a.selected}
         style={{
-          opacity: `${!a.selected ? '0.5' : `1`}`,
-          background: `${!a.selected ? 'gray' : `${a.color}`}`,
+          opacity: `${!a.selected ? '0.7' : `1`}`,
+          background: `${a.selected ? `${a.color}` : `var(--lightBlack)`}`,
           border: `${
             !a.selected ? `0.2rem solid ${a.color}` : `0.1rem solid `
           }`,
@@ -60,64 +38,69 @@ const Section = ({ newSections }) => {
     ));
   };
 
-  // ie. click on county line to show details in textbox
+  // click on county line/tinyBtn to show details in textbox
   const handleSelectCounty = (e, county) => {
-    // console.log(county);
-    const copy = newVersionOfSections;
-    copy.selectedCounty = copy.allData.filter(
-      (d) => d[0].CountyName === county
-    )[0];
-    // console.log(copy);
-    setNewVersionOfSections(copy);
-    setIsCountySelected(county);
+    const name = county || e.target.id;
+    testDispatch('SELECT_COUNTY', name);
   };
 
-  // These don't work yet
+
   const renderTinyButtons = () => {
-    const countyNames = newVersionOfSections.allData.map(a=>{
-      return a[0].CountyName;
-    })
-    // console.log(countyNames)
-    return (
-      countyNames.map(county =>(
-      <button>{county}</button>
-      ))
-    )
-  }
+    if (sections.allCounties.length) {
+      return sections.allCounties.map((county) => {
+        return (
+          <button
+            style={{
+              border: `${county.selected ? `none` : `0.2rem solid ${county.color}`}`,
+              background: `${county.selected ? `${county.color}` : `var(--lightBlack)`}`,
+              color: `${county.selected ? 'var(--lightBlack)' : 'var(--white)'}`,
+              fontWeight: '700', 
+            }}
+            id={county.name}
+            key={county.name}
+            onClick={(e) => handleSelectCounty(e)}
+          >
+            {county.name}
+          </button>
+        );
+      });
+    }
+  };
 
   return (
     <div className={classes.countiesGraphWrap}>
       <div className={classes.countiesGraphLeft}>
         <div className={classes.sectionHeader}>
           <h3>
-            {newVersionOfSections.name} <br />
+            {sections.name} <br />
             <small>- counties subtitle</small>
           </h3>
         </div>
 
         <TextBox
-          selectedCountyName={isCountySelected}
-          data={newVersionOfSections}
-          avail={newVersionOfSections.avail}
+          data={sections}
+          avail={sections.avail}
+          newSelectedCounty={sections.newSelectedCounty}
         />
 
         <div className={classes.countiesBtnGroupWrap}>
-          {newVersionOfSections && newVersionOfSections.avail
+          {sections && sections.avail
             ? renderCheckButtons()
             : null}
         </div>
         <div className={classes.countiesTinyBtnGroupWrap}>
-          {newVersionOfSections && newVersionOfSections.avail
+          {sections && sections.avail
             ? renderTinyButtons()
             : null}
         </div>
       </div>
       <div className={classes.countiesGraphMain}>
-        {newVersionOfSections && newVersionOfSections.allData.length ? (
+        {sections &&
+        sections.allData.length ? (
           <LineGraph2
-            isCountySelected={isCountySelected}
+            // isCountySelected={isCountySelected}
             handleSelectCounty={handleSelectCounty}
-            theNewData={newVersionOfSections}
+            theNewData={sections}
           />
         ) : null}
       </div>

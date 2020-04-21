@@ -1,52 +1,37 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './textBox.module.css';
 
-const TextBox = ({ data, avail, selectedCountyName }) => {
+import { useStore } from '../../../Store/store';
 
-  const [whatever, setWhatever] = useState(data);
-  const [latestToUse, setLatestToUse] = useState(null);
+const TextBox = () => {
+  // const testDispatch = useStore()[1];
+  const everything = useStore()[0].sections[0];
 
-  //=========================================
+  // default
+  const [latestToUse, setLatestToUse] = useState(everything.allCounties[0]);
 
+  useEffect(() => {
+    if (everything.newSelectedCounty.stats) {
+      const getLatest = () => {
+        const dates = everything.newSelectedCounty.stats.map((s) => s.TimeStamp);
+        const newestDate = Math.max(...dates.map(d=>d));
 
-  //change whatever, have to use newest data so will need to filter for newest data.selectedCounty
+        const newestData = everything.newSelectedCounty.stats.filter(s=>s.TimeStamp===newestDate)
 
-  //=====================================
-  useEffect(()=>{
-    setWhatever(data);
-  },[data, selectedCountyName])
+        return newestData;
+      };
+      const newestDataForSelectedCounty = getLatest();
+     setLatestToUse(newestDataForSelectedCounty[0]);
+    } 
+  });
 
-  useEffect(()=>{
-  
-    const getLatest = ()=> {
-    
-      const dates = whatever.selectedCounty.map(s=>s.TimeStamp);
- 
-      const newestDate = Math.max(...dates.map(d=>d));
-
-      const newestData = whatever.selectedCounty.filter(s=>s.TimeStamp===newestDate)
-
-      return newestData;
-    }
-    const newestDataForSelectedCounty = getLatest();
-
-    setLatestToUse(newestDataForSelectedCounty[0]);
- 
-  }, [whatever, selectedCountyName])
   const RightSpan = ({ text, fieldName }) => {
     let color = 'var(--blue)';
-    // if (fieldName) {
-    //   color = getColor(fieldName);
-    // }
-    return (
-      <span style={{ background: `${color}` }} className={classes.rightSpan}>
-        {text}
-      </span>
-    );
-  };
-
-  const getColor = (fieldName) => {
-    return avail.filter((a) => a.fieldName === fieldName)[0].color;
+      return (
+        <span style={{ background: `${color}` }} className={classes.rightSpan}>
+          {text || ''}
+        </span>
+      );
   };
 
   return latestToUse ? (
@@ -55,8 +40,7 @@ const TextBox = ({ data, avail, selectedCountyName }) => {
         <h3>
           {latestToUse.CountyName} <br />
           <span className={classes.small}>
-            Updated:{' '}
-            {new Date(latestToUse.TimeStamp).toLocaleString()}
+            Updated: {new Date(latestToUse.TimeStamp).toLocaleString()}
           </span>
         </h3>
       </div>
@@ -77,8 +61,7 @@ const TextBox = ({ data, avail, selectedCountyName }) => {
       <div className={classes.infoWrap}>
         <p>Cases per 100,000: </p>
         <RightSpan
-  
-          text={latestToUse.PopulationProportionCovidCases.toFixed(2)}
+          text={latestToUse.PopulationProportionCovidCases ? latestToUse.PopulationProportionCovidCases.toFixed(2) : ''}
           fieldName="PopulationProportionCovidCases"
         ></RightSpan>
       </div>
