@@ -65,7 +65,7 @@ const Section = ({
           </h3>
         </div>
 
-        <TextBox data={selectedCountyData} />
+        <TextBox  avail={sectionAvail} data={selectedCountyData} />
 
         <div className={classes.countiesBtnGroupWrap}>
           {renderCheckButtons()}

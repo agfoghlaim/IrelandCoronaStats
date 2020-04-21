@@ -13,7 +13,7 @@ const width = 800;
 const height = 600;
 
 const LineGraph = ({ theData, handleTextBox, section }) => {
-
+  console.log(theData)
   const [data, setData] = useState(theData);
 
   const svgRef = useRef(null);
@@ -130,8 +130,6 @@ const LineGraph = ({ theData, handleTextBox, section }) => {
   const handleHoverLeave = () => {
     setIsHovered(false);
   };
-
-
 
   const doHoverLines2 = () => {
     const graphData = data[0]; // do once

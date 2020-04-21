@@ -33,11 +33,13 @@ const Daily = () => {
         );
         setDailyPercentageChange(dailyChange);
 
-        const fiveDayAverage = calculate5DayAverage(
+        const fiveDayAverage = calculateAverageOverTime(
           dailyChange,
-          'percentageChange'
+          'percentageChange',
+          5,
+          'fiveDayAverage'
         );
-        console.log(fiveDayAverage)
+        console.log(fiveDayAverage);
         setFiveDayAverageChange(fiveDayAverage);
 
         setIsLoading(false);
@@ -58,44 +60,46 @@ const Daily = () => {
     }
   }, []);
 
-  const calculate5DayAverage = (data, ofWhat) => {
-    const makeArrayOfFives = (dat) => {
-      data.map((d, i, dat) => {
-        if (i >= 4) {
-          d.fiveDayAverage = data.slice(i - 5, i);
-        }else{
-          d.fiveDayAverage = null;
+  const calculateAverageOverTime = (data, ofWhat, numDays, newKeyName) => {
+    const appendNewArrayContainingDataToBeAveraged = (theData) => {
+      theData.map((d, i) => {
+        if (i >= numDays - 1) {
+          d[newKeyName] = theData.slice(i - (numDays - 1), i + 1);
+        } else {
+          d[newKeyName] = null;
         }
         return d;
       });
-      return data;
+      return theData;
     };
 
-    const averageArrayOfFives = (data) => {
-      return data.map((d) => {
-        if (d.fiveDayAverage && d.fiveDayAverage.length === 5) {
-          const added = d.fiveDayAverage.reduce((acc, e) => {
-            console.log(e.percentageChange);
-            return acc + e.percentageChange;
+    const reduceNewArrayToSingleAverageNum = (theData) => {
+      const ans = theData.map((d) => {
+        // const oldArr = d[newKeyName];
+        if (d[newKeyName] && d[newKeyName].length === numDays) {
+          const added = d[newKeyName].reduce((acc, e) => {
+            acc += e[ofWhat];
+            return acc;
           }, 0);
           if (added && !isNaN(added)) {
-            // TODO - empty array left over @ data[4]
-            // console.log(added, typeof added)
-            d.fiveDayAverage = added / 5;
+            d[newKeyName] = added / numDays;
+            // d.oldArr = oldArr;
           }
         }
         return d;
       });
+      console.log('ans=', ans);
+      return ans;
     };
 
-    const ans = [makeArrayOfFives, averageArrayOfFives].reduce(
+    const ans = [appendNewArrayContainingDataToBeAveraged, reduceNewArrayToSingleAverageNum].reduce(
       (data, fn) => fn(data),
       data
     );
-
+    console.log(ans);
     return ans;
   };
-  
+
   const calculatePercentageChangeOf = (data, ofWhat, dateAttr) => {
     const ans = data.reduce((acc, d, i, data) => {
       const v2 = d.attributes[ofWhat];

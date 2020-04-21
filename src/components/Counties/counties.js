@@ -4,6 +4,7 @@ import Layout from '../layout';
 import axios from 'axios';
 import Section from './Sections/section';
 import ErrorComp from '../../UI/error';
+import CountyTime from '../CountyTime/countyTime';
 
 const sections = [
   {
@@ -41,6 +42,8 @@ const sections = [
   },
 ];
 
+
+
 // uri2 no longer has any date field, endpoint does have the latest for each county only but there's no way I can see to check what date the data refers to.
 // const uri2 = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidCountyStatisticsHPSCIreland/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
 
@@ -53,6 +56,7 @@ const Counties = () => {
   const [isError, setIsError] = useState(false);
   const [theSections, setTheSections] = useState(sections); // data stored in theSections.avail.data
 
+  // Latest - all counties
   useEffect(() => {
     (async () => {
       try {
@@ -62,7 +66,6 @@ const Counties = () => {
         setData(response.data.features);
         setIsLoading(false);
       } catch (e) {
-        
         setIsLoading(false);
         setIsError(true);
       }
@@ -98,7 +101,6 @@ const Counties = () => {
     return proportion;
   }, [data]);
 
-  // too dangerous!!?
   const putIntoCorrectSection = (data, fieldName) => {
     let newSections = sections.map((section) => {
       const toUpdate = section.avail.map((a) => {
@@ -113,12 +115,14 @@ const Counties = () => {
     setTheSections(newSections);
   };
 
+  // Split up by section and put into section.avail.data
   useEffect(() => {
     const cases = getCountyCases();
     putIntoCorrectSection(cases, 'ConfirmedCovidCases');
 
     const proportion = getCountyProportion();
     putIntoCorrectSection(proportion, 'PopulationProportionCovidCases');
+
     putIntoCorrectSection(proportion, 'PopulationCensus16');
   }, [data, getCountyProportion, getCountyCases]);
 
@@ -153,6 +157,7 @@ const Counties = () => {
       if (selectedCounty) {
         const oneCounty = await getOneCountyInfo(selectedCounty);
         setSelectedCountyData(oneCounty);
+        // set it in the section data??
       }
     })();
   }, [selectedCounty]);
@@ -166,7 +171,7 @@ const Counties = () => {
   return (
     <Layout>
       <div className={classes.countiesWrap}>
-      {isError ? <ErrorComp msg="Could not load data." /> : null}
+        {isError ? <ErrorComp msg="Could not load data." /> : null}
         {!isLoading && data && data.length
           ? theSections.map((section) => (
               <Section
@@ -180,6 +185,7 @@ const Counties = () => {
               />
             ))
           : 'loading'}
+        <CountyTime />
       </div>
     </Layout>
   );

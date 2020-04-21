@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import classes from './textBox.module.css';
 
-const TextBox = ({ data, attributeForBoxTitle, avail }) => {
+const TextBox = ({ data,  avail }) => {
   const [availableData, setAvailableData] = useState(avail);
-console.log(data)
+console.log("ProfileStats: ", data, avail)
   // because some are 'Date', some are 'StatisticsProfileDate'
   const getAttributeForDate = () => {
     return data.attributes.StatisticsProfileDate
@@ -37,14 +37,16 @@ console.log(data)
         value: d.selectedData.map((w) => {
           return w.attributes[d.fieldName];
         })[0],
+        color: d.color
       };
     });
   };
 
   const moreManagableVersionOfSelectedData = getKeysValues(withSelectedData);
 
-  const RightSpan = ({ text }) => {
-    return <span className={classes.rightSpan}>{text}</span>;
+
+  const RightSpan = ({ text, color }) => {
+    return <span style={{background: `${color}`}} className={classes.rightSpan}>{text}</span>;
   };
 
   return (
@@ -60,9 +62,9 @@ console.log(data)
         ? moreManagableVersionOfSelectedData.map((d) => {
             return (
               <>
-                <div className={classes.infoWrap}>
+                <div  className={classes.infoWrap}>
                   <p> {d.name}</p>
-                  <RightSpan text={d.value} />
+                  <RightSpan color={d.color} text={d.value} />
                 </div>
               </>
             );
