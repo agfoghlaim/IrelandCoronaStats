@@ -48,13 +48,18 @@ const sections = [
 // const uri2 = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidCountyStatisticsHPSCIreland/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json`;
 
 // try this (see endpoints.txt, #5) - return only 26 results and order by newest first.  'resultRecordCount=26' is dodge? but it's the most foolproof query I can think of. (better than querying for now minus about 3 days). It works to get the latest county info only (including date). Note field names are different (ConfirmedCovidCases vs CovidCases).
+
+// CountiesTime is getting all data anyway so may as well use that
+// data here will correspond to
 const uriLatestAllCounties = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&resultRecordCount=26&orderByFields=TimeStampDate%20DESC&f=json`;
 
 const Counties = () => {
   const [data, setData] = useState([]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [theSections, setTheSections] = useState(sections); // data stored in theSections.avail.data
+
 
   // Latest - all counties
   useEffect(() => {

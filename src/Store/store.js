@@ -4,7 +4,7 @@ let sharedState = {};
 let listeners = [];
 let actions = {};
 
-export const useStore = () => {
+export const useStore = (shouldListen=true) => {
   const setState =  useState(sharedState)[1];
 
   const dispatch = (actionId, param) => {
@@ -17,13 +17,19 @@ export const useStore = () => {
   }
 
   useEffect(()=>{
-    listeners.push(setState);
+    if(shouldListen) {
+      listeners.push(setState);
+    }
+    
 
     // remove on unmount
     return ()=>{
-      listeners = listeners.filter(l=> l !== setState);
+      if(shouldListen){
+        listeners = listeners.filter(l=> l !== setState);
+      }
+  
     }
-  }, [setState]);
+  }, [setState, shouldListen]);
 
   return [sharedState, dispatch];
 }

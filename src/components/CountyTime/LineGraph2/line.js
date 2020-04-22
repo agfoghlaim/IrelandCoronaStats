@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import * as d3 from 'd3';
 
 const Line = ({
   graphData,
-  i,
   handleHover,
   handleHoverLeave,
   handleSelectCounty,
   xScale,
   yScale,
-  colorScale,
   selectedAttribute,
 }) => {
   const [selectedAttr, setSelectedAttr] = useState(selectedAttribute);
@@ -18,14 +16,17 @@ const Line = ({
     setSelectedAttr(selectedAttribute);
   }, [selectedAttribute, graphData]);
 
+  
   const line = d3
     .line()
-    .x((d) => xScale(d['TimeStamp']))
+    .x((d) => xScale(d['TimeStampDate']))
     .y((d) => {
       return yScale(d[selectedAttr]);
     });
 
   const path = line(graphData.stats);
+
+
   return (
     <path
       d={path}

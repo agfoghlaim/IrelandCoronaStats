@@ -21,7 +21,7 @@ const LineGraph2 = ({ handleSelectCounty }) => {
 
   // const testDispatch = useStore()[1];
   const sections = useStore()[0].sections[0];
-  
+
   const svgRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
   const [hoverInfo, setHoverInfo] = useState();
@@ -40,8 +40,10 @@ const LineGraph2 = ({ handleSelectCounty }) => {
     setSelectedAttributeName(newSelected.name);
   });
 
-  const useForXExtent = sections.allData[0];
-  const xExtent = d3.extent(useForXExtent, (d) => d.TimeStamp);
+  // const useForXExtent = sections.allData[0];
+  const useForXExtent = sections.allCounties[0].stats;
+  
+  const xExtent = d3.extent(useForXExtent, (d) => d.TimeStampDate);
   const xScale = d3
     .scaleTime()
     .domain([xExtent[0], xExtent[1]])

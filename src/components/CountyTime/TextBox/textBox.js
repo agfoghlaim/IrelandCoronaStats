@@ -13,10 +13,10 @@ const TextBox = () => {
   useEffect(() => {
     if (everything.newSelectedCounty.stats) {
       const getLatest = () => {
-        const dates = everything.newSelectedCounty.stats.map((s) => s.TimeStamp);
+        const dates = everything.newSelectedCounty.stats.map((s) => s.TimeStampDate);
         const newestDate = Math.max(...dates.map(d=>d));
 
-        const newestData = everything.newSelectedCounty.stats.filter(s=>s.TimeStamp===newestDate)
+        const newestData = everything.newSelectedCounty.stats.filter(s=>s.TimeStampDate===newestDate)
 
         return newestData;
       };

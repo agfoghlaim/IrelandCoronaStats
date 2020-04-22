@@ -6,7 +6,7 @@ const colorScale = d3
   .domain([0, 100])
   .interpolator(d3.interpolateRainbow);
 
-const sortIntoArraysBy = (data, field) => {
+const sortIntoArraysByCounty = (data, field = 'CountyName') => {
   // data in = [{galway},{galway},{longford}]
   // want data out = [[{galway},{galway}],[{longford}]]
   const usedCountyNames = [];
@@ -24,52 +24,63 @@ const sortIntoArraysBy = (data, field) => {
   });
   return newData;
 };
-const getCountyCases = (data) => {
-  const cases = data.map((d) => {
-    return {
-      CountyName: d.attributes.CountyName,
-      ConfirmedCovidCases: d.attributes.ConfirmedCovidCases,
-      FID: d.attributes.FID,
-      PopulationProportionCovidCases:
-        d.attributes.PopulationProportionCovidCases,
-      PopulationCensus16: d.attributes.PopulationCensus16,
-      TimeStamp: d.attributes.TimeStampDate,
-    };
-  });
 
-  return cases;
+const removeFromNestedAttributes = (data) => {
+  return data.map((d) => {
+    let obj = {};
+    for (const key in d.attributes) {
+      obj[key] = d.attributes[key];
+    }
+    return obj;
+  });
 };
 
+const getLatestForCounty = (county) => {
+  const dates = county.stats.map((s) => s.TimeStampDate);
+  const newestDate = Math.max(...dates.map((d) => d));
+  const newestData = county.stats.filter((s) => s.TimeStampDate === newestDate);
+  return newestData[0];
+};
+
+const turnArraysIntoNiceObjects = (data) => {
+  return data.map((n, i) =>
+    createManagableObjectAndSetFirstCountyToSelected(n, i)
+  );
+};
+
+const doTediousStuff = (features) => {
+  return [
+    removeFromNestedAttributes,
+    sortIntoArraysByCounty,
+    turnArraysIntoNiceObjects,
+  ].reduce((features, fn) => {
+    return fn(features);
+  }, features);
+};
+
+const createManagableObjectAndSetFirstCountyToSelected = (n, i) => {
+  const obj = {};
+  obj.name = n[0].CountyName;
+  obj.selected = false;
+  obj.stats = [...n];
+  obj['color'] = colorScale(n[0].PopulationCensus16);
+  if (i === 0) {
+    obj['selected'] = true;
+  }
+  return obj;
+};
 const configureStore = () => {
   const actions = {
     SET_ALL_DATA: (curState, response) => {
-      const withoutNestedAttributes = getCountyCases(response);
-      const nestedArrayPerCounty = sortIntoArraysBy(
-        withoutNestedAttributes,
-        'CountyName'
-      );
-      const createManagableObjectAndSetFirstCountyToSelected = (n, i) => {
-        const obj = {};
-        // obj[`${n[0].CountyName}`] = [...n];
-        obj.name = n[0].CountyName;
-        obj.selected = false;
-        obj.stats = [...n];
-        obj['color'] = colorScale(n[0].PopulationCensus16);
-        if (i === 0) {
-          obj['selected'] = true;
-        }
-        return obj;
-      };
-      const update = curState.sections;
-      update[0].allData = nestedArrayPerCounty;
-      const allCounties = nestedArrayPerCounty.map((n, i) =>
-        createManagableObjectAndSetFirstCountyToSelected(n, i)
-      );
-      update[0].allCounties = allCounties;
+      const copy = curState.sections;
+      const allCounties = doTediousStuff(response);
+      copy[0].allCounties = allCounties;
 
-      // default selectedCounty
-      update[0].newSelectedCounty = allCounties[0];
-      return { sections: update };
+      // default selectedCounty & selectedCountyLatestData
+      copy[0].newSelectedCounty = allCounties[0];
+      copy[0].selectedCountyLatestData = getLatestForCounty(allCounties[0]);
+
+      return { sections: copy };
     },
     SELECT_ATTRIBUTE: (curState, fieldName) => {
       const sectionUpdate = curState.sections[0].avail.map((a) => {
@@ -87,14 +98,18 @@ const configureStore = () => {
     },
     SELECT_COUNTY: (curState, county) => {
       const copy = curState.sections;
-      copy[0].selectedCounty = copy[0].allData.filter(
-        (d) => d[0].CountyName === county
-      )[0];
-      copy[0].newSelectedCounty = copy[0].allCounties.filter(
+
+      const selectedCounty = copy[0].allCounties.filter(
         (a) => a.name === county
       )[0];
+      const latestData = getLatestForCounty(selectedCounty);
 
-      // also set selected in allCounties
+      copy[0].newSelectedCounty = selectedCounty;
+
+      // also set selectedCountyLatestData
+      copy[0].selectedCountyLatestData = latestData;
+
+      // and set selected bool in allCounties
       copy[0].allCounties = copy[0].allCounties.map((all) => {
         if (all.name === county) {
           all.selected = true;
@@ -103,6 +118,7 @@ const configureStore = () => {
         }
         return all;
       });
+
       return { sections: copy };
     },
   };
@@ -111,10 +127,10 @@ const configureStore = () => {
       {
         name: 'Counties Time',
         sectionName: 'Counties',
-        allData: [],
         allCounties: [],
-        selectedCounty: [],
+        // selectedCounty: [],
         newSelectedCounty: {},
+        selectedCountyLatestData: {},
         avail: [
           {
             name: 'Total Number of Cases',

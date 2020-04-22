@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useMemo, useCallback} from 'react';
 import classes from './section.module.css';
 import LineGraph2 from '../LineGraph2/lineGraph2';
 import TextBox from '../TextBox/textBox';
@@ -8,7 +8,7 @@ const Section = () => {
 
   const testDispatch = useStore()[1];
   const sections = useStore()[0].sections[0];
-
+  console.log("Sections ", sections)
   // choose attribute for line graph
   const handleSelectData = (e) => {
     const fieldName = e.target.name;
@@ -44,7 +44,6 @@ const Section = () => {
     testDispatch('SELECT_COUNTY', name);
   };
 
-
   const renderTinyButtons = () => {
     if (sections.allCounties.length) {
       return sections.allCounties.map((county) => {
@@ -77,11 +76,7 @@ const Section = () => {
           </h3>
         </div>
 
-        <TextBox
-          data={sections}
-          avail={sections.avail}
-          newSelectedCounty={sections.newSelectedCounty}
-        />
+        <TextBox />
 
         <div className={classes.countiesBtnGroupWrap}>
           {sections && sections.avail
@@ -96,7 +91,7 @@ const Section = () => {
       </div>
       <div className={classes.countiesGraphMain}>
         {sections &&
-        sections.allData.length ? (
+        sections.allCounties.length ? (
           <LineGraph2
             // isCountySelected={isCountySelected}
             handleSelectCounty={handleSelectCounty}

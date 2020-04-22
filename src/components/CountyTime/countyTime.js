@@ -22,8 +22,8 @@ const allCountiesAllResultsConfirmedCasesMoreThanZero = `https://services1.arcgi
 
 const CountiesTime = () => {
 
-  const testDispatch = useStore()[1];
-  const sections = useStore()[0].sections;
+  const testDispatch = useStore(false)[1];
+  // const sections = useStore()[0].sections;
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -50,8 +50,11 @@ const CountiesTime = () => {
     <Layout>
       <>
         {isError ? <ErrorComp msg="Could not load data." /> : null}
-        {!isLoading && sections && sections.length  ? (
+        {/* {!isLoading && sections && sections.length  ? (
           <Section section={sections} newSections={sections} />
+        ) : null} */}
+         {!isLoading  ? (
+          <Section />
         ) : null}
       </>
     </Layout>
