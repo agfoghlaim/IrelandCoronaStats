@@ -8,7 +8,7 @@ const Section = () => {
 
   const testDispatch = useStore()[1];
   const sections = useStore()[0].sections[0];
-  console.log("Sections ", sections)
+
   // choose attribute for line graph
   const handleSelectData = (e) => {
     const fieldName = e.target.name;
