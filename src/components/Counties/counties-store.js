@@ -1,5 +1,5 @@
 // import { initStore } from './store';
-import { initStore } from '../../../Store/store';
+import { initStore } from '../../Store/store';
 import * as d3 from 'd3';
 const colorScale = d3
   .scaleSequential()
@@ -82,6 +82,12 @@ const configureStore = () => {
 
       return { sections: copy };
     },
+    SET_ALL_COUNTIES_LATEST_DATA: (curState, response) =>{
+
+      const withoutNestedAttributes = removeFromNestedAttributes(response);
+      const copy = curState.sections;
+      copy[0].allCountiesLatestData = withoutNestedAttributes;
+    },
     SELECT_ATTRIBUTE: (curState, fieldName) => {
       const sectionUpdate = curState.sections[0].avail.map((a) => {
         if (a.fieldName === fieldName) {
@@ -93,6 +99,9 @@ const configureStore = () => {
       });
       const update = curState.sections;
       update[0].avail = sectionUpdate;
+      
+      // also set just the name
+      update[0].selectedAttributeName = fieldName;
 
       return { sections: update };
     },
@@ -128,9 +137,10 @@ const configureStore = () => {
         name: 'Counties Time',
         sectionName: 'Counties',
         allCounties: [],
-        // selectedCounty: [],
+        allCountiesLatestData: [],
         newSelectedCounty: {},
         selectedCountyLatestData: {},
+        selectedAttributeName: 'ConfirmedCovidCases',
         avail: [
           {
             name: 'Total Number of Cases',
@@ -150,17 +160,18 @@ const configureStore = () => {
             color: 'var(--green)',
             data: [],
           },
-          // {
-          //   name: 'Population 2016',
-          //   fieldName: 'PopulationCensus16',
-          //   yAxisAttribute: 'Population 2016',
-          //   xAxisDescription: 'Population 2016',
-          //   selected: false,
-          //   color: 'var(--orange)',
-          //   data: [],
-          // },
+          {
+            name: 'Population 2016',
+            fieldName: 'PopulationCensus16',
+            yAxisAttribute: 'Population 2016',
+            xAxisDescription: 'Population 2016',
+            selected: false,
+            color: 'var(--orange)',
+            data: [],
+          },
         ],
       },
+      
     ],
   });
 };

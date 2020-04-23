@@ -1,6 +1,7 @@
 import React from 'react'
 
 const YAxisLabel = ({text, yClass, height}) => {
+  console.log("in y axis", text, height)
   return (
     <text
     fill="var(--black)"

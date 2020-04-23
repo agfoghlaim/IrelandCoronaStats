@@ -1,28 +1,34 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as d3 from 'd3';
 import classes from './barChart.module.css';
+import { useStore } from '../../../Store/store';
+// import Axis from '../LineGraph2/axis';
+// // TODO yAxisLabel not working
+// import yAxisLabel from '../LineGraph2/yAxisLabel';
 
-const margin = {
-  left: 70,
-  right: 60,
-  top: 60,
-  bottom: 60,
+const dimensions = {
+  margin: {
+    left: 70,
+    right: 60,
+    top: 60,
+    bottom: 60,
+  },
+  width: 800,
+  height: 800,
 };
-const width = 800;
-const height = 800;
+const { margin, width, height } = dimensions;
 
-const BarChart = ({ theData, handleSelectOneCounty, selectedCountyName }) => {
+const BarChart = ({ handleSelectOneCounty }) => {
+  const storeSections = useStore()[0].sections[0];
+  console.log('Store', storeSections);
 
-  // state
-  const [availData] = useState(theData);
-  const [toUse, setToUse] = useState(theData[0].data);
-  const [toUseInfo, setToUseInfo] = useState();
-  const [attribute, setAttribute] = useState(theData[0].fieldName);
+  const attribute = storeSections.selectedAttributeName;
+  const selectedData = storeSections.avail.filter((data) => data.selected)[0];
+
   const [selectLogScale, setSelectLogScale] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [hoverInfo, setHoverInfo] = useState();
   const [hoverPosition, setHoverPosition] = useState([]);
-  const [localIsSelectedCounty, setLocalIsSelectedCounty] = useState(selectedCountyName);
 
   // Refs
   const svgRef = useRef(null);
@@ -30,8 +36,13 @@ const BarChart = ({ theData, handleSelectOneCounty, selectedCountyName }) => {
   const yAxisRef = useRef(null);
 
   // Graph consts
-  const xExtent = d3.extent(toUse, (county) => county[attribute]);
-  const countyNamesForAxisLabel = toUse.map((c) => c.CountyName);
+  const xExtent = d3.extent(
+    storeSections.allCountiesLatestData,
+    (county) => county[attribute]
+  );
+  const countyNamesForAxisLabel = storeSections.allCountiesLatestData.map(
+    (c) => c.CountyName
+  );
   const xAxis = d3.axisBottom();
   const yAxis = d3.axisLeft();
 
@@ -63,39 +74,22 @@ const BarChart = ({ theData, handleSelectOneCounty, selectedCountyName }) => {
     setSelectLogScale(!currentLog);
   };
 
-  const doAxis = useCallback(
-    () => {
-      const xRef = d3.select(xAxisRef.current);
-      const yRef = d3.select(yAxisRef.current);
-      // const yTickWidth = -Math.abs(width - margin.right - margin.left);
-      const xTickWidth = -Math.abs(height - margin.top - margin.bottom);
-      xAxis.scale(xScale).ticks(10, ',.1s');
-      yAxis.scale(yScale);
-      xRef.call(xAxis.tickSize(xTickWidth));
-      yRef.call(yAxis);
-    },
-    [yScale, xScale, xAxis, yAxis]
-  );
+  const doAxis = useCallback(() => {
+    const xRef = d3.select(xAxisRef.current);
+    const yRef = d3.select(yAxisRef.current);
+    // const yTickWidth = -Math.abs(width - margin.right - margin.left);
+    const xTickWidth = -Math.abs(height - margin.top - margin.bottom);
+    xAxis.scale(xScale).ticks(10, ',.1s');
+    yAxis.scale(yScale);
+    xRef.call(xAxis.tickSize(xTickWidth));
+    yRef.call(yAxis);
+  }, [yScale, xScale, xAxis, yAxis]);
 
   useEffect(() => {
-    const doSetSelectedAttribute = () => {
-      const selected = theData.filter((data) => data.selected)[0];
-      if (selected && selected.fieldName) {
-        setAttribute(selected.fieldName);
-      }
-    };
-    doSetSelectedAttribute();
     doAxis();
-  }, [theData, doAxis]);
-
-  useEffect(() => {
-    const selectedData = availData.filter((data) => data.selected)[0];
-    setToUse(selectedData.data);
-    setToUseInfo(selectedData); // don't need selectedData.data too but this is easier.
-  }, [attribute, theData, availData]);
+  }, [doAxis]);
 
   const handleHover = (e, info) => {
-
     setHoverInfo(info);
 
     const xP = e.clientX + 20;
@@ -109,13 +103,10 @@ const BarChart = ({ theData, handleSelectOneCounty, selectedCountyName }) => {
 
   const localHandleSelectCounty = (county) => {
     handleSelectOneCounty(county);
-    setLocalIsSelectedCounty(county);
-  } 
+  };
 
   const renderRectangles = () => {
-
-    return toUse.map((c) => {
-      
+    return storeSections.allCountiesLatestData.map((c) => {
       const numCounties = 26;
       const barHeight = (height - margin.top - margin.bottom) / numCounties;
       const y = yScale(c.CountyName);
@@ -124,7 +115,7 @@ const BarChart = ({ theData, handleSelectOneCounty, selectedCountyName }) => {
       return (
         <g key={c.CountyName}>
           <rect
-            onClick={()=>localHandleSelectCounty(c.CountyName)}
+            onClick={() => localHandleSelectCounty(c.CountyName)}
             className={classes.barChartRect}
             onMouseEnter={(e) => handleHover(e, c[attribute])}
             onMouseLeave={(e) => handleHoverLeave(e)}
@@ -132,8 +123,11 @@ const BarChart = ({ theData, handleSelectOneCounty, selectedCountyName }) => {
             height={barHeight}
             strokeWidth="1"
             stroke="var(--white)"
-            fill={toUseInfo.color}
-            opacity={`${c.CountyName === localIsSelectedCounty ? 1 : 0.75}`}
+            fill={selectedData.color}
+            newSelectedCounty
+            opacity={`${
+              c.CountyName === storeSections.newSelectedCounty.name ? 1 : 0.75
+            }`}
             x={margin.left}
             y={y}
           ></rect>
@@ -143,7 +137,6 @@ const BarChart = ({ theData, handleSelectOneCounty, selectedCountyName }) => {
   };
   return (
     <div className={classes.svgWrap}>
- 
       {isHovered && hoverPosition.length ? (
         <div
           style={{
@@ -158,28 +151,46 @@ const BarChart = ({ theData, handleSelectOneCounty, selectedCountyName }) => {
             fontSize: '0.6rem',
           }}
         >
-          {toUseInfo.name}: {hoverInfo}
+          {selectedData.name}: {hoverInfo}
         </div>
       ) : null}
-     
+
       <button onClick={toggleLogScale}>
         {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
       </button>
-      <svg viewBox={`0 0 ${width} ${height}`} ref={svgRef}  width={width} height={height}>
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        ref={svgRef}
+        width={width}
+        height={height}
+      >
         <g
           ref={xAxisRef}
-          transform={`translate(0,${height - margin.bottom})`}
+          transform={`translate(0,${
+            dimensions.height - dimensions.margin.top
+          })`}
         ></g>
-        <g ref={yAxisRef} transform={`translate(${margin.left}, 0)`}></g>
-        {toUse && toUseInfo && toUse.length ? (
+        <g
+          ref={yAxisRef}
+          transform={`translate(${dimensions.margin.left}, 0)`}
+        ></g>
+        {/* <Axis dimensions={dimensions} xScale={xScale} yScale={yScale} />
+      <yAxisLabel
+          text={'#what'}
+          yClass={classes.yLabel}
+          height={height}
+        /> */}
+        {storeSections.allCountiesLatestData &&
+        selectedData &&
+        storeSections.allCountiesLatestData.length ? (
           <>
             <g>{renderRectangles()}</g>
           </>
         ) : null}
-
       </svg>
-        <div className={classes.xAxisDescription}>{ toUseInfo ? toUseInfo.xAxisDescription : ''}</div>
-      
+      <div className={classes.xAxisDescription}>
+        {selectedData ? selectedData.xAxisDescription : ''}
+      </div>
     </div>
   );
 };

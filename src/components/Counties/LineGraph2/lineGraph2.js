@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as d3 from 'd3';
-
 import classes from './lineGraph2.module.css';
 import Axis from './axis';
 import YAxisLabel from './yAxisLabel';
 import Line from './line';
-// import HoverRect from '../HoverRect/hoverRect';
 import { useStore } from '../../../Store/store';
 
 const margin = {
@@ -17,10 +15,20 @@ const margin = {
 const width = 800;
 const height = 600;
 
+const dimensions = {
+  margin: {
+    left: 50,
+    right: 50,
+    top: 50,
+    bottom: 50,
+  },
+  width: 800,
+  height: 600,
+};
+
 const LineGraph2 = ({ handleSelectCounty }) => {
 
-  // const testDispatch = useStore()[1];
-  const sections = useStore()[0].sections[0];
+  const storeSections = useStore()[0].sections[0];
 
   const svgRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -32,7 +40,7 @@ const LineGraph2 = ({ handleSelectCounty }) => {
   // always run, this could be more efficient
   useEffect(() => {
     const findSelectedAttribute = () => {
-      const selected = sections.avail.filter((d) => d.selected)[0];
+      const selected = storeSections.avail.filter((d) => d.selected)[0];
       return selected;
     };
     const newSelected = findSelectedAttribute();
@@ -40,9 +48,9 @@ const LineGraph2 = ({ handleSelectCounty }) => {
     setSelectedAttributeName(newSelected.name);
   });
 
-  // const useForXExtent = sections.allData[0];
-  const useForXExtent = sections.allCounties[0].stats;
-  
+
+  const useForXExtent = storeSections.allCounties[0].stats;
+
   const xExtent = d3.extent(useForXExtent, (d) => d.TimeStampDate);
   const xScale = d3
     .scaleTime()
@@ -92,8 +100,8 @@ const LineGraph2 = ({ handleSelectCounty }) => {
           {hoverInfo}
         </div>
       ) : null}
- 
-        <h3 style={{textAlign: 'center'}}>{selectedAttributeName} by County</h3>
+
+      <h3 style={{ textAlign: 'center' }}>{selectedAttributeName} by County</h3>
 
       <svg
         style={{ maxWidth: '100%' }}
@@ -102,14 +110,14 @@ const LineGraph2 = ({ handleSelectCounty }) => {
         width={width}
         height={height}
       >
-        <Axis xExt={xExtent} />
+        <Axis dimensions={dimensions} xScale={xScale} yScale={yScale} />
         <YAxisLabel
           text={'#cases (log scale)'}
           yClass={classes.yLabel}
           height={height}
         />
-         {sections && sections.allCounties.length
-          ? sections.allCounties.map((graphData, i) => (
+        {storeSections && storeSections.allCounties.length
+          ? storeSections.allCounties.map((graphData, i) => (
               <Line
                 graphData={graphData}
                 i={i}
@@ -124,22 +132,7 @@ const LineGraph2 = ({ handleSelectCounty }) => {
               />
             ))
           : null}
-        {/* {sections && sections.allData.length
-          ? sections.allData.map((graphData, i) => (
-              <Line
-                graphData={graphData}
-                i={i}
-                key={i}
-                handleHover={handleHover}
-                handleHoverLeave={handleHoverLeave}
-                xScale={xScale}
-                yScale={yScale}
-                colorScale={colorScale}
-                selectedAttribute={selectedAttribute}
-                handleSelectCounty={handleSelectCounty}
-              />
-            ))
-          : null} */}
+
       </svg>
     </div>
   );

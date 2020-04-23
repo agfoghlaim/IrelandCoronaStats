@@ -1,0 +1,19 @@
+.countiesTinyBtnGroupWrap {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  border-radius: 0.4rem;
+  grid-template-columns: repeat(auto-fit, minmax(4rem, 1fr));
+  grid-gap: 0.25rem;
+}
+.countiesTinyBtnGroupWrap button {
+  background: var(--blue);
+  border: none;
+  height: 2rem;
+  padding: 0.1rem 0.2rem;
+  border-radius: 0.4rem;
+  color: var(--white);
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  outline-color: var(--purple);
+}
