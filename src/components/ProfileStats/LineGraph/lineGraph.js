@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import classes from './lineGraph.module.css';
-import HoverRect from '../HoverRect/hoverRect';
+// import HoverRect from '../HoverRectangles/hoverRect';
+import Lines from './lines';
+import Circles from './circles';
+import HoverRectangles from '../HoverRectangles/hoverRectangles';
 
 const margin = {
   left: 50,
@@ -13,7 +16,7 @@ const width = 800;
 const height = 600;
 
 const LineGraph = ({ theData, handleTextBox, section }) => {
-  console.log(theData)
+
   const [data, setData] = useState(theData);
 
   const svgRef = useRef(null);
@@ -67,36 +70,15 @@ const LineGraph = ({ theData, handleTextBox, section }) => {
     doAxis();
   }, [theData, data, yScale, xScale, yAxis, xAxis, xTickWidth, yTickWidth]);
 
-  const doCircles = (graphData) => {
-    return graphData.data.length && graphData.selected
-      ? graphData.data.map((attr, i) => {
-          const y = yScale(attr.attributes[graphData.fieldName]);
-          // const x = xScale(attr.attributes.StatisticsProfileDate);
-          const x = xScale(attr.attributes[graphData.xAxisAttribute]);
-
-          return x && y ? (
-            <circle
-              key={`${graphData.fieldName}-${i}`}
-              className={classes.lineGraphCircle}
-              onClick={() =>
-                handleTextBox(attr, graphData.fieldName, graphData)
-              }
-              onMouseEnter={(e) => handleHover(e, attr, graphData)}
-              onMouseLeave={(e) => handleHoverLeave(e)}
-              cx={x}
-              cy={y}
-              r="0.4rem"
-              fill={graphData.color}
-            ></circle>
-          ) : null;
-        })
-      : null;
-  };
-
   const handleHoverDate = (e, info) => {
-
+    // daily data date attr is 'Date'
+    // statistics profile data date attr is 'StatisticsProfileDate'
+    let dateFieldName = 'StatisticsProfileDate';
+    if(!info.attributes[dateFieldName]){
+      dateFieldName = 'Date';
+    }
     setHoverInfo(
-      new Date(info.attributes.StatisticsProfileDate)
+      new Date(info.attributes[dateFieldName])
         .toString()
         .substring(0, 10)
     );
@@ -107,77 +89,23 @@ const LineGraph = ({ theData, handleTextBox, section }) => {
     setHoverPosition([xP, yP]);
     setIsHovered(true);
   };
+
   const handleHoverLeaveDate = () => {
     setIsHovered(false);
   };
+
   const handleHover = (e, info, attr) => {
-    // console.log(info,attr)
-    setHoverInfo(
-      `${attr.name}: ${info.attributes[attr.fieldName]}`
-    );
+    setHoverInfo(`${attr.name}: ${info.attributes[attr.fieldName]}`);
     setHoverColor(attr.color);
-    // setHoverInfo(
-    //   new Date(info.attributes.StatisticsProfileDate)
-    //     .toString()
-    //     .substring(0, 10)
-    // );
 
     const xP = e.clientX + 20;
     const yP = e.clientY - 10;
     setHoverPosition([xP, yP]);
     setIsHovered(true);
   };
+
   const handleHoverLeave = () => {
     setIsHovered(false);
-  };
-
-  const doHoverLines2 = () => {
-    const graphData = data[0]; // do once
-    return graphData.data.length && graphData.selected
-      ? graphData.data.map((attr, i) => {
-
-          const y1 = 0;
-          const graphWidth = width - margin.left - margin.right;
-          const rectWidth = graphWidth / graphData.data.length;
-          const x = xScale(attr.attributes[graphData.xAxisAttribute]);
-          const xOffset = x - rectWidth / 2;
-          const rect = {
-            x: x,
-            y:margin.top,
-            graphWidth,
-            rectWidth,
-            height: height-margin.bottom,
-            xOffset,
-            key: `${graphData.fieldName}-${i}`
-
-          }
-          return x ? (
-            <HoverRect rect={rect} attr={attr} graphData={graphData} handleHoverLeaveDate={handleHoverLeaveDate} handleHoverDate={handleHoverDate} />
-          ) : null;
-        })
-      : null;
-  };
-  const doLine = () => {
-    return data.map((graphData) => {
-      if (graphData.data.length && graphData.selected) {
-        const line = d3
-          .line()
-          // .x((d) => xScale(d.attributes.StatisticsProfileDate))
-          .x((d) => xScale(d.attributes[graphData.xAxisAttribute]))
-          .y((d) => yScale(d.attributes[graphData.fieldName]));
-
-        const path = line(graphData.data);
-        return (
-          <path
-            key={graphData.fieldName}
-            d={path}
-            fill="none"
-            stroke={graphData.color}
-            strokeWidth="2px"
-          ></path>
-        );
-      }
-    });
   };
 
   return (
@@ -190,7 +118,7 @@ const LineGraph = ({ theData, handleTextBox, section }) => {
             left: `${hoverPosition[0]}px`,
             top: `${hoverPosition[1]}px`,
             background: `${hoverColor}`,
-             color: 'var(--white)',
+            color: 'var(--white)',
             padding: '0.5rem 1rem',
             borderRadius: '0.4rem',
             fontSize: '0.6rem',
@@ -212,15 +140,30 @@ const LineGraph = ({ theData, handleTextBox, section }) => {
           #cases (log scale)
         </text>
 
-        {doLine()}
+        <Lines data={data} xScale={xScale} yScale={yScale} />
 
-        {/* {data.map((graph) => {
-          return doHoverLines(graph);
-        })}  */}
-        {data && data.length && data[0].selected ? doHoverLines2() : null}
-        {data.map((graph) => {
-          return doCircles(graph);
-        })}
+        {data && data.length && data[0].selected ? (
+          <HoverRectangles
+            graphData={data[0]}
+            width={width}
+            height={height}
+            margin={margin}
+            xScale={xScale}
+            handleHoverLeaveDate={handleHoverLeaveDate}
+            handleHoverDate={handleHoverDate}
+            handleTextBox={handleTextBox}
+          />
+        ) : null}
+
+        <Circles
+          data={data}
+          yScale={yScale}
+          xScale={xScale}
+          handleTextBox={handleTextBox}
+          handleHover={handleHover}
+          handleHoverLeave={handleHoverLeave}
+        />
+
         <g
           className={classes.lineChartXAxis}
           ref={xAxisRef}

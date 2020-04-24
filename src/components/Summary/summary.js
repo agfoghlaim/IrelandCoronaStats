@@ -18,6 +18,7 @@ const Summary = ({ stats }) => {
     if (stats.length) {
       const latestDailyStats = getLastestDailyStats(stats);
       setLatest(latestDailyStats.attributes);
+      console.log(latestDailyStats);
     }
   }, [stats]);
 
@@ -46,17 +47,55 @@ const Summary = ({ stats }) => {
           </div>
           <div className={classes.summaryInfoWrap}>
             <div className={classes.summaryBox}>
-              <h3>Total Confirmed Cases</h3>
-              <p>
+              <h3>
                 {latest.TotalConfirmedCovidCases} (+
                 {latest.ConfirmedCovidCases})
-              </p>
+              </h3>
+              <h4>Total Confirmed Cases</h4>
+              <p><p>
+                (
+                {new Date(latest.Date)
+                  .toString()
+                  .substring(0, 15)}
+                )
+              </p></p>
             </div>
             <div className={classes.summaryBox}>
-              <h3>Total Deaths</h3>
-              <p>
+              <h3>
+                {' '}
                 {latest.TotalCovidDeaths} (+
                 {latest.ConfirmedCovidDeaths})
+              </h3>
+              <h4>Total Deaths</h4>
+              <p><p>
+                (
+                {new Date(latest.Date)
+                  .toString()
+                  .substring(0, 15)}
+                )
+              </p></p>
+            </div>
+            <div className={classes.summaryBox}>
+              <h3> {latest.HospitalisedCovidCases} </h3>
+              <h4>Total Hosipialised</h4>
+              <p>
+                (
+                {new Date(latest.StatisticsProfileDate)
+                  .toString()
+                  .substring(0, 15)}
+                )
+              </p>
+            </div>
+    
+            <div className={classes.summaryBox}>
+              <h3> {latest.RequiringICUCovidCases} </h3>
+              <h4>Total Requiring ICU</h4>
+              <p>
+                (
+                {new Date(latest.StatisticsProfileDate)
+                  .toString()
+                  .substring(0, 15)}
+                )
               </p>
             </div>
           </div>

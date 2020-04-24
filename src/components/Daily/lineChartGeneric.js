@@ -156,7 +156,8 @@ const LineChartGeneric = ({ dataToShow }) => {
       .line()
       .x((d) => xScale(d.date))
       .y((d) => yScale(d[selectedAttribute]))
-    .curve(d3.curveStep);
+      .curve(d3.curveMonotoneX)
+    // .curve(d3.curveStep);
 
     const path = line(data);
     return (

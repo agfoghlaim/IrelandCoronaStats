@@ -51,13 +51,3 @@
   
 }
 
-.lineGraphCircle {
-  cursor: pointer;
-  transition: all 0s ease-out;
-  z-index: 11;
-}
-
-.lineGraphCircle:hover {
-  stroke: var(--blue);
-  stroke-width: 0.5rem;
-}

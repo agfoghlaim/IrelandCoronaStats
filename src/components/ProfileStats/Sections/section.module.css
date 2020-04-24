@@ -21,6 +21,16 @@
   width: 100%;
 }
 
+.sectionHeader p {
+  color: var(--white);
+  /* text-align: center; */
+  padding: 1rem;
+  width: 100%;
+  font-weight: normal;
+  font-size: 0.8rem;
+}
+
+
 .profileStatsGraphMain {
   min-width: 0;
   display: grid;

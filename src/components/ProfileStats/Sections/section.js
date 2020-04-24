@@ -92,7 +92,7 @@ const Section = ({ section }) => {
   }, [sectionAvail, shouldUpdate, isError, isLoading]);
 
   const handleTextBox = (data, selectedAttribute) => {
-    // console.log(data, selectedAttribute )
+    console.log(data, selectedAttribute )
     if (!data || !selectedAttribute) return;
     setTinyTextData(data);
     setTinyTextAttr(selectedAttribute);
@@ -162,25 +162,9 @@ const Section = ({ section }) => {
           <div className={classes.profileStatsGraphLeft}>
             <div className={classes.sectionHeader}>
               <h3>{section.sectionName}</h3>
+              <p>{section.description}</p>
             </div>
 
-            {/* {tinyTextAttr && tinyTextData ? (
-            <GraphTinyTextBox
-              data={tinyTextData}
-              attributeForBoxTitle={tinyTextAttr}
-              attributeForDate={sectionAvail.xAxisAttribute}
-              temp_theData={sectionAvail}
-              temp_section={sectionData}
-            />
-          ) : (
-            <div
-              style={{
-                background: 'var(--white)',
-                borderRadius: '0.4rem',
-                height: '8rem',
-              }}
-            ></div>
-          )} */}
             {tinyTextAttr && tinyTextData ? (
               <TextBox
                 avail={sectionAvail}

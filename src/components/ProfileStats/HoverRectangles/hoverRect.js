@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const HoverRect = ( {rect, graphData, attr, handleHoverDate, handleHoverLeaveDate}) => {
+const HoverRect = ( {rect, graphData, attr, handleHoverDate, handleHoverLeaveDate, handleTextBox}) => {
   const [isHovered, setIsHovered] = useState(false);
   const localHandleHover = (e) => {
     setIsHovered(true);
@@ -22,9 +22,12 @@ const HoverRect = ( {rect, graphData, attr, handleHoverDate, handleHoverLeaveDat
       width={rect.rectWidth}
       height={rect.height}
       fill="var(--lightBlack)"
-      style={{transition: 'all 0.005s linear'}}
+      style={{transition: 'all 0.005s linear', cursor:'pointer'}}
       // opacity="0.1"
       opacity={`${isHovered ? '0.2' : '0'}`}
+      onClick={() =>
+        handleTextBox(attr, graphData.fieldName, graphData)
+      }
     />
   );
 };

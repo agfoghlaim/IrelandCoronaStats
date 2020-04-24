@@ -7,6 +7,7 @@ const sections = [
   {
     name: 'transmissionType',
     sectionName: 'Transmission Type',
+    description: 'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center. New data is released each evening and dates back to 12am two days previously.',
     allUrl: `StatisticsProfileDate,CommunityTransmission,UnderInvestigation,CloseContact,CovidCasesConfirmed,TravelAbroad`,
     avail: [
       {
@@ -46,7 +47,7 @@ const sections = [
         data: [],
       },
       {
-        name: 'Total Cases',
+        name: 'Analysis based on #cases',
         urlPart: `StatisticsProfileDate,CovidCasesConfirmed`,
         fieldName: 'CovidCasesConfirmed',
         xAxisAttribute: 'StatisticsProfileDate',
@@ -59,6 +60,7 @@ const sections = [
   {
     name: 'hospitalisations',
     sectionName: 'Hospitalisations',
+    description: 'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
     avail: [
       {
         name: 'Hospitalised',
@@ -80,7 +82,7 @@ const sections = [
       },
 
       {
-        name: 'Total Cases',
+        name: 'Analysis based on #cases',
         urlPart: `StatisticsProfileDate,CovidCasesConfirmed`,
         fieldName: 'CovidCasesConfirmed',
         xAxisAttribute: 'StatisticsProfileDate',
@@ -93,6 +95,7 @@ const sections = [
   {
     name: 'genderProfile',
     sectionName: 'Gender Profiles',
+    description: 'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
     avail: [
       {
         name: 'Female',
@@ -122,7 +125,7 @@ const sections = [
         data: [],
       },
       {
-        name: 'Total Cases',
+        name: 'Analysis based on #cases',
         urlPart: `StatisticsProfileDate,CovidCasesConfirmed`,
         fieldName: 'CovidCasesConfirmed',
         xAxisAttribute: 'StatisticsProfileDate',
@@ -135,6 +138,7 @@ const sections = [
   {
     name: 'ageProfiles',
     sectionName: 'Age Profiles',
+    description: 'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
     avail: [
       {
         name: 'Aged 65 and up',
@@ -218,7 +222,7 @@ const sections = [
         data: [],
       },
       {
-        name: 'Total Cases',
+        name: 'Analysis based on #cases',
         urlPart: `StatisticsProfileDate,CovidCasesConfirmed`,
         fieldName: 'CovidCasesConfirmed',
         xAxisAttribute: 'StatisticsProfileDate',
@@ -229,8 +233,9 @@ const sections = [
     ],
   },
   {
-    name: 'dailyTest',
+    name: 'dailyData',
     sectionName: 'Daily Data',
+    description: 'This data is part of a Daily Statistic of Covid-19 made available by the Health Protection Surveillance Center. Daily Statistics are updated each evening, with the latest record reporting the counts recorded at 1pm the same day.',
     avail: [
       {
         name: 'Daily Cases',
