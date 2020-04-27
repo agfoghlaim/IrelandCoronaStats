@@ -18,7 +18,7 @@ const Summary = ({ stats }) => {
     if (stats.length) {
       const latestDailyStats = getLastestDailyStats(stats);
       setLatest(latestDailyStats.attributes);
-      console.log(latestDailyStats);
+   
     }
   }, [stats]);
 

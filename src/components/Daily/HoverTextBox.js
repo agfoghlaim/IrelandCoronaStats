@@ -5,7 +5,7 @@ import classes from './dailyText.module.css';
 // handle nulls for %change
 // css fix height of text box
 const HoverTextBox = ({ todaysData, show }) => {
-console.log("Daily: ", todaysData, show)
+
   const RightSpan = ({ text }) => {
     return <span className={classes.rightSpan}>{`${text}`}</span>;
   };

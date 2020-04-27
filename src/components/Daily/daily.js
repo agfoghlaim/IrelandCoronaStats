@@ -5,7 +5,11 @@ import LineChartGeneric from './lineChartGeneric';
 import Summary from '../Summary/summary';
 import ErrorComp from '../../UI/error';
 import ExtraInfo from './ExtraInfo/extraInfo';
+// import DailyAlt from '../DailyAlt/dailyAlt';
+import Daily2 from '../Daily2/daily2';
+// import configureDailyStore from '../DailyAlt/dailyAlt-store';
 
+// configureDailyStore();
 // TODO - check state, not all needed and badly named... dailyPercentageChange sent as data to graph
 // %change / %change5days will be reusable
 // uri with data that's being updated
@@ -39,7 +43,7 @@ const Daily = () => {
           5,
           'fiveDayAverage'
         );
-        console.log(fiveDayAverage);
+
         setFiveDayAverageChange(fiveDayAverage);
 
         setIsLoading(false);
@@ -88,7 +92,7 @@ const Daily = () => {
         }
         return d;
       });
-      console.log('ans=', ans);
+    
       return ans;
     };
 
@@ -96,7 +100,7 @@ const Daily = () => {
       (data, fn) => fn(data),
       data
     );
-    console.log(ans);
+  
     return ans;
   };
 
@@ -169,7 +173,10 @@ const Daily = () => {
       {isLoading ? 'Loading' : null}
       {daily && daily.length && dailyPercentageChange.length && !isLoading ? (
         <>
+          <Daily2 />
+          {/* <DailyAlt /> */}
           <Summary stats={daily} />
+          
           <LineChartGeneric
             dailyData={daily}
             dataToShow={dailyPercentageChange}

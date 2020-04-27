@@ -20,7 +20,7 @@ const { margin, width, height } = dimensions;
 
 const BarChart = ({ handleSelectOneCounty }) => {
   const storeSections = useStore()[0].sections[0];
-  console.log('Store', storeSections);
+
 
   const attribute = storeSections.selectedAttributeName;
   const selectedData = storeSections.avail.filter((data) => data.selected)[0];

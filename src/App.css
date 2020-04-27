@@ -25,6 +25,14 @@ html {
   box-sizing: inherit;
 }
 
+/*
+  see Daily2 component, axis.js
+  NOTE 725px is related to width of graph defined in js
+*/
+.dodgyTransformClutterLogScaleLabels {
+  transform: translateX(730px);
+}
+
 body {
   background: var(--black);
   /* background: linear-gradient(110deg, var(--black), #4c4a4a); */

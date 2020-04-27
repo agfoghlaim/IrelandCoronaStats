@@ -4,9 +4,12 @@ import LineGraph2 from '../LineGraph2/lineGraph2';
 import TextBox from '../TextBox/textBox';
 import AttributeBtns from '../SectionsUI/AttributeBtns/attributeBtns';
 import CountyBts from '../SectionsUI/CountyBtns/countyBtns';
-import SectionWrap from '../SectionsUI/SectionWrap/sectionWrap';
-import SectionSide from '../SectionsUI/SectionSide/sectionSide';
-import SectionMain from '../SectionsUI/SectionMain/sectionMain';
+// import SectionWrap from '../SectionsUI/SectionWrap/sectionWrap';
+// import SectionSide from '../SectionsUI/SectionSide/sectionSide';
+// import SectionMain from '../SectionsUI/SectionMain/sectionMain';
+import SectionWrap from '../../../UI/Sections/SectionWrap/sectionWrap';
+import SectionSide from '../../../UI/Sections/SectionSide/sectionSide';
+import SectionMain from '../../../UI/Sections/SectionMain/sectionMain';
 import { useStore } from '../../../Store/store';
 
 const LineGraphSection = () => {

@@ -3,7 +3,7 @@ import classes from './sectionWrap.module.css';
 // import SectionSide from '../SectionSide/sectionSide';
 
 
-const SectionWrap = ({ title, subtitle, children }) => (
+const SectionWrap = ({ children }) => (
   <div className={classes.sectionWrap}>
     {children}
   </div>

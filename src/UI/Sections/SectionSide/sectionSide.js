@@ -1,14 +1,15 @@
 import React from 'react';
 import classes from './sectionSide.module.css';
 
-const SectionSide = ({title, subtitle, children}) => {
+const SectionSide = ({title, subtitle, description, children}) => {
   return(
     <div className={classes.sectionSideWrap}>
       <div className={classes.sectionHeader}>
         <h3>
-          Title - {title} <br />
-          <small>- counties subtitle {subtitle} </small>
+          {title} <br />
+          <small>{subtitle} </small>
         </h3>
+        <p>{description}</p>
       </div>
       {children}
     </div>

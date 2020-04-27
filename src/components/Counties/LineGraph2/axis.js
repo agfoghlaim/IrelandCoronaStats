@@ -9,7 +9,7 @@ const Axis = ({ dimensions, xScale, yScale }) => {
   // useEffect(() => {
   //   setXExtent(xExt);
   // }, []);
-
+  // console.log("GOOD ", dimensions, xScale, yScale);
   const xAxisRef = useRef(null);
   const yAxisRef = useRef(null);
   const xAxis = d3.axisBottom();

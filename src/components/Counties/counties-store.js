@@ -25,6 +25,7 @@ const sortIntoArraysByCounty = (data, field = 'CountyName') => {
   return newData;
 };
 
+// Shared with dailyAlt-store
 const removeFromNestedAttributes = (data) => {
   return data.map((d) => {
     let obj = {};
@@ -34,6 +35,16 @@ const removeFromNestedAttributes = (data) => {
     return obj;
   });
 };
+
+// const removeFromNestedField = (data, field) => {
+//   return data.map((d) => {
+//     let obj = {};
+//     for (const key in d[field]) {
+//       obj[key] = d[field][key];
+//     }
+//     return obj;
+//   });
+// };
 
 const getLatestForCounty = (county) => {
   const dates = county.stats.map((s) => s.TimeStampDate);
@@ -72,6 +83,7 @@ const createManagableObjectAndSetFirstCountyToSelected = (n, i) => {
 const configureStore = () => {
   const actions = {
     SET_ALL_DATA: (curState, response) => {
+      console.log("counties-store")
       const copy = curState.sections;
       const allCounties = doTediousStuff(response);
       copy[0].allCounties = allCounties;
