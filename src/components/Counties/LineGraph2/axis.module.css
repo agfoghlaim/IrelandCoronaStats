@@ -1,0 +1,17 @@
+.axisGroupX path {
+  stroke: none;
+}
+.tick {
+  transform: translateX(-10px);
+}
+svg > .axisGroupY > g > text {
+  transform: translateX(-0.5rem);
+}
+svg > .axisGroupX > g > text {
+  transform: translate(-0.5rem, 1.6rem) rotate(-90deg);
+}
+
+.axisGroupY :nth-child(1) {
+  stroke: var(--lightBlack);
+  stroke-linejoin: round;
+}

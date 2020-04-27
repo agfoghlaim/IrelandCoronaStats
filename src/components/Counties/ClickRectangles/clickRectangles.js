@@ -1,20 +1,24 @@
 import React from 'react';
-import * as d3 from 'd3';
-import HoverRect from './hoverRect';
+import ClickRect from './clickRect';
 
-const HoverRectangles = ({graphData, width, height, margin, xScale, handleHoverDate, xAxisAttr, handleHoverLeaveDate, handleTextBox}) => {
-  // const graphData = data[0]; // do once
-  // console.log(graphData)
+const ClickRectangles = ({graphData, dimensions, xScale, handleHoverDate, handleHoverLeaveDate, handleTextBox, handleSelectDate, selectedDate}) => {
+
+
+  const {margin, width, height} = dimensions;
+
     return graphData.length 
-      ? graphData.map((attr, i) => {
+      ? graphData.map((date, i) => {
+      
           const graphWidth = width - margin.left - margin.right;
           const rectWidth = graphWidth / graphData.length;
-          const x = xScale(attr[xAxisAttr]);
-          // console.log(attr, graphData)
+          const x = xScale(date);
           const xOffset = x - rectWidth / 2;
           const rect = {
             x: x,
-            y: margin.top,
+            //  y: margin.top,
+            y:  height - margin.bottom +1,
+            y2: margin.top,
+            y2Height: height - margin.bottom - margin.top,
             graphWidth,
             rectWidth,
             height: height - margin.bottom,
@@ -22,18 +26,18 @@ const HoverRectangles = ({graphData, width, height, margin, xScale, handleHoverD
             key: `${graphData.fieldName}-${i}`,
           };
           return x ? (
-            <HoverRect
+            <ClickRect
               rect={rect}
-              attr={attr}
-              
-              graphData={graphData}
+              date={date}
+              selected={date === selectedDate}
               handleHoverLeaveDate={handleHoverLeaveDate}
               handleHoverDate={handleHoverDate}
               handleTextBox={handleTextBox}
+              handleSelectDate={handleSelectDate}
             />
           ) : null;
         })
       : null;
 }
 
-export default HoverRectangles;
+export default ClickRectangles;

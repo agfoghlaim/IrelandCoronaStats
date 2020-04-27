@@ -1,19 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import classes from './lineGraph2.module.css';
 import Axis from './axis';
 import YAxisLabel from './yAxisLabel';
 import Line from './line';
 import { useStore } from '../../../Store/store';
-
-const margin = {
-  left: 50,
-  right: 50,
-  top: 50,
-  bottom: 50,
-};
-const width = 800;
-const height = 600;
+import ClickRectangles from '../ClickRectangles/clickRectangles';
 
 const dimensions = {
   margin: {
@@ -25,18 +17,23 @@ const dimensions = {
   width: 800,
   height: 600,
 };
+const { margin, width, height } = dimensions;
 
-const LineGraph2 = ({ handleSelectCounty }) => {
-
+const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
   const storeSections = useStore()[0].sections[0];
 
   const svgRef = useRef(null);
+
   const [isHovered, setIsHovered] = useState(false);
   const [hoverInfo, setHoverInfo] = useState();
   const [hoverColor, setHoverColor] = useState();
   const [hoverPosition, setHoverPosition] = useState([]);
   const [selectedAttribute, setSelectedAttribute] = useState('');
   const [selectedAttributeName, setSelectedAttributeName] = useState('');
+
+  const [dateIsHovered, setIsHoveredDate] = useState(false);
+  const [hoverInfoDate, setHoverInfoDate] = useState('');
+
   // always run, this could be more efficient
   useEffect(() => {
     const findSelectedAttribute = () => {
@@ -47,7 +44,6 @@ const LineGraph2 = ({ handleSelectCounty }) => {
     setSelectedAttribute(newSelected.fieldName);
     setSelectedAttributeName(newSelected.name);
   });
-
 
   const useForXExtent = storeSections.allCounties[0].stats;
 
@@ -77,8 +73,23 @@ const LineGraph2 = ({ handleSelectCounty }) => {
     setHoverPosition([xP, yP]);
     setIsHovered(true);
   };
+
   const handleHoverLeave = (e) => {
     setIsHovered(false);
+  };
+
+  const handleHoverDate = (e, date) => {
+    setHoverInfoDate(new Date(date).toString().substring(0, 10));
+    setHoverColor('var(--lightBlack)');
+    const xP = e.clientX + 20;
+    const yP = e.clientY - 10;
+    setHoverPosition([xP, yP]); // can reuse?
+    setIsHoveredDate(true);
+  };
+
+  const handleHoverLeaveDate = () => {
+    // console.log('rect not hovered');
+    // setIsHovered(false);
   };
 
   return (
@@ -97,7 +108,7 @@ const LineGraph2 = ({ handleSelectCounty }) => {
             fontSize: '0.6rem',
           }}
         >
-          {hoverInfo}
+          {hoverInfo || hoverInfoDate}
         </div>
       ) : null}
 
@@ -116,23 +127,38 @@ const LineGraph2 = ({ handleSelectCounty }) => {
           yClass={classes.yLabel}
           height={height}
         />
+        {storeSections && storeSections.allCountiesLatestData.length ? (
+          <ClickRectangles
+            graphData={storeSections.allCounties[0].stats.map(
+              (county) => county.TimeStampDate
+            )}
+            dimensions={dimensions}
+            xScale={xScale}
+            xAxisAttr={storeSections.dateFieldName}
+            handleHoverLeaveDate={handleHoverLeaveDate}
+            handleHoverDate={handleHoverDate}
+            handleSelectDate={handleSelectDate}
+            selectedDate={storeSections.selectedDate}
+          />
+        ) : null}
         {storeSections && storeSections.allCounties.length
           ? storeSections.allCounties.map((graphData, i) => (
-              <Line
-                graphData={graphData}
-                i={i}
-                key={i}
-                handleHover={handleHover}
-                handleHoverLeave={handleHoverLeave}
-                xScale={xScale}
-                yScale={yScale}
-                colorScale={colorScale}
-                selectedAttribute={selectedAttribute}
-                handleSelectCounty={handleSelectCounty}
-              />
+              <>
+                <Line
+                  graphData={graphData}
+                  i={i}
+                  key={i}
+                  handleHover={handleHover}
+                  handleHoverLeave={handleHoverLeave}
+                  xScale={xScale}
+                  yScale={yScale}
+                  colorScale={colorScale}
+                  selectedAttribute={selectedAttribute}
+                  handleSelectCounty={handleSelectCounty}
+                />
+              </>
             ))
           : null}
-
       </svg>
     </div>
   );

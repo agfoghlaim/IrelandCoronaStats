@@ -21,6 +21,7 @@ const { margin, width, height } = dimensions;
 const LineGraphDaily2 = ({ handleSelectCounty, graphData, graphId }) => {
   const dispatch = useStore(false)[1];
   const dailyData = useStore()[0].daily2;
+
   const daily = dailyData.filter((d) => d.id === graphId)[0]; //should be called graph
 
   const [selectLogScale, setSelectLogScale] = useState(true);
@@ -195,12 +196,12 @@ const LineGraphDaily2 = ({ handleSelectCounty, graphData, graphId }) => {
             />
 
             <HoverRectangles
-              graphData={{ data: daily.all, selected: true }}
+              graphData={daily.all}
               width={width}
               height={height}
               margin={margin}
               xScale={getXScale()}
-              xAxisAttr="Date"
+              xAxisAttr={daily.xAxisAttribute}// todo
               handleHoverLeaveDate={handleHoverLeaveDate}
               handleHoverDate={handleHoverDate}
               handleTextBox={handleTextBox}

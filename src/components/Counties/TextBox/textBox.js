@@ -6,8 +6,8 @@ const TextBox = () => {
 
   const storeSections = useStore()[0].sections[0]
   const selectedCountyLatestData = storeSections.selectedCountyLatestData;
-
-
+// console.log(selectedCountyLatestData)
+  const whateverTheyCalledDateThisTime = storeSections.dateFieldName;
   const RightSpan = ({ text, fieldName }) => {
     let color = 'var(--blue)';
  
@@ -24,7 +24,7 @@ const TextBox = () => {
         <h3>
           {selectedCountyLatestData.CountyName} <br />
           <span className={classes.small}>
-            Updated: {new Date(selectedCountyLatestData.TimeStamp).toLocaleString()}
+            Updated: {new Date(selectedCountyLatestData[whateverTheyCalledDateThisTime]).toLocaleString()}
           </span>
         </h3>
       </div>

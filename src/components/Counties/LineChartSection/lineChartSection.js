@@ -4,9 +4,7 @@ import LineGraph2 from '../LineGraph2/lineGraph2';
 import TextBox from '../TextBox/textBox';
 import AttributeBtns from '../SectionsUI/AttributeBtns/attributeBtns';
 import CountyBts from '../SectionsUI/CountyBtns/countyBtns';
-// import SectionWrap from '../SectionsUI/SectionWrap/sectionWrap';
-// import SectionSide from '../SectionsUI/SectionSide/sectionSide';
-// import SectionMain from '../SectionsUI/SectionMain/sectionMain';
+
 import SectionWrap from '../../../UI/Sections/SectionWrap/sectionWrap';
 import SectionSide from '../../../UI/Sections/SectionSide/sectionSide';
 import SectionMain from '../../../UI/Sections/SectionMain/sectionMain';
@@ -27,6 +25,11 @@ const LineGraphSection = () => {
     testDispatch('SELECT_COUNTY', name);
   };
 
+  // click on ClickRectangle
+  const handleSelectDate =(date) => {
+    testDispatch('SELECT_DATE', date);
+  }
+
   return (
 
     <SectionWrap>
@@ -46,7 +49,7 @@ const LineGraphSection = () => {
 
       <SectionMain>
         {storeSections && storeSections.allCounties.length ? (
-          <LineGraph2 handleSelectCounty={handleSelectCounty} />
+          <LineGraph2 handleSelectCounty={handleSelectCounty} handleSelectDate={handleSelectDate}  />
         ) : null}
       </SectionMain>
     </SectionWrap>
