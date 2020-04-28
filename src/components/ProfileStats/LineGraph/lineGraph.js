@@ -15,8 +15,7 @@ const margin = {
 const width = 800;
 const height = 600;
 
-const LineGraph = ({ theData, handleTextBox, section }) => {
-
+const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
   const [data, setData] = useState(theData);
 
   const svgRef = useRef(null);
@@ -61,7 +60,8 @@ const LineGraph = ({ theData, handleTextBox, section }) => {
     const doAxis = (xS, yS) => {
       const xRef = d3.select(xAxisRef.current);
       const yRef = d3.select(yAxisRef.current);
-      xAxis.scale(xScale).ticks(d3.timeDay.every(1));
+      // xAxis.scale(xScale).ticks(d3.timeDay.every(1));
+      xAxis.scale(xScale).ticks(d3.timeDay.every(2));
       yAxis.scale(yScale).ticks(20, ',.1s');
       xRef.call(xAxis.tickSize(xTickWidth));
       yRef.attr('className', 'what').call(yAxis.tickSize(yTickWidth));
@@ -74,13 +74,11 @@ const LineGraph = ({ theData, handleTextBox, section }) => {
     // daily data date attr is 'Date'
     // statistics profile data date attr is 'StatisticsProfileDate'
     let dateFieldName = 'StatisticsProfileDate';
-    if(!info.attributes[dateFieldName]){
+    if (!info.attributes[dateFieldName]) {
       dateFieldName = 'Date';
     }
     setHoverInfo(
-      new Date(info.attributes[dateFieldName])
-        .toString()
-        .substring(0, 10)
+      new Date(info.attributes[dateFieldName]).toString().substring(0, 10)
     );
     setHoverColor('var(--lightBlack)');
 
@@ -130,15 +128,19 @@ const LineGraph = ({ theData, handleTextBox, section }) => {
 
       {/* <h4>Something</h4> */}
       <svg ref={svgRef} viewBox="0 0 800 600" width={width} height={height}>
-        <text
-          fill="var(--black)"
-          x={-Math.abs(height / 2 + 100)}
-          y="20"
-          style={{ transform: 'rotate(-90deg)' }}
-          className={classes.yLabel}
-        >
-          #cases (log scale)
-        </text>
+
+        {yAxisLabel ? (
+              <text
+              fill="var(--black)"
+              x={-Math.abs(height / 2 + 110)}
+              y="10"
+              style={{ transform: 'rotate(-90deg)', fontSize: '0.8rem' }}
+             
+            >
+              {yAxisLabel}
+            </text>
+        ) : null}
+    
 
         <Lines data={data} xScale={xScale} yScale={yScale} />
 

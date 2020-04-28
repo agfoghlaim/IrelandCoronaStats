@@ -99,13 +99,14 @@ const Section = ({ section }) => {
   };
 
   const renderLineGraph = () => {
-    if (!sectionAvail || !sectionAvail.length) {
+    if (!sectionAvail || !sectionAvail.length ) {
       return;
     }
     return (
       <LineGraph
         theData={sectionAvail}
-        section={sectionData}
+        // section={sectionData}
+        yAxisLabel={section.yAxisLabel}
         handleTextBox={handleTextBox}
       />
     );

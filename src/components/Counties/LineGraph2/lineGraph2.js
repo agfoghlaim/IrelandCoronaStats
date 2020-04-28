@@ -50,7 +50,7 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
     .range([margin.left, width - margin.right]);
   const yScale = d3
     .scaleLog()
-    .domain([1, 20000])
+    .domain([1, 10000000])
     .clamp(true)
     .range([height - margin.top, margin.bottom])
     .nice();
