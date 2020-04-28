@@ -31,7 +31,7 @@ const Summary = ({ stats }) => {
               Last Updated {new Date(latest.Date).toString().substring(0, 15)}
             </h2>
             <p>
-              <small>
+              
                 The graphs below are based on data from data.gov.ie, available{' '}
                 <a
                   href="https://opendata-geohive.hub.arcgis.com/datasets/d8eb52d56273413b84b0187a4e9117be_0/data?geometry=-7.694%2C53.288%2C-7.691%2C53.289"
@@ -42,14 +42,14 @@ const Summary = ({ stats }) => {
                 </a>
                 . It is updated every evening, with the latest record reporting
                 the counts recorded at 1pm the same day.
-              </small>
+            
             </p>
           </div>
           <div className={classes.summaryInfoWrap}>
             <div className={classes.summaryBox}>
               <h3>
-                {latest.TotalConfirmedCovidCases} (+
-                {latest.ConfirmedCovidCases})
+                {latest.TotalConfirmedCovidCases.toLocaleString()} <small>(+
+                {latest.ConfirmedCovidCases.toLocaleString()})</small>
               </h3>
               <h4>Total Confirmed Cases</h4>
               <p><p>
@@ -63,8 +63,8 @@ const Summary = ({ stats }) => {
             <div className={classes.summaryBox}>
               <h3>
                 {' '}
-                {latest.TotalCovidDeaths} (+
-                {latest.ConfirmedCovidDeaths})
+                {latest.TotalCovidDeaths.toLocaleString()}<small> (+
+                {latest.ConfirmedCovidDeaths.toLocaleString()})</small>
               </h3>
               <h4>Total Deaths</h4>
               <p><p>
@@ -76,7 +76,7 @@ const Summary = ({ stats }) => {
               </p></p>
             </div>
             <div className={classes.summaryBox}>
-              <h3> {latest.HospitalisedCovidCases} </h3>
+              <h3> {latest.HospitalisedCovidCases.toLocaleString()} </h3>
               <h4>Total Hosipialised</h4>
               <p>
                 (
@@ -88,7 +88,7 @@ const Summary = ({ stats }) => {
             </div>
     
             <div className={classes.summaryBox}>
-              <h3> {latest.RequiringICUCovidCases} </h3>
+              <h3> {latest.RequiringICUCovidCases.toLocaleString()} </h3>
               <h4>Total Requiring ICU</h4>
               <p>
                 (
@@ -99,6 +99,7 @@ const Summary = ({ stats }) => {
               </p>
             </div>
           </div>
+          
         </div>
       ) : (
         '  Loading...'

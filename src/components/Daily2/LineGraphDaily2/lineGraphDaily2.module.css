@@ -1,5 +1,5 @@
-.graphHeadingWrap{
+.svgWrap {
   display: grid;
-  justify-items: center;
+  justify-content: center;
   justify-items: center;
 }

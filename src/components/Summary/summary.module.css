@@ -35,3 +35,17 @@
   font-size: 0.6rem;
   margin: 0;
 }
+
+.sectionHeading{
+  /* border: 3px solid red; */
+  display: grid;
+  margin: 1rem;
+
+}
+
+.sectionHeading p{
+ font-size: 0.8rem;
+ font-weight: normal;
+
+}
+

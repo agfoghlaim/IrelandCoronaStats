@@ -173,14 +173,15 @@ const Daily = () => {
       {isLoading ? 'Loading' : null}
       {daily && daily.length && dailyPercentageChange.length && !isLoading ? (
         <>
+          <Summary stats={daily} />
           <Daily2 />
           {/* <DailyAlt /> */}
-          <Summary stats={daily} />
           
-          <LineChartGeneric
+          
+          {/* <LineChartGeneric
             dailyData={daily}
             dataToShow={dailyPercentageChange}
-          />
+          /> */}
           <ExtraInfo />
         </>
       ) : (

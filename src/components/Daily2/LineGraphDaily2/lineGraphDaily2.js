@@ -6,6 +6,7 @@ import YAxisLabel from './yAxisLabel';
 import Line from './line';
 import { useStore } from '../../../Store/store';
 import HoverRectangles from '../HoverRectangles/hoverRectangles';
+import BoringButton from '../../../UI/Buttons/boringButton';
 
 const dimensions = {
   margin: {
@@ -152,9 +153,10 @@ const LineGraphDaily2 = ({ handleSelectCounty, graphData, graphId }) => {
 
   return (
     <div className={classes.svgWrap}>
-      <button onClick={toggleLogScale}>
+      <BoringButton onClick={toggleLogScale} config={{minWidth:'8rem'}}>
         {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
-      </button>
+      </BoringButton>
+
       {isHovered && hoverPosition.length ? (
         <div
           style={{
@@ -178,7 +180,7 @@ const LineGraphDaily2 = ({ handleSelectCounty, graphData, graphId }) => {
         ref={svgRef}
         viewBox="0 0 800 600"
         width={width}
-        height={height}
+        // height={height}
       >
         {daily && daily.all.length ? (
           <>

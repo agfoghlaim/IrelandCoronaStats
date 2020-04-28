@@ -1,0 +1,10 @@
+.boringButtonDefaults {
+  background: 'var(--blue)';
+  border-radius: 0.4rem;
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  outline: none;
+  border: none;
+  font-weight: 700;
+  font-size: 0.6rem;
+}

@@ -144,8 +144,9 @@ const Section = ({ section }) => {
         style={{
           opacity: `${a.selected ? '0.5' : `1`}`,
           background: `${a.selected ? 'gray' : `${a.color}`}`,
-          border: `${a.selected ? `0.2rem solid ${a.color}` : `0.1rem solid `}`,
+          border: `${a.selected ? `0.1rem solid ${a.color}` : `0.1rem solid `}`,
           outline: 'none',
+         
         }}
         onClick={(e) => handleSelectData(e)}
       >

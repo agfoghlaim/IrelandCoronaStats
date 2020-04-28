@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as d3 from 'd3';
 import classes from './barChart.module.css';
 import { useStore } from '../../../Store/store';
-import XAxisLabel from '../LineGraph2/xAxisLabel'
-
+import XAxisLabel from '../LineGraph2/xAxisLabel';
+import BoringButton from '../../../UI/Buttons/boringButton';
 const dimensions = {
   margin: {
     left: 70,
@@ -150,22 +150,11 @@ const BarChart = ({ handleSelectOneCounty, handleSelectDate }) => {
         </div>
       ) : null}
 
-      <button
-        style={{
-     
-          background: 'var(--blue)',
-          borderRadius: '0.4rem',
-          color: 'var(--white)',
-          padding: '0.5rem 1rem',
-          outline: 'none',
-          border: 'none',
-          fontWeight: 700,
-          fontSize: '0.6rem'
-        }}
-        onClick={toggleLogScale}
-      >
+      <BoringButton onClick={toggleLogScale} config={{minWidth:'8rem'}}>
+        {' '}
+   
         {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
-      </button>
+      </BoringButton>
 
       <svg
         viewBox={`0 0 ${width} ${height}`}
@@ -191,14 +180,12 @@ const BarChart = ({ handleSelectOneCounty, handleSelectDate }) => {
             <g>{renderRectangles()}</g>
           </>
         ) : null}
-           <XAxisLabel
-                width={width}
-          text={ selectedData ? selectedData.xAxisDescription : ''}
-      
+        <XAxisLabel
+          width={width}
+          text={selectedData ? selectedData.xAxisDescription : ''}
           height={height}
         />
       </svg>
- 
     </div>
   );
 };

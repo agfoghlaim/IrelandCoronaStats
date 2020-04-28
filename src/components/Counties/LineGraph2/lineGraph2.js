@@ -21,7 +21,7 @@ const { margin, width, height } = dimensions;
 
 const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
   const storeSections = useStore()[0].sections[0];
-  const selectedData = storeSections.avail.filter((data) => data.selected)[0];console.log(selectedData);
+  const selectedData = storeSections.avail.filter((data) => data.selected)[0];
   const svgRef = useRef(null);
 
   const [isHovered, setIsHovered] = useState(false);

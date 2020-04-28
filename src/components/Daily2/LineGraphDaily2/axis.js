@@ -20,7 +20,7 @@ const Axis = ({ dimensions, xScale, yScale, selectLogScale }) => {
   const doAxis = () => {
     const xRef = d3.select(xAxisRef.current);
     const yRef = d3.select(yAxisRef.current);
-    xAxis.scale(xScale).ticks(d3.timeDay.every(3));
+    xAxis.scale(xScale).ticks(d3.timeDay.every(7));
     if (yScale.theType === 'LOG') {
       // appended to yScale in lineGraph
 

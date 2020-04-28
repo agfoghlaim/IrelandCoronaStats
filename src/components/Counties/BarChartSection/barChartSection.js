@@ -10,6 +10,7 @@ import SectionMain from '../../../UI/Sections/SectionMain/sectionMain';
 import SectionHeader from '../../../UI/Sections/SectionHeader/sectionHeader';
 import ClickArrows from '../ClickArrows/clickArrows';
 
+
 const BarChartSection = ({
   handleSelectOneCounty,
   handleSelectData,
