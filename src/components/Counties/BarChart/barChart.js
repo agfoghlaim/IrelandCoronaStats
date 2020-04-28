@@ -2,9 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as d3 from 'd3';
 import classes from './barChart.module.css';
 import { useStore } from '../../../Store/store';
-// import Axis from '../LineGraph2/axis';
-// // TODO yAxisLabel not working
-// import yAxisLabel from '../LineGraph2/yAxisLabel';
+import XAxisLabel from '../LineGraph2/xAxisLabel'
 
 const dimensions = {
   margin: {
@@ -13,14 +11,13 @@ const dimensions = {
     top: 60,
     bottom: 60,
   },
-  width: 800,
+  width: 1000,
   height: 800,
 };
 const { margin, width, height } = dimensions;
 
-const BarChart = ({ handleSelectOneCounty }) => {
+const BarChart = ({ handleSelectOneCounty, handleSelectDate }) => {
   const storeSections = useStore()[0].sections[0];
-
 
   const attribute = storeSections.selectedAttributeName;
   const selectedData = storeSections.avail.filter((data) => data.selected)[0];
@@ -35,7 +32,6 @@ const BarChart = ({ handleSelectOneCounty }) => {
   const xAxisRef = useRef(null);
   const yAxisRef = useRef(null);
 
-  // Graph consts
   const xExtent = d3.extent(
     storeSections.allCountiesLatestData,
     (county) => county[attribute]
@@ -77,7 +73,7 @@ const BarChart = ({ handleSelectOneCounty }) => {
   const doAxis = useCallback(() => {
     const xRef = d3.select(xAxisRef.current);
     const yRef = d3.select(yAxisRef.current);
-    // const yTickWidth = -Math.abs(width - margin.right - margin.left);
+
     const xTickWidth = -Math.abs(height - margin.top - margin.bottom);
     xAxis.scale(xScale).ticks(10, ',.1s');
     yAxis.scale(yScale);
@@ -100,7 +96,6 @@ const BarChart = ({ handleSelectOneCounty }) => {
   const handleHoverLeave = () => {
     setIsHovered(false);
   };
-
   const localHandleSelectCounty = (county) => {
     handleSelectOneCounty(county);
   };
@@ -136,7 +131,7 @@ const BarChart = ({ handleSelectOneCounty }) => {
     });
   };
   return (
-    <div className={classes.svgWrap}>
+    <div className={(classes.svgWrap, classes.barChartSvgWrap)}>
       {isHovered && hoverPosition.length ? (
         <div
           style={{
@@ -155,14 +150,28 @@ const BarChart = ({ handleSelectOneCounty }) => {
         </div>
       ) : null}
 
-      <button onClick={toggleLogScale}>
+      <button
+        style={{
+     
+          background: 'var(--blue)',
+          borderRadius: '0.4rem',
+          color: 'var(--white)',
+          padding: '0.5rem 1rem',
+          outline: 'none',
+          border: 'none',
+          fontWeight: 700,
+          fontSize: '0.6rem'
+        }}
+        onClick={toggleLogScale}
+      >
         {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
       </button>
+
       <svg
         viewBox={`0 0 ${width} ${height}`}
         ref={svgRef}
         width={width}
-        height={height}
+        // height={height}
       >
         <g
           ref={xAxisRef}
@@ -174,12 +183,7 @@ const BarChart = ({ handleSelectOneCounty }) => {
           ref={yAxisRef}
           transform={`translate(${dimensions.margin.left}, 0)`}
         ></g>
-        {/* <Axis dimensions={dimensions} xScale={xScale} yScale={yScale} />
-      <yAxisLabel
-          text={'#what'}
-          yClass={classes.yLabel}
-          height={height}
-        /> */}
+
         {storeSections.allCountiesLatestData &&
         selectedData &&
         storeSections.allCountiesLatestData.length ? (
@@ -187,10 +191,14 @@ const BarChart = ({ handleSelectOneCounty }) => {
             <g>{renderRectangles()}</g>
           </>
         ) : null}
+           <XAxisLabel
+                width={width}
+          text={ selectedData ? selectedData.xAxisDescription : ''}
+      
+          height={height}
+        />
       </svg>
-      <div className={classes.xAxisDescription}>
-        {selectedData ? selectedData.xAxisDescription : ''}
-      </div>
+ 
     </div>
   );
 };

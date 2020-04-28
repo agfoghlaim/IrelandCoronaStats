@@ -27,6 +27,7 @@
 .infoWrap h3 {
   padding:0.5rem 0;
   color: var(--white);
+  margin: 0;
 }
 .small {
   font-size: 0.7rem;

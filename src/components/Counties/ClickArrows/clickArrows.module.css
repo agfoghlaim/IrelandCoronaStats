@@ -1,0 +1,29 @@
+.clickArrowsWrap {
+  background: var(--lightBlack);
+  border-radius: 0.4rem;
+  width: 100%;
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  padding: 1rem;
+  grid-gap: 1rem;
+}
+
+.clickArrowsWrap h6 {
+  color: var(--white);
+  margin: 0;
+} 
+.clickArrows {
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.clickArrowsWrap button {
+  background: none;
+  color: var(--orange);
+  border: none;
+  font-weight: 900;
+  font-size: 0.7rem;
+  cursor: pointer;
+}

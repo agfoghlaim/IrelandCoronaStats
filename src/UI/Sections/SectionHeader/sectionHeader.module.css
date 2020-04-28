@@ -1,0 +1,28 @@
+.sectionHeader {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  min-width: 15rem;
+  align-content: center;
+}
+
+.sectionHeader h3,
+p {
+  color: var(--white);
+  margin: 0;
+}
+
+.sectionHeader p {
+  font-size: 0.8rem;
+}
+.sectionHeader h3 {
+  padding: 1rem;
+  letter-spacing: 0.08rem;
+  text-align: center;
+  width: 100%;
+}
+
+.sectionHeader h3 small {
+  letter-spacing: 0.08rem;
+  font-size: 0.9rem;
+}

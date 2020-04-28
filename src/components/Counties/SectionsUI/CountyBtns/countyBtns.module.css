@@ -9,11 +9,11 @@
 .countiesTinyBtnGroupWrap button {
   background: var(--blue);
   border: none;
-  height: 2rem;
-  padding: 0.1rem 0.2rem;
+  height: 1.5rem;
   border-radius: 0.4rem;
   color: var(--white);
   font-size: 0.5rem;
   text-transform: uppercase;
   outline-color: var(--purple);
+  cursor: pointer;
 }

@@ -1,11 +1,11 @@
-.countiesGraphLeft {
+/* .countiesGraphLeft {
   border-radius: 0.4rem;
   padding: 0.4rem;
   display: grid;
   grid-gap: 1rem;
-}
+} */
 
-.sectionHeader {
+/* .sectionHeader {
   display: grid;
   justify-items: center;
   align-items: center;
@@ -29,14 +29,9 @@ min-width: 0;
   align-items: center; 
   background: var(--white);
 
-}
-
-/* .countiesGraphMain svg {
-  max-width: 100%;
-  fill: var(--black);
 } */
 
-.countiesGraphWrap {
+/* .countiesGraphWrap {
   padding: 1rem;
   border-radius: 0.4rem;
   display: grid;
@@ -45,9 +40,9 @@ min-width: 0;
   padding: 0;
   background: var(--lightBlack);
   padding: 1rem;
-}
+} */
 
-@media only screen and (max-width: 780px) {
+/* @media only screen and (max-width: 780px) {
   .countiesGraphWrap {
     grid-template-rows: 1fr 2fr;
     grid-auto-flow: row;
@@ -57,20 +52,18 @@ min-width: 0;
   .countiesGraphLeft {
     padding: 0;
   }
-}
+} */
 
-.countiesBtnGroupWrap {
+/* .countiesBtnGroupWrap {
   display: grid;
   justify-content: center;
   align-content: center;
-  /* padding: 1rem; */
   border-radius: 0.4rem;
-  /* grid-gap: 1rem; */
   grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
   grid-gap: 0.5rem;
-}
+} */
 
-.countiesBtnGroupWrap button {
+/* .countiesBtnGroupWrap button {
   background: var(--blue);
   border: none;
   height: 2.5rem;
@@ -81,4 +74,4 @@ min-width: 0;
   font-size: 0.6rem;
   text-transform: uppercase;
   outline-color: var(--purple);
-}
+} */

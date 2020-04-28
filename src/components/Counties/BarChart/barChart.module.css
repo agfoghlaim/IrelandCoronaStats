@@ -1,5 +1,4 @@
-.svgWrap {
-  background: var(--white);
+.barChartSvgWrap {
   display: grid;
   justify-content: center;
   justify-items: center;
@@ -8,11 +7,6 @@
   align-items: center;
   padding: 1rem 2rem;
 }
-
-.svgWrap svg {
-  max-width: 100%;
-}
-
 
 .barChartRect {
   transition: all 0.1s ease-out;
@@ -23,6 +17,14 @@
   opacity: 1;
 }
 
-.xAxisDescription {
-  font-size: 0.8rem;
+.barChartSvgWrap svg line {
+  stroke: var(--white);
+  opacity: 0.4;
+}
+
+.barChartSvgWrap svg text {
+  fill: var(--white);
+}
+.barChartSvgWrap svg {
+  max-width: 100%;
 }

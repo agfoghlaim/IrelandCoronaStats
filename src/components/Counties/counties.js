@@ -18,7 +18,6 @@ const uriLatestAllCounties = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcg
 const allCountiesAllResultsConfirmedCasesMoreThanZero = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=ConfirmedCovidCases>0&1%3D1&outFields=CountyName,PopulationCensus16,ConfirmedCovidCases,PopulationProportionCovidCases,FID,TimeStampDate&returnGeometry=false&outSR=4326&f=json`;
 
 const Counties = () => {
-
   const testDispatch = useStore()[1];
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -60,16 +59,44 @@ const Counties = () => {
     testDispatch('SELECT_COUNTY', county);
   };
 
+  const handleSelectData = (e) => {
+    const fieldName = e.target.name;
+    testDispatch('SELECT_ATTRIBUTE', fieldName);
+  };
+
+  // click on county line/tinyBtn to show details in textbox
+  const handleSelectCounty = (e, county) => {
+    const name = county || e.target.id;
+    testDispatch('SELECT_COUNTY', name);
+  };
+
+  // click on ClickRectangle
+  const handleSelectDate = (date) => {
+
+    testDispatch('SELECT_DATE', date);
+
+    // also update allCountiesLatestData (for Bar Chart)
+    testDispatch('UPDATE_ALL_COUNTIES_LATEST_DATA', date);
+  };
+
+
   return (
     <Layout>
-      <div className={classes.countiesWrap}>
+      <>
         {isError ? <ErrorComp msg="Could not load data." /> : null}
-        
-        <BarChartSection handleSelectOneCounty={handleSelectOneCounty}  />
 
-        <LineGraphSection />
-  
-      </div>
+        <BarChartSection
+          handleSelectOneCounty={handleSelectOneCounty}
+          handleSelectData={handleSelectData}
+          handleSelectDate={handleSelectDate}
+        />
+
+        <LineGraphSection
+          handleSelectDate={handleSelectDate}
+          handleSelectCounty={handleSelectCounty}
+          handleSelectData={handleSelectData}
+        />
+      </>
     </Layout>
   );
 };

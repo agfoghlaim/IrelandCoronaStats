@@ -4,7 +4,6 @@
   align-content: center;
   border-radius: 0.4rem;
   grid-template-columns: 1fr;
-  /* grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr)); */
   grid-gap: 0.5rem;
 }
 .btnGroupWrap button {

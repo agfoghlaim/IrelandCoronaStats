@@ -14,14 +14,14 @@ const dimensions = {
     top: 50,
     bottom: 50,
   },
-  width: 800,
-  height: 600,
+  width: 1000,
+  height: 800,
 };
 const { margin, width, height } = dimensions;
 
 const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
   const storeSections = useStore()[0].sections[0];
-
+  const selectedData = storeSections.avail.filter((data) => data.selected)[0];console.log(selectedData);
   const svgRef = useRef(null);
 
   const [isHovered, setIsHovered] = useState(false);
@@ -29,12 +29,10 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
   const [hoverColor, setHoverColor] = useState();
   const [hoverPosition, setHoverPosition] = useState([]);
   const [selectedAttribute, setSelectedAttribute] = useState('');
-  const [selectedAttributeName, setSelectedAttributeName] = useState('');
 
-  const [dateIsHovered, setIsHoveredDate] = useState(false);
   const [hoverInfoDate, setHoverInfoDate] = useState('');
 
-  // always run, this could be more efficient
+  // always runs!
   useEffect(() => {
     const findSelectedAttribute = () => {
       const selected = storeSections.avail.filter((d) => d.selected)[0];
@@ -42,11 +40,9 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
     };
     const newSelected = findSelectedAttribute();
     setSelectedAttribute(newSelected.fieldName);
-    setSelectedAttributeName(newSelected.name);
   });
 
   const useForXExtent = storeSections.allCounties[0].stats;
-
   const xExtent = d3.extent(useForXExtent, (d) => d.TimeStampDate);
   const xScale = d3
     .scaleTime()
@@ -83,8 +79,7 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
     setHoverColor('var(--lightBlack)');
     const xP = e.clientX + 20;
     const yP = e.clientY - 10;
-    setHoverPosition([xP, yP]); // can reuse?
-    setIsHoveredDate(true);
+    setHoverPosition([xP, yP]);
   };
 
   const handleHoverLeaveDate = () => {
@@ -93,7 +88,7 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
   };
 
   return (
-    <div className={classes.svgWrap}>
+    <div className={classes.svgWrap, classes.lineGraphSvgWrap}>
       {isHovered && hoverPosition.length ? (
         <div
           style={{
@@ -112,19 +107,14 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
         </div>
       ) : null}
 
-      <h3 style={{ textAlign: 'center' }}>{selectedAttributeName} by County</h3>
-
       <svg
-        style={{ maxWidth: '100%' }}
         ref={svgRef}
-        viewBox="0 0 800 600"
+        viewBox={`0 0 ${width} ${height}`}
         width={width}
-        height={height}
       >
         <Axis dimensions={dimensions} xScale={xScale} yScale={yScale} />
         <YAxisLabel
-          text={'#cases (log scale)'}
-          yClass={classes.yLabel}
+          text={ selectedData ? selectedData.xAxisDescription : ''}
           height={height}
         />
         {storeSections && storeSections.allCountiesLatestData.length ? (

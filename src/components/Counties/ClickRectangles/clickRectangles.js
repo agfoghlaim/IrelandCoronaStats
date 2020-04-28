@@ -15,7 +15,6 @@ const ClickRectangles = ({graphData, dimensions, xScale, handleHoverDate, handle
           const xOffset = x - rectWidth / 2;
           const rect = {
             x: x,
-            //  y: margin.top,
             y:  height - margin.bottom +1,
             y2: margin.top,
             y2Height: height - margin.bottom - margin.top,

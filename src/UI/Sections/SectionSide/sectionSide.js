@@ -4,13 +4,13 @@ import classes from './sectionSide.module.css';
 const SectionSide = ({title, subtitle, description, children}) => {
   return(
     <div className={classes.sectionSideWrap}>
-      <div className={classes.sectionHeader}>
+      {/* <div className={classes.sectionHeader}>
         <h3>
           {title} <br />
           <small>{subtitle} </small>
         </h3>
         <p>{description}</p>
-      </div>
+      </div> */}
       {children}
     </div>
   )

@@ -7,6 +7,7 @@ import { useStore } from '../../Store/store';
 import SectionWrap from '../../UI/Sections/SectionWrap/sectionWrap';
 import SectionMain from '../../UI/Sections/SectionMain/sectionMain';
 import SectionSide from '../../UI/Sections/SectionSide/sectionSide';
+import SectionHeader from '../../UI/Sections/SectionHeader/sectionHeader';
 import LineGraphDaily2 from './LineGraphDaily2/lineGraphDaily2';
 
 import DailyAttributeBtns from '../Counties/SectionsUI/DailyAttributeBtns/dailyAttributeBtns';
@@ -62,8 +63,8 @@ const Daily2 = () => {
      graphs && graphs.length ? (
       graphs.map((graph, index)=>(
         <SectionWrap>
-        <SectionSide title={graph.sectionName} subtitle="" description={graph.description}>
-       
+        <SectionSide >
+          <SectionHeader title={graph.sectionName} subtitle="" description={graph.description}/>
           {
             !isLoading &&  graph.all.length ? (
               <TextBox dailyData={graph} />

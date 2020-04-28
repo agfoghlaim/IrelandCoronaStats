@@ -45,11 +45,11 @@ const removeFromNestedAttributes = (data) => {
 //     return obj;
 //   });
 // };
-const getLatestDate = county => {
+const getLatestDate = (county) => {
   const dates = county.stats.map((s) => s.TimeStampDate);
   const newestDate = Math.max(...dates.map((d) => d));
   return newestDate;
-}
+};
 const getLatestForCounty = (county) => {
   const dates = county.stats.map((s) => s.TimeStampDate);
   const newestDate = Math.max(...dates.map((d) => d));
@@ -87,24 +87,35 @@ const createManagableObjectAndSetFirstCountyToSelected = (n, i) => {
 const configureStore = () => {
   const actions = {
     SET_ALL_DATA: (curState, response) => {
-      console.log("counties-store")
+      console.log('counties-store');
       const copy = curState.sections;
       const allCounties = doTediousStuff(response);
       copy[0].allCounties = allCounties;
 
       // default selectedCounty & selectedCountyLatestData
       copy[0].newSelectedCounty = allCounties[0];
-      const latestDate = getLatestDate(allCounties[0])
+      const latestDate = getLatestDate(allCounties[0]);
       copy[0].selectedCountyLatestData = getLatestForCounty(allCounties[0]);
       copy[0].selectedDate = latestDate;
-  
+
       return { sections: copy };
     },
-    SET_ALL_COUNTIES_LATEST_DATA: (curState, response) =>{
-
+    SET_ALL_COUNTIES_LATEST_DATA: (curState, response) => {
       const withoutNestedAttributes = removeFromNestedAttributes(response);
       const copy = curState.sections;
       copy[0].allCountiesLatestData = withoutNestedAttributes;
+    },
+    UPDATE_ALL_COUNTIES_LATEST_DATA: (curState, date) => {
+
+ 
+      const copy = curState.sections;
+
+      const newAllCountiesLatestData = copy[0].allCounties.map((county) =>
+        county.stats.filter((stat) => stat.TimeStampDate === date)[0]
+      );
+      copy[0].allCountiesLatestData = newAllCountiesLatestData;
+
+      return { sections: copy }
     },
     SELECT_ATTRIBUTE: (curState, fieldName) => {
       const sectionUpdate = curState.sections[0].avail.map((a) => {
@@ -117,7 +128,7 @@ const configureStore = () => {
       });
       const update = curState.sections;
       update[0].avail = sectionUpdate;
-      
+
       // also set just the name
       update[0].selectedAttributeName = fieldName;
 
@@ -149,15 +160,18 @@ const configureStore = () => {
       return { sections: copy };
     },
     SELECT_DATE: (curState, date) => {
-
       // want to set selectedCountyLatest data to whatever is in newSelectedCounty ie find correct one by date in newSelectedCounty.state
       const copy = curState.sections;
-      const ans = copy[0].newSelectedCounty.stats.filter(county=>county.TimeStampDate===date)[0]
+      const ans = copy[0].newSelectedCounty.stats.filter(
+        (county) => county.TimeStampDate === date
+      )[0];
 
       copy[0].selectedCountyLatestData = ans;
       copy[0].selectedDate = date;
-      return {sections:copy}
-    }
+
+      // also set allCountiesLatestData
+      return { sections: copy };
+    },
   };
   initStore(actions, {
     sections: [
@@ -202,7 +216,6 @@ const configureStore = () => {
           },
         ],
       },
-      
     ],
   });
 };

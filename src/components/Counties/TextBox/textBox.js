@@ -3,19 +3,18 @@ import classes from './textBox.module.css';
 import { useStore } from '../../../Store/store';
 
 const TextBox = () => {
-
-  const storeSections = useStore()[0].sections[0]
+  const storeSections = useStore()[0].sections[0];
   const selectedCountyLatestData = storeSections.selectedCountyLatestData;
-// console.log(selectedCountyLatestData)
+
   const whateverTheyCalledDateThisTime = storeSections.dateFieldName;
-  const RightSpan = ({ text, fieldName }) => {
+
+  const RightSpan = ({ text }) => {
     let color = 'var(--blue)';
- 
-      return (
-        <span style={{ background: `${color}` }} className={classes.rightSpan}>
-          {text || ''}
-        </span>
-      );
+    return (
+      <span style={{ background: `${color}` }} className={classes.rightSpan}>
+        {text || ''}
+      </span>
+    );
   };
 
   return selectedCountyLatestData ? (
@@ -24,7 +23,9 @@ const TextBox = () => {
         <h3>
           {selectedCountyLatestData.CountyName} <br />
           <span className={classes.small}>
-            Updated: {new Date(selectedCountyLatestData[whateverTheyCalledDateThisTime]).toLocaleString()}
+            {new Date(selectedCountyLatestData[whateverTheyCalledDateThisTime])
+              .toString()
+              .substring(0, 16)}
           </span>
         </h3>
       </div>
@@ -45,7 +46,13 @@ const TextBox = () => {
       <div className={classes.infoWrap}>
         <p>Cases per 100,000: </p>
         <RightSpan
-          text={selectedCountyLatestData.PopulationProportionCovidCases ? selectedCountyLatestData.PopulationProportionCovidCases.toFixed(2) : ''}
+          text={
+            selectedCountyLatestData.PopulationProportionCovidCases
+              ? selectedCountyLatestData.PopulationProportionCovidCases.toFixed(
+                  2
+                )
+              : ''
+          }
           fieldName="PopulationProportionCovidCases"
         ></RightSpan>
       </div>

@@ -8,7 +8,7 @@ const CountyBtns = ({counties, handleSelectCounty}) => {
       <button
         style={{
           border: `${
-            county.selected ? `none` : `0.2rem solid ${county.color}`
+            county.selected ? `none` : `0.1rem solid ${county.color}`
           }`,
           background: `${
             county.selected ? `${county.color}` : `var(--lightBlack)`
