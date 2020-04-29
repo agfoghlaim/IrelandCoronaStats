@@ -164,7 +164,7 @@ const Section = ({ section }) => {
           <div className={classes.profileStatsGraphLeft}>
             <div className={classes.sectionHeader}>
               <h3>{section.sectionName}</h3>
-              <p>{section.description}</p>
+              {/* <p>{section.description}</p> */}
             </div>
 
             {tinyTextAttr && tinyTextData ? (

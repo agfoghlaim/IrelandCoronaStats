@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../layout';
 import Section from './Sections/section';
 import Breakdown from '../Breakdown/breakdown';
-
+import Intro from './Intro/intro.js';
 const sections = [
   {
     name: 'transmissionType',
     sectionName: 'Transmission Type',
-    description: 'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center. New data is released each evening and dates back to 12am two days previously.',
+    description:
+      'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center. New data is released each evening and dates back to 12am two days previously.',
     allUrl: `StatisticsProfileDate,CommunityTransmission,UnderInvestigation,CloseContact,CovidCasesConfirmed,TravelAbroad`,
     yAxisLabel: '#Cases',
     avail: [
@@ -56,13 +57,13 @@ const sections = [
         color: 'var(--black)',
         data: [],
       },
-
     ],
   },
   {
     name: 'hospitalisations',
     sectionName: 'Hospitalisations',
-    description: 'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
+    description:
+      'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
     yAxisLabel: '#Cases Hospitalised',
     avail: [
       {
@@ -96,9 +97,10 @@ const sections = [
     ],
   },
   {
-    name: 'genderProfile',
+    name: 'genderProfiles',
     sectionName: 'Gender Profiles',
-    description: 'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
+    description:
+      'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
     yAxisLabel: '#Cases',
     avail: [
       {
@@ -142,7 +144,8 @@ const sections = [
   {
     name: 'ageProfiles',
     sectionName: 'Age Profiles - Cases',
-    description: 'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
+    description:
+      'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
     yAxisLabel: '#Cases in Age Group',
     avail: [
       {
@@ -240,7 +243,8 @@ const sections = [
   {
     name: 'dailyData',
     sectionName: 'Daily Data',
-    description: 'This data is part of a Daily Statistic of Covid-19 made available by the Health Protection Surveillance Center. Daily Statistics are updated each evening, with the latest record reporting the counts recorded at 1pm the same day.',
+    description:
+      'This data is part of a Daily Statistic of Covid-19 made available by the Health Protection Surveillance Center. Daily Statistics are updated each evening, with the latest record reporting the counts recorded at 1pm the same day.',
     yAxisLabel: '#Cases',
     avail: [
       {
@@ -300,9 +304,10 @@ const sections = [
     ],
   },
   {
-    name: 'HospitalisedAgeProfiles',
+    name: 'hospitalisedAgeProfiles',
     sectionName: 'Age Profiles - Hospitalised',
-    description: 'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
+    description:
+      'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
     yAxisLabel: '#Hospitalised in Age Group',
     avail: [
       {
@@ -378,6 +383,24 @@ const sections = [
         data: [],
       },
       {
+        name: 'Total Hospitalised',
+        urlPart: `StatisticsProfileDate,HospitalisedCovidCases,CovidCasesConfirmed`,
+        fieldName: 'HospitalisedCovidCases',
+        xAxisAttribute: 'StatisticsProfileDate',
+        selected: true,
+        color: 'var(--blue)',
+        data: [],
+      },
+      {
+        name: 'Total Requiring ICU',
+        urlPart: `StatisticsProfileDate,RequiringICUCovidCases,CovidCasesConfirmed`,
+        fieldName: 'RequiringICUCovidCases',
+        xAxisAttribute: 'StatisticsProfileDate',
+        selected: false,
+        color: 'var(--green)',
+        data: [],
+      },
+      {
         name: 'Analysis based on #cases',
         urlPart: `StatisticsProfileDate,CovidCasesConfirmed`,
         fieldName: 'CovidCasesConfirmed',
@@ -389,9 +412,10 @@ const sections = [
     ],
   },
   {
-    name: 'HospitalisedAndCasesAgeProfiles',
+    name: 'hospitalisedAndCasesAgeProfiles',
     sectionName: 'Age Profiles - Hospitalised & Cases',
-    description: 'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
+    description:
+      'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
     yAxisLabel: '#Cases vs #Hospitalised in Age Group',
     avail: [
       {
@@ -541,9 +565,10 @@ const sections = [
     ],
   },
   {
-    name: 'Clusters',
+    name: 'clusters',
     sectionName: 'Clusters Notified',
-    description: 'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
+    description:
+      'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
     yAxisLabel: '# Clusters Notified',
     avail: [
       {
@@ -568,9 +593,10 @@ const sections = [
     ],
   },
   {
-    name: 'MedianAge',
+    name: 'medianAge',
     sectionName: 'Median Age',
-    description: 'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
+    description:
+      'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center.',
     yAxisLabel: '# Median age of Cases',
     avail: [
       {
@@ -578,7 +604,7 @@ const sections = [
         urlPart: `StatisticsProfileDate,Median_Age,CovidCasesConfirmed`,
         fieldName: 'Median_Age',
         xAxisAttribute: 'StatisticsProfileDate',
-        
+
         selected: true,
         color: 'var(--purple)',
         data: [],
@@ -596,20 +622,70 @@ const sections = [
   },
 ];
 
+const ProfileStats = () => {
+  const initAvailableGraphs = () =>
+    sections.map((s, i) => {
+      return {
+        name: s.name,
+        sectionName: s.sectionName,
+        description: s.description,
+        selected: i === 0 ? true : false,
+      };
+    });
 
+  const [allAvailableGraphs, setAllAvailableGraphs] = useState(
+    initAvailableGraphs()
+  );
 
+  const handleSelectGraph = (name) => {
+    const newAvailGraphs = allAvailableGraphs.map((graph) => {
+      return {
+        ...graph,
+        selected: graph.name === name ? true : false,
+      };
+    });
+    setAllAvailableGraphs(newAvailGraphs);
+  };
 
-const ProfileStats = () => (
-  <Layout>
-    {sections.map((section) => (
-      <Section
-        key={section.avail[0].fieldName}
-        section={section}
-        initTitle={section.avail[0].name}
+  const selectedGraphName = () =>
+    allAvailableGraphs.filter((graph) => graph.selected)[0].name;
+  console.log(selectedGraphName());
+  console.log(allAvailableGraphs);
+  return (
+    <Layout>
+      <Intro
+        handleSelectGraph={handleSelectGraph}
+        allAvailableGraphs={allAvailableGraphs}
+        h1="Graphs"
+        desc="Select graph below."
+        p="This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center. New data is released each evening and dates back to 12am two days previously."
       />
-    ))}
-    <Breakdown />
-  </Layout>
-);
+
+      {sections.map((section) =>
+        section.name === selectedGraphName() ? (
+          <Section
+            key={section.avail[0].fieldName}
+            section={section}
+            initTitle={section.avail[0].name}
+          />
+        ) : null
+      )}
+      <Breakdown />
+    </Layout>
+  );
+};
+
+// const ProfileStats = () => (
+//   <Layout>
+//     {sections.map((section) => (
+//       <Section
+//         key={section.avail[0].fieldName}
+//         section={section}
+//         initTitle={section.avail[0].name}
+//       />
+//     ))}
+//     <Breakdown />
+//   </Layout>
+// );
 
 export default ProfileStats;
