@@ -1,20 +1,32 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import classes from './lineGraph.module.css';
-// import HoverRect from '../HoverRectangles/hoverRect';
 import Lines from './lines';
 import Circles from './circles';
 import HoverRectangles from '../HoverRectangles/hoverRectangles';
+import TinyTooltip from '../../../UI/Tooltips/TinyTooltip';
+import YAxisLabel from '../../../UI/Graphs/yAxisLabel';
+import Axis from '../../../UI/Graphs/axis';
+// const margin = {
+//   left: 50,
+//   right: 50,
+//   top: 50,
+//   bottom: 50,
+// };
+// const width = 800;
+// const height = 600;
 
-const margin = {
-  left: 50,
-  right: 50,
-  top: 50,
-  bottom: 50,
-};
-const width = 800;
-const height = 600;
-
+const dimensions = {
+  margin:{
+    left: 50,
+    right: 50,
+    top: 50,
+    bottom: 50,
+  },
+  width:800,
+  height:600
+}
+const {margin, width, height} = dimensions;
 const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
   const [data, setData] = useState(theData);
 
@@ -51,24 +63,24 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
 
   const yScale = d3
     .scaleLog()
-    .domain([1, 20000])
+    .domain([1, 100000])
     .clamp(true)
     .range([height - margin.top, margin.bottom])
     .nice();
 
-  useEffect(() => {
-    const doAxis = (xS, yS) => {
-      const xRef = d3.select(xAxisRef.current);
-      const yRef = d3.select(yAxisRef.current);
-      // xAxis.scale(xScale).ticks(d3.timeDay.every(1));
-      xAxis.scale(xScale).ticks(d3.timeDay.every(2));
-      yAxis.scale(yScale).ticks(20, ',.1s');
-      xRef.call(xAxis.tickSize(xTickWidth));
-      yRef.attr('className', 'what').call(yAxis.tickSize(yTickWidth));
-    };
+  // useEffect(() => {
+  //   const doAxis = (xS, yS) => {
+  //     const xRef = d3.select(xAxisRef.current);
+  //     const yRef = d3.select(yAxisRef.current);
+  //     // xAxis.scale(xScale).ticks(d3.timeDay.every(1));
+  //     xAxis.scale(xScale).ticks(d3.timeDay.every(2));
+  //     yAxis.scale(yScale).ticks(20, ',.1s');
+  //     xRef.call(xAxis.tickSize(xTickWidth));
+  //     yRef.attr('className', 'what').call(yAxis.tickSize(yTickWidth));
+  //   };
 
-    doAxis();
-  }, [theData, data, yScale, xScale, yAxis, xAxis, xTickWidth, yTickWidth]);
+  //   doAxis();
+  // }, [theData, data, yScale, xScale, yAxis, xAxis, xTickWidth, yTickWidth]);
 
   const handleHoverDate = (e, info) => {
     // daily data date attr is 'Date'
@@ -84,6 +96,7 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
 
     const xP = e.clientX + 20;
     const yP = e.clientY - 10;
+
     setHoverPosition([xP, yP]);
     setIsHovered(true);
   };
@@ -109,38 +122,19 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
   return (
     <div className={classes.svgWrap}>
       {isHovered && hoverPosition.length ? (
-        <div
-          style={{
-            opacity: `${isHovered ? '1' : '0'}`,
-            position: 'fixed',
-            left: `${hoverPosition[0]}px`,
-            top: `${hoverPosition[1]}px`,
-            background: `${hoverColor}`,
-            color: 'var(--white)',
-            padding: '0.5rem 1rem',
-            borderRadius: '0.4rem',
-            fontSize: '0.6rem',
-          }}
+        <TinyTooltip
+          isHovered={isHovered}
+          hoverPosition={hoverPosition}
+          hoverColor={hoverColor}
         >
           {hoverInfo}
-        </div>
+        </TinyTooltip>
       ) : null}
 
-      {/* <h4>Something</h4> */}
-      <svg ref={svgRef} viewBox="0 0 800 600" width={width} height={height}>
+      <svg ref={svgRef} viewBox="0 0 800 600" width={width}>
 
-        {yAxisLabel ? (
-              <text
-              fill="var(--black)"
-              x={-Math.abs(height / 2 + 110)}
-              y="10"
-              style={{ transform: 'rotate(-90deg)', fontSize: '0.8rem' }}
-             
-            >
-              {yAxisLabel}
-            </text>
-        ) : null}
-    
+        <Axis dimensions={dimensions} xScale={xScale} yScale={yScale} tickNumDays={2} />
+        {yAxisLabel ? <YAxisLabel text={yAxisLabel} height={height} /> : null}
 
         <Lines data={data} xScale={xScale} yScale={yScale} />
 
@@ -166,12 +160,12 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
           handleHoverLeave={handleHoverLeave}
         />
 
-        <g
+        {/* <g
           className={classes.lineChartXAxis}
           ref={xAxisRef}
           transform={`translate(0,${height - margin.top})`}
         ></g>
-        <g ref={yAxisRef} transform={`translate(${margin.left}, 0)`}></g>
+        <g ref={yAxisRef} transform={`translate(${margin.left}, 0)`}></g> */}
       </svg>
     </div>
   );

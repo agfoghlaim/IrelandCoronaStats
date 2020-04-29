@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as d3 from 'd3';
 import classes from './barChart.module.css';
 import { useStore } from '../../../Store/store';
-import XAxisLabel from '../LineGraph2/xAxisLabel';
+// import XAxisLabel from '../LineGraph2/xAxisLabel';
+import XAxisLabel from '../../../UI/Graphs/xAxisLabel';
 import BoringButton from '../../../UI/Buttons/boringButton';
 const dimensions = {
   margin: {

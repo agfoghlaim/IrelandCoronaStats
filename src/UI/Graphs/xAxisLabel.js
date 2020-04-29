@@ -5,7 +5,7 @@ const XAxisLabel = ({text, yClass, height, width}) => {
     <text
     fill="var(--black)"
     x={width/2-110}
-    y={height}
+    y={height-10}
     style={{fontSize:'1rem' }}
     className={yClass}
   >
