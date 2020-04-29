@@ -1,0 +1,6 @@
+svg > .axisGroupY > g > text {
+  transform: translateX(-0.5rem);
+}
+svg > .axisGroupX > g > text {
+  transform: translate(-0.5rem, 1.6rem) rotate(-90deg);
+}

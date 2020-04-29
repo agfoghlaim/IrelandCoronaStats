@@ -11,15 +11,27 @@ svg > .axisGroupX > g > text {
   transform: translate(-0.5rem, 1.6rem) rotate(-90deg);
 }
 
+
 svg > .axisGroupY > g > line {
   fill:var(--white);
-  opacity: 0.1;
+  stroke: var(--white);/*for dark graph theme*/
+  opacity: 0.2;
 }
 svg > .axisGroupX > g > line {
   fill:var(--white);
-  opacity: 0.1;
+  stroke: var(--white);/*for dark graph theme*/
+  opacity: 0.2;
 }
 
 .axisGroupY :nth-child(1) {
   stroke-linejoin: round;
+}
+
+/* For dark theme graph */
+.axisGroupX  {
+  color:var(--white);
+}
+
+.axisGroupY  {
+  color:var(--white);
 }

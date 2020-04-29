@@ -7,14 +7,7 @@ import HoverRectangles from '../HoverRectangles/hoverRectangles';
 import TinyTooltip from '../../../UI/Tooltips/TinyTooltip';
 import YAxisLabel from '../../../UI/Graphs/yAxisLabel';
 import Axis from '../../../UI/Graphs/axis';
-// const margin = {
-//   left: 50,
-//   right: 50,
-//   top: 50,
-//   bottom: 50,
-// };
-// const width = 800;
-// const height = 600;
+
 
 const dimensions = {
   margin:{
@@ -31,12 +24,6 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
   const [data, setData] = useState(theData);
 
   const svgRef = useRef(null);
-  const xAxisRef = useRef(null);
-  const yAxisRef = useRef(null);
-  const xAxis = d3.axisBottom();
-  const yAxis = d3.axisLeft();
-  const yTickWidth = -Math.abs(width - margin.right - margin.left);
-  const xTickWidth = -Math.abs(height - margin.top - margin.bottom);
 
   const [isHovered, setIsHovered] = useState(false);
   const [hoverInfo, setHoverInfo] = useState();
@@ -68,19 +55,6 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
     .range([height - margin.top, margin.bottom])
     .nice();
 
-  // useEffect(() => {
-  //   const doAxis = (xS, yS) => {
-  //     const xRef = d3.select(xAxisRef.current);
-  //     const yRef = d3.select(yAxisRef.current);
-  //     // xAxis.scale(xScale).ticks(d3.timeDay.every(1));
-  //     xAxis.scale(xScale).ticks(d3.timeDay.every(2));
-  //     yAxis.scale(yScale).ticks(20, ',.1s');
-  //     xRef.call(xAxis.tickSize(xTickWidth));
-  //     yRef.attr('className', 'what').call(yAxis.tickSize(yTickWidth));
-  //   };
-
-  //   doAxis();
-  // }, [theData, data, yScale, xScale, yAxis, xAxis, xTickWidth, yTickWidth]);
 
   const handleHoverDate = (e, info) => {
     // daily data date attr is 'Date'
@@ -159,13 +133,6 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
           handleHover={handleHover}
           handleHoverLeave={handleHoverLeave}
         />
-
-        {/* <g
-          className={classes.lineChartXAxis}
-          ref={xAxisRef}
-          transform={`translate(0,${height - margin.top})`}
-        ></g>
-        <g ref={yAxisRef} transform={`translate(${margin.left}, 0)`}></g> */}
       </svg>
     </div>
   );

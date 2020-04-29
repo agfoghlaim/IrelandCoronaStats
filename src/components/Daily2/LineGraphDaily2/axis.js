@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import * as d3 from 'd3';
+import classes from './axis.module.css';
 
 const Axis = ({ dimensions, xScale, yScale, selectLogScale }) => {
   const xAxisRef = useRef(null);
@@ -20,7 +21,7 @@ const Axis = ({ dimensions, xScale, yScale, selectLogScale }) => {
   const doAxis = () => {
     const xRef = d3.select(xAxisRef.current);
     const yRef = d3.select(yAxisRef.current);
-    xAxis.scale(xScale).ticks(d3.timeDay.every(7));
+    xAxis.scale(xScale).ticks(d3.timeDay.every(2));
     if (yScale.theType === 'LOG') {
       // appended to yScale in lineGraph
 
@@ -56,10 +57,12 @@ const Axis = ({ dimensions, xScale, yScale, selectLogScale }) => {
     <>
       <g
         ref={xAxisRef}
+        className={classes.axisGroupX}
         transform={`translate(0,${dimensions.height - dimensions.margin.top})`}
       ></g>
       <g
         ref={yAxisRef}
+        className={classes.axisGroupY}
         transform={`translate(${dimensions.margin.left}, 0)`}
       ></g>
     </>
