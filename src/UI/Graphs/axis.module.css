@@ -35,3 +35,12 @@ svg > .axisGroupX > g > line {
 .axisGroupY  {
   color:var(--white);
 }
+
+/* graph border */
+.axisGroupX, .axisGroupY{
+  color: var(--white);
+}
+.axisGroupX path, .axisGroupY path{
+  stroke: var(--white);
+  opacity: 0.2;
+}

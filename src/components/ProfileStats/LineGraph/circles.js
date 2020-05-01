@@ -1,13 +1,12 @@
 import React from 'react';
-import * as d3 from 'd3';
 import classes from './circles.module.css';
 
 const Circles = ({data, yScale, xScale, handleTextBox, handleHover, handleHoverLeave}) => {
   return data.map(graphData=>{
     return graphData.data.length && graphData.selected
     ? graphData.data.map((attr, i) => {
-        const y = yScale(attr.attributes[graphData.fieldName]);
-        const x = xScale(attr.attributes[graphData.xAxisAttribute]);
+        const y = yScale(attr[graphData.fieldName]);
+        const x = xScale(attr[graphData.xAxisAttribute]);
 
         return x && y ? (
           <circle

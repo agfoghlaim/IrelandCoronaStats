@@ -4,3 +4,19 @@ svg > .axisGroupY > g > text {
 svg > .axisGroupX > g > text {
   transform: translate(-0.5rem, 1.6rem) rotate(-90deg);
 }
+
+svg > .axisGroupY > g > line {
+  stroke: var(--white);
+}
+svg > .axisGroupX > g > line {
+  stroke: var(--white);
+}
+
+/* graph border */
+.axisGroupX, .axisGroupY{
+  color: var(--white);
+}
+.axisGroupX path, .axisGroupY path{
+  stroke: var(--white);
+  opacity: 0.2;
+}

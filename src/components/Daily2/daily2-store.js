@@ -1,7 +1,7 @@
 // import { initStore } from './store';
 import { initStore } from '../../Store/store';
 
-// shared with counties-store
+// shared with counties-store (& profileStats.js=>section.js !)
 const removeFromNestedAttributes = (data) => {
   return data.map((d) => {
     let obj = {};

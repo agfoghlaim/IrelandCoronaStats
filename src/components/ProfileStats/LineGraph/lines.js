@@ -7,8 +7,8 @@ const Lines = ({data, xScale, yScale}) => {
       const line = d3
         .line()
         // .x((d) => xScale(d.attributes.StatisticsProfileDate))
-        .x((d) => xScale(d.attributes[graphData.xAxisAttribute]))
-        .y((d) => yScale(d.attributes[graphData.fieldName]));
+        .x((d) => xScale(d[graphData.xAxisAttribute]))
+        .y((d) => yScale(d[graphData.fieldName]));
 
       const path = line(graphData.data);
       return (

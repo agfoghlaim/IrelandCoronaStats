@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 import * as d3 from 'd3';
 import classes from './lineGraphDaily2.module.css';
 import Axis from './axis';
@@ -19,7 +19,7 @@ const dimensions = {
   height: 600,
 };
 const { margin, width, height } = dimensions;
-const LineGraphDaily2 = ({ handleSelectCounty, graphData, graphId }) => {
+const LineGraphDaily2 = ({ graphId }) => {
   const dispatch = useStore(false)[1];
   const dailyData = useStore()[0].daily2;
 
@@ -199,11 +199,9 @@ const LineGraphDaily2 = ({ handleSelectCounty, graphData, graphId }) => {
 
             <HoverRectangles
               graphData={daily.all}
-              width={width}
-              height={height}
-              margin={margin}
+              dimensions={dimensions}
               xScale={getXScale()}
-              xAxisAttr={daily.xAxisAttribute}// todo
+              xAxisAttribute={daily.xAxisAttribute}// todo
               handleHoverLeaveDate={handleHoverLeaveDate}
               handleHoverDate={handleHoverDate}
               handleTextBox={handleTextBox}
@@ -221,9 +219,8 @@ const LineGraphDaily2 = ({ handleSelectCounty, graphData, graphId }) => {
                   colorScale={colorScale}
                   fieldName={fieldName}
                   xScaleAttribute="Date"
-                  // color="red"
                   color={getColor(fieldName)}
-                  handleSelectCounty={handleSelectCounty}
+        
                 />
               );
             })}

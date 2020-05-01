@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React  from 'react';
 import * as d3 from 'd3';
 
 
@@ -6,7 +6,6 @@ const Line = ({
   graphData,
   handleHover,
   handleHoverLeave,
-  handleSelectCounty,
   xScale,
   yScale,
   fieldName,
@@ -24,7 +23,6 @@ const Line = ({
 
   const path = line(graphData);
 
-    // console.log(graphData)
   return (
     <path
       d={path}
@@ -35,7 +33,7 @@ const Line = ({
       strokeWidth={graphData.selected ? '4px' : '2px'}
       onMouseOver={(e) => handleHover(e, color)}
       onMouseLeave={(e) => handleHoverLeave(e)}
-      onClick={(e) => handleSelectCounty(e, graphData.name)}
+ 
     ></path>
   );
 };

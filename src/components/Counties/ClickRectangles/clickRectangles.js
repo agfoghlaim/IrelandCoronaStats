@@ -28,6 +28,7 @@ const ClickRectangles = ({graphData, dimensions, xScale, handleHoverDate, handle
             <ClickRect
               rect={rect}
               date={date}
+              key={i}
               selected={date === selectedDate}
               handleHoverLeaveDate={handleHoverLeaveDate}
               handleHoverDate={handleHoverDate}

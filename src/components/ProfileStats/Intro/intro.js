@@ -8,9 +8,10 @@ const Intro = ({ allAvailableGraphs, handleSelectGraph, h1, desc, p }) => (
     <p className={classes.desc}>{desc}</p>
     <p className={classes.p}>{p}</p>
     <div className={classes.btnGroupWrap}>
-      {allAvailableGraphs.map((graph) => (
+      {allAvailableGraphs.map((graph, i) => (
         <button
           className={classes.tabBtn}
+          key={i}
           style={{
             background: `${graph.selected ? 'var(--orange)' : 'var(--black)'}`,
           }}

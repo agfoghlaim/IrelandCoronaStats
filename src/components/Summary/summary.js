@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import classes from './summary.module.css';
+import SectionWrapSimple from '../../UI/Sections/SectionWrapSimple/sectionWrapSimple';
 
 const Summary = ({ stats }) => {
   const getLastestDailyStats = (data) => {
@@ -23,11 +24,12 @@ const Summary = ({ stats }) => {
   }, [stats]);
 
   return (
-    <section class="globalSectionWrap lightBlackBackground">
+    // <section class="globalSectionWrap lightBlackBackground">
+    <SectionWrapSimple>
       {latest ? (
         <div className={classes.summaryWrap}>
           <div className={classes.sectionHeading}>
-            <h2>
+            <h2 style={{color: 'var(--white'}}>
               Last Updated {new Date(latest.Date).toString().substring(0, 15)}
             </h2>
             <p>
@@ -52,13 +54,13 @@ const Summary = ({ stats }) => {
                 {latest.ConfirmedCovidCases.toLocaleString()})</small>
               </h3>
               <h4>Total Confirmed Cases</h4>
-              <p><p>
+              <p>
                 (
                 {new Date(latest.Date)
                   .toString()
                   .substring(0, 15)}
                 )
-              </p></p>
+              </p>
             </div>
             <div className={classes.summaryBox}>
               <h3>
@@ -67,13 +69,13 @@ const Summary = ({ stats }) => {
                 {latest.ConfirmedCovidDeaths.toLocaleString()})</small>
               </h3>
               <h4>Total Deaths</h4>
-              <p><p>
+              <p>
                 (
                 {new Date(latest.Date)
                   .toString()
                   .substring(0, 15)}
                 )
-              </p></p>
+              </p>
             </div>
             <div className={classes.summaryBox}>
               <h3> {latest.HospitalisedCovidCases.toLocaleString()} </h3>
@@ -104,7 +106,8 @@ const Summary = ({ stats }) => {
       ) : (
         '  Loading...'
       )}
-    </section>
+    {/* </section> */}
+    </SectionWrapSimple>
   );
 };
 

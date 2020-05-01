@@ -120,7 +120,7 @@ const BarChart = ({ handleSelectOneCounty, handleSelectDate }) => {
             strokeWidth="1"
             stroke="var(--white)"
             fill={selectedData.color}
-            newSelectedCounty
+            // newSelectedCounty
             opacity={`${
               c.CountyName === storeSections.newSelectedCounty.name ? 1 : 0.75
             }`}

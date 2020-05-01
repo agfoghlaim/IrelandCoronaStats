@@ -1,12 +1,14 @@
 import React from 'react';
 import classes from './extraInfo.module.css';
+import SectionWrapSimple from '../../../UI/Sections/SectionWrapSimple/sectionWrapSimple';
 
 const ExtraInfo = () => {
   return (
-    <section
-      className={classes.extraInfo}
-      class="globalSectionWrap lightBlackBackground"
-    >
+    // <section
+    //   className={classes.extraInfo}
+    //   class="globalSectionWrap lightBlackBackground"
+    // >
+    <SectionWrapSimple>
       <p>
         <small>
           Note that from April 10th 2020 not all confirmed cases are included in
@@ -148,7 +150,8 @@ const ExtraInfo = () => {
           tested in Germany (which are older cases)"
         </small>
       </blockquote>
-    </section>
+    {/* </section> */}
+    </SectionWrapSimple>
   );
 };
 

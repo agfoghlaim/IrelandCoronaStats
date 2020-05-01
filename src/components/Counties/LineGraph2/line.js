@@ -25,9 +25,8 @@ const Line = ({
     });
 
   const path = line(graphData.stats);
-
-
-  return (
+  
+  return  (
     <path
       d={path}
       fill="none"
@@ -38,7 +37,7 @@ const Line = ({
       onMouseLeave={(e) => handleHoverLeave(e)}
       onClick={(e) => handleSelectCounty(e, graphData.name)}
     ></path>
-  );
+  ) 
 };
 
 export default Line;

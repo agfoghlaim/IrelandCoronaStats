@@ -9,7 +9,7 @@ const baseUrl = (specificUrlPart) =>
   `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=${specificUrlPart}&outSR=4326&f=json`;
 
 const Section = ({ section }) => {
-  const [sectionData, setSectionData] = useState(section);
+  // const [sectionData, setSectionData] = useState(section);
   const [sectionAvail, setSectionAvail] = useState(section.avail);
   const [shouldUpdate, setShouldUpdate] = useState(true);
   const [tinyTextAttr, setTinyTextAttr] = useState('');
@@ -19,10 +19,6 @@ const Section = ({ section }) => {
 
   const shouldCancel = useRef(false);
 
-  useEffect(() => {
-    setSectionData();
-  }, [section, sectionAvail]);
-
   const removeNulls = (resp, fieldName) => {
     const noNulls = resp.filter((m) => {
       for (const i in m.attributes) {
@@ -31,6 +27,17 @@ const Section = ({ section }) => {
     });
     return noNulls;
   };
+
+  const removeFromNestedAttributes = (data) => {
+    return data.map((d) => {
+      let obj = {};
+      for (const key in d.attributes) {
+        obj[key] = d.attributes[key];
+      }
+      return obj;
+    });
+  };
+
   const getOne = async (part) => {
     try {
       setIsError(false);
@@ -47,6 +54,7 @@ const Section = ({ section }) => {
       return false;
     }
   };
+
   useEffect(() => {
     (async () => {
       const getDataForEachSelectedCheckbox = async () => {
@@ -61,7 +69,9 @@ const Section = ({ section }) => {
                 if ( features ) {
                   // data from the beginning of records but first few weeks are all null for profile stats
                   const filteredFeatures = removeNulls(features, a.fieldName);
-                  a.data = filteredFeatures;
+                  const removedFromAttributesObj = removeFromNestedAttributes(filteredFeatures);
+                  a.data = removedFromAttributesObj;
+                  // a.data = filteredFeatures;
                   return a;
                 }
               }

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 import classes from './axis.module.css';
 
@@ -16,7 +16,7 @@ const Axis = ({ dimensions, xScale, yScale, selectLogScale }) => {
 
   useEffect(() => {
     doAxis();
-  }, [selectLogScale, yScale]);
+  });
 
   const doAxis = () => {
     const xRef = d3.select(xAxisRef.current);

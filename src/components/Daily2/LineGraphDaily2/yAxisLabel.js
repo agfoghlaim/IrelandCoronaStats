@@ -4,7 +4,7 @@ const YAxisLabel = ({text, yClass, height}) => {
   // console.log("in y axis", text, height)
   return (
     <text
-    fill="var(--black)"
+    fill="var(--white)"
     x={-Math.abs(height / 2 + 100)}
     y="20"
     style={{ transform: 'rotate(-90deg)' }}

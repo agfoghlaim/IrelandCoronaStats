@@ -33,7 +33,8 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
   const xExtent = d3.extent(
     data[0].data,
     // (d) => d.attributes.StatisticsProfileDate
-    (d) => d.attributes[data[0].xAxisAttribute]
+    // (d) => d.attributes[data[0].xAxisAttribute]
+    (d) => d[data[0].xAxisAttribute]
   );
 
   useEffect(() => {
@@ -60,11 +61,11 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
     // daily data date attr is 'Date'
     // statistics profile data date attr is 'StatisticsProfileDate'
     let dateFieldName = 'StatisticsProfileDate';
-    if (!info.attributes[dateFieldName]) {
+    if (!info[dateFieldName]) {
       dateFieldName = 'Date';
     }
     setHoverInfo(
-      new Date(info.attributes[dateFieldName]).toString().substring(0, 10)
+      new Date(info[dateFieldName]).toString().substring(0, 10)
     );
     setHoverColor('var(--lightBlack)');
 
@@ -80,7 +81,7 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
   };
 
   const handleHover = (e, info, attr) => {
-    setHoverInfo(`${attr.name}: ${info.attributes[attr.fieldName]}`);
+    setHoverInfo(`${attr.name}: ${info[attr.fieldName]}`);
     setHoverColor(attr.color);
 
     const xP = e.clientX + 20;
@@ -115,9 +116,10 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
         {data && data.length && data[0].selected ? (
           <HoverRectangles
             graphData={data[0]}
-            width={width}
-            height={height}
-            margin={margin}
+            dimensions={dimensions}
+            // width={width}
+            // height={height}
+            // margin={margin}
             xScale={xScale}
             handleHoverLeaveDate={handleHoverLeaveDate}
             handleHoverDate={handleHoverDate}

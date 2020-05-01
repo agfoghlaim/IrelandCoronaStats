@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import classes from './textBox.module.css';
 
-const TextBox = ({ data,  avail }) => {
+const TextBox = ({ data, avail }) => {
   const [availableData, setAvailableData] = useState(avail);
-// console.log("ProfileStats: ", data, avail)
+  // console.log("ProfileStats: ", data, avail)
   // because some are 'Date', some are 'StatisticsProfileDate'
   const getAttributeForDate = () => {
-    return data.attributes.StatisticsProfileDate
+    return data.StatisticsProfileDate
       ? 'StatisticsProfileDate'
       : 'Date';
   };
@@ -18,7 +18,7 @@ const TextBox = ({ data,  avail }) => {
     const onlyOnDate = selected.map((s) => {
       const newData = s.data.filter((d) => {
         return (
-          d.attributes[attributeForDate] === data.attributes[attributeForDate]
+          d[attributeForDate] === data[attributeForDate]
         );
       });
       s.selectedData = newData;
@@ -35,38 +35,39 @@ const TextBox = ({ data,  avail }) => {
         name: d.name,
         fieldName: d.fieldName,
         value: d.selectedData.map((w) => {
-          return w.attributes[d.fieldName];
+          return w[d.fieldName];
         })[0],
-        color: d.color
+        color: d.color,
       };
     });
   };
 
   const moreManagableVersionOfSelectedData = getKeysValues(withSelectedData);
 
-
   const RightSpan = ({ text, color }) => {
-    return <span style={{background: `${color}`}} className={classes.rightSpan}>{text}</span>;
+    return (
+      <span style={{ background: `${color}` }} className={classes.rightSpan}>
+        {text}
+      </span>
+    );
   };
 
   return (
     <div className={classes.genericTextItem}>
       <div className={classes.infoWrap}>
         <h3>
-          {new Date(data.attributes[attributeForDate])
+          {new Date(data[attributeForDate])
             .toString()
             .substring(0, 24)}
         </h3>
       </div>
       {moreManagableVersionOfSelectedData
-        ? moreManagableVersionOfSelectedData.map((d) => {
+        ? moreManagableVersionOfSelectedData.map((d, i) => {
             return (
-              <>
-                <div  className={classes.infoWrap}>
-                  <p> {d.name}</p>
-                  <RightSpan color={d.color} text={d.value} />
-                </div>
-              </>
+              <div className={classes.infoWrap} key={i}>
+                <p> {d.name}</p>
+                <RightSpan color={d.color} text={d.value} />
+              </div>
             );
           })
         : null}

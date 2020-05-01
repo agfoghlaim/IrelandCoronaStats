@@ -1,28 +1,22 @@
 import React, { useState } from 'react';
-import * as d3 from 'd3';
 import HoverRect from './hoverRect';
 
 const HoverRectangles = ({
   graphData,
-  width,
-  height,
-  margin,
+  dimensions,
   xScale,
   handleHoverDate,
   handleHoverLeaveDate,
   handleTextBox,
 }) => {
   const [selectedRectDate, setSelectedRectDate] = useState('');
-
-  // const someFn = (date) => {
-  //   setSelectedRectDate(date);
-  // };
+  const { width, height, margin } = dimensions;
 
   return graphData.data.length && graphData.selected
     ? graphData.data.map((attr, i) => {
         const graphWidth = width - margin.left - margin.right;
         const rectWidth = graphWidth / graphData.data.length;
-        const x = xScale(attr.attributes[graphData.xAxisAttribute]);
+        const x = xScale(attr[graphData.xAxisAttribute]);
         const xOffset = x - rectWidth / 2;
         const rect = {
           x: x,
@@ -34,10 +28,10 @@ const HoverRectangles = ({
           key: `${graphData.fieldName}-${i}`,
 
           selected:
-            selectedRectDate === attr.attributes[graphData.xAxisAttribute]
+            selectedRectDate === attr[graphData.xAxisAttribute]
               ? true
               : false,
-          date: attr.attributes[graphData.xAxisAttribute],
+          date: attr[graphData.xAxisAttribute],
         };
         return x ? (
           <HoverRect

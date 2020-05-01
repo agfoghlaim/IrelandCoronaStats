@@ -19,11 +19,11 @@ const HoverRect = ({
   };
   const localHandleHoverLeave = (e) => {
     setIsHovered(false);
-
     handleHoverLeaveDate(e);
   };
 
   const localHandleTextBox = (attr, fieldName, graphData) => {
+
     selectRect(date);
     handleTextBox(attr, fieldName, graphData);
   };
