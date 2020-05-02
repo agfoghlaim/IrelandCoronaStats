@@ -6,17 +6,18 @@ const HoverRectangles = ({
   dimensions,
   xScale,
   handleHoverDate,
+  xAxisAttribute,
   handleHoverLeaveDate,
   handleTextBox,
 }) => {
   const [selectedRectDate, setSelectedRectDate] = useState('');
   const { width, height, margin } = dimensions;
 
-  return graphData.data.length && graphData.selected
-    ? graphData.data.map((attr, i) => {
+  return graphData.length
+    ? graphData.map((attr, i) => {
         const graphWidth = width - margin.left - margin.right;
-        const rectWidth = graphWidth / graphData.data.length;
-        const x = xScale(attr[graphData.xAxisAttribute]);
+        const rectWidth = graphWidth / graphData.length;
+        const x = xScale(attr[xAxisAttribute]);
         const xOffset = x - rectWidth / 2;
         const rect = {
           x: x,
@@ -28,19 +29,20 @@ const HoverRectangles = ({
           key: `${graphData.fieldName}-${i}`,
 
           selected:
-            selectedRectDate === attr[graphData.xAxisAttribute]
+            selectedRectDate === attr[xAxisAttribute]
               ? true
               : false,
-          date: attr[graphData.xAxisAttribute],
+          date: attr[xAxisAttribute],
         };
         return x ? (
           <HoverRect
             rect={rect}
             attr={attr}
-            graphData={graphData}
+            // graphData={graphData}
             handleHoverLeaveDate={handleHoverLeaveDate}
             handleHoverDate={handleHoverDate}
             handleTextBox={handleTextBox}
+            xAxisAttribute={xAxisAttribute}
             selectRect={setSelectedRectDate}
             selected={rect.selected}
             date={rect.date}

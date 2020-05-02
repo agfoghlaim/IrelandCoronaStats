@@ -101,11 +101,11 @@ const Section = ({ section }) => {
     })();
   }, [sectionAvail, shouldUpdate, isError, isLoading]);
 
-  const handleTextBox = (data, selectedAttribute) => {
-    console.log(data, selectedAttribute )
-    if (!data || !selectedAttribute) return;
+  const handleTextBox = (data, dateFieldName) => {
+    // console.log("data=", data, "selAttr=" , selectedAttribute)
+    if (!data || !dateFieldName) return;
     setTinyTextData(data);
-    setTinyTextAttr(selectedAttribute);
+    setTinyTextAttr(dateFieldName);
   };
 
   const renderLineGraph = () => {

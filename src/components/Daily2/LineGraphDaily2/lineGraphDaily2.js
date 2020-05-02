@@ -5,7 +5,8 @@ import Axis from './axis';
 import YAxisLabel from './yAxisLabel';
 import Line from './line';
 import { useStore } from '../../../Store/store';
-import HoverRectangles from '../HoverRectangles/hoverRectangles';
+// import HoverRectangles from '../HoverRectangles/hoverRectangles';
+import HoverRectangles from '../../../UI/Graphs/HoverRectangles/hoverRectangles';
 import BoringButton from '../../../UI/Buttons/boringButton';
 
 const dimensions = {
@@ -101,8 +102,9 @@ const LineGraphDaily2 = ({ graphId }) => {
     .domain([0, 100])
     .interpolator(d3.interpolateRainbow);
 
-  const handleTextBox = (data, selectedAttribute) => {
-    const dateToSelect = data['Date'];
+  const handleTextBox = (data, dateFieldName) => {
+    if (!data || !dateFieldName) return;
+    const dateToSelect = data[dateFieldName];
     dispatch('SET_SELECTED_DATE_AND_DATA2', dateToSelect);
   };
 

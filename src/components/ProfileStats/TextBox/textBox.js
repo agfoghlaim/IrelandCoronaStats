@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import classes from './textBox.module.css';
 
 const TextBox = ({ data, avail }) => {
+  // console.log(data, avail)
   const [availableData, setAvailableData] = useState(avail);
   // console.log("ProfileStats: ", data, avail)
   // because some are 'Date', some are 'StatisticsProfileDate'

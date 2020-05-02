@@ -3,7 +3,9 @@ import * as d3 from 'd3';
 import classes from './lineGraph.module.css';
 import Lines from './lines';
 import Circles from './circles';
-import HoverRectangles from '../HoverRectangles/hoverRectangles';
+// import HoverRectangles from '../HoverRectangles/hoverRectangles';
+// import HoverRectangles from '../../ProfileStats/HoverRectangles/hoverRectangles';
+import HoverRectangles from '../../../UI/Graphs/HoverRectangles/hoverRectangles';
 import TinyTooltip from '../../../UI/Tooltips/TinyTooltip';
 import YAxisLabel from '../../../UI/Graphs/yAxisLabel';
 import Axis from '../../../UI/Graphs/axis';
@@ -115,8 +117,11 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
 
         {data && data.length && data[0].selected ? (
           <HoverRectangles
-            graphData={data[0]}
+            // graphData={data[0]}
+            graphData={data[0].data}
             dimensions={dimensions}
+            // xAxisAttribute="StatisticsProfileDate"
+            xAxisAttribute={data[0].xAxisAttribute}
             // width={width}
             // height={height}
             // margin={margin}
