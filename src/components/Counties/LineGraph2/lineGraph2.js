@@ -116,6 +116,7 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
         <YAxisLabel
           text={ selectedData ? selectedData.xAxisDescription : ''}
           height={height}
+          margin={margin}
         />
         {storeSections && storeSections.allCountiesLatestData.length ? (
           <ClickRectangles

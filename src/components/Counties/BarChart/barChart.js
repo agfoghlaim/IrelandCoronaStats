@@ -118,9 +118,10 @@ const BarChart = ({ handleSelectOneCounty, handleSelectDate }) => {
             width={length}
             height={barHeight}
             strokeWidth="1"
-            stroke="var(--white)"
-            fill={selectedData.color}
-            // newSelectedCounty
+            // stroke="var(--white)"
+            stroke={c.CountyName === storeSections.newSelectedCounty.name ? selectedData.color : 'var(--white)'}
+            // fill={selectedData.color}
+            fill={c.CountyName === storeSections.newSelectedCounty.name ? 'var(--white)' : selectedData.color}
             opacity={`${
               c.CountyName === storeSections.newSelectedCounty.name ? 1 : 0.75
             }`}
@@ -185,6 +186,7 @@ const BarChart = ({ handleSelectOneCounty, handleSelectDate }) => {
           width={width}
           text={selectedData ? selectedData.xAxisDescription : ''}
           height={height}
+          margin={margin}
         />
       </svg>
     </div>

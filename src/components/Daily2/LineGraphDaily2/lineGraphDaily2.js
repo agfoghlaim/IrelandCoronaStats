@@ -197,6 +197,7 @@ const LineGraphDaily2 = ({ graphId }) => {
               text={daily.xAxisLabel}
               yClass={classes.yLabel}
               height={height}
+              margin={margin}
             />
 
             <HoverRectangles

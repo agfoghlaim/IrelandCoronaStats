@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classes from './textBox.module.css';
 
-const TextBox = ({ data, avail }) => {
-  // console.log(data, avail)
-  const [availableData, setAvailableData] = useState(avail);
-  // console.log("ProfileStats: ", data, avail)
-  // because some are 'Date', some are 'StatisticsProfileDate'
+// This is a mess, was trying to make it work like the Daily2 textbox but sure it's grand
+const TextBox = ({ data, selectedDateData, AselectedDate,  tryThisSelectedAttributeNames, xAxisAttribute,  availableData }) => {
+
+  // because some are 'Date', some are 'StatisticsProfileDate'... only 'Daily' section uses 'Date'. TODO remove Daily section (it doesn't need to be repeated on stats page) and always use 'StatisticsProfileDate'
   const getAttributeForDate = () => {
     return data.StatisticsProfileDate
       ? 'StatisticsProfileDate'
@@ -13,22 +12,6 @@ const TextBox = ({ data, avail }) => {
   };
 
   const attributeForDate = getAttributeForDate();
-
-  const getTheDataOnSelectedDate = () => {
-    const selected = availableData.filter((d) => d.selected);
-    const onlyOnDate = selected.map((s) => {
-      const newData = s.data.filter((d) => {
-        return (
-          d[attributeForDate] === data[attributeForDate]
-        );
-      });
-      s.selectedData = newData;
-      return s;
-    });
-
-    return onlyOnDate;
-  };
-  const withSelectedData = getTheDataOnSelectedDate();
 
   const getKeysValues = (data) => {
     return data.map((d) => {
@@ -39,11 +22,13 @@ const TextBox = ({ data, avail }) => {
           return w[d.fieldName];
         })[0],
         color: d.color,
+        xAxisAttribute: d.xAxisAttribute
+       
       };
     });
   };
 
-  const moreManagableVersionOfSelectedData = getKeysValues(withSelectedData);
+  const moreManagableVersionOfSelectedData = getKeysValues(selectedDateData);
 
   const RightSpan = ({ text, color }) => {
     return (

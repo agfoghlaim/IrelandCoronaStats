@@ -13,7 +13,7 @@ const outerRadius = 200;
 
 const BreakdownChart = props => {
   // props.breakdown not used, remove in breakdown.js - TODO
-  // console.log(props.breakdown)
+
   const [breakdownData] = useState(props.breakdown);
   const svgRef = useRef(null);
   const createPie = d3

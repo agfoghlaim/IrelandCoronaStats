@@ -32,6 +32,7 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
   const [hoverColor, setHoverColor] = useState();
   const [hoverPosition, setHoverPosition] = useState([]);
 
+  // need to go through selected and use first non null value. lines/circles are spilling over from the start.
   const xExtent = d3.extent(
     data[0].data,
     // (d) => d.attributes.StatisticsProfileDate
@@ -111,7 +112,7 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
       <svg ref={svgRef} viewBox="0 0 800 600" width={width}>
 
         <Axis dimensions={dimensions} xScale={xScale} yScale={yScale} tickNumDays={2} />
-        {yAxisLabel ? <YAxisLabel text={yAxisLabel} height={height} /> : null}
+        {yAxisLabel ? <YAxisLabel text={yAxisLabel} height={height} margin={margin} /> : null}
 
         <Lines data={data} xScale={xScale} yScale={yScale} />
 
@@ -136,6 +137,7 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
           data={data}
           yScale={yScale}
           xScale={xScale}
+   
           handleTextBox={handleTextBox}
           handleHover={handleHover}
           handleHoverLeave={handleHoverLeave}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import Layout from '../layout';
 import Section from './Sections/section';
 import Breakdown from '../Breakdown/breakdown';
@@ -10,6 +10,7 @@ const sections = [
     description:
       'This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center. New data is released each evening and dates back to 12am two days previously.',
     allUrl: `StatisticsProfileDate,CommunityTransmission,UnderInvestigation,CloseContact,CovidCasesConfirmed,TravelAbroad`,
+    xAxisAttribute: 'StatisticsProfileDate',
     yAxisLabel: '#Cases',
     avail: [
       {
@@ -240,69 +241,7 @@ const sections = [
       },
     ],
   },
-  {
-    name: 'dailyData',
-    sectionName: 'Daily Data',
-    description:
-      'This data is part of a Daily Statistic of Covid-19 made available by the Health Protection Surveillance Center. Daily Statistics are updated each evening, with the latest record reporting the counts recorded at 1pm the same day.',
-    yAxisLabel: '#Cases',
-    avail: [
-      {
-        name: 'Daily Cases',
-        urlPart: `Date,ConfirmedCovidCases`,
-        fieldName: 'ConfirmedCovidCases',
-        xAxisAttribute: 'Date',
-        selected: true,
-        color: 'var(--purple)',
-        data: [],
-      },
-      {
-        name: 'Total Cases',
-        urlPart: `Date,TotalConfirmedCovidCases`,
-        fieldName: 'TotalConfirmedCovidCases',
-        xAxisAttribute: 'Date',
-        selected: false,
-        color: 'var(--black)',
-        data: [],
-      },
-      {
-        name: 'Daily Deaths',
-        urlPart: `Date,ConfirmedCovidDeaths`,
-        fieldName: 'ConfirmedCovidDeaths',
-        xAxisAttribute: 'Date',
-        selected: false,
-        color: 'var(--green)',
-        data: [],
-      },
-      {
-        name: 'Total Deaths',
-        urlPart: `Date,TotalCovidDeaths`,
-        fieldName: 'TotalCovidDeaths',
-        xAxisAttribute: 'Date',
-        selected: false,
-        color: 'var(--blue)',
-        data: [],
-      },
-      {
-        name: 'Daily Recovered',
-        urlPart: `Date,ConfirmedCovidRecovered`,
-        fieldName: 'ConfirmedCovidRecovered',
-        xAxisAttribute: 'Date',
-        selected: false,
-        color: 'var(--yellow)',
-        data: [],
-      },
-      {
-        name: 'Total Recovered',
-        urlPart: `Date,TotalCovidRecovered`,
-        fieldName: 'TotalCovidRecovered',
-        xAxisAttribute: 'Date',
-        selected: false,
-        color: 'var(--orange)',
-        data: [],
-      },
-    ],
-  },
+
   {
     name: 'hospitalisedAgeProfiles',
     sectionName: 'Age Profiles - Hospitalised',
@@ -387,7 +326,7 @@ const sections = [
         urlPart: `StatisticsProfileDate,HospitalisedCovidCases,CovidCasesConfirmed`,
         fieldName: 'HospitalisedCovidCases',
         xAxisAttribute: 'StatisticsProfileDate',
-        selected: true,
+        selected: false,
         color: 'var(--blue)',
         data: [],
       },
@@ -432,7 +371,7 @@ const sections = [
         urlPart: `StatisticsProfileDate,Aged65up,CovidCasesConfirmed`,
         fieldName: 'Aged65up',
         xAxisAttribute: 'StatisticsProfileDate',
-        selected: true,
+        selected: false,
         color: 'pink',
         data: [],
       },
@@ -623,8 +562,10 @@ const sections = [
 ];
 
 const ProfileStats = () => {
-  const initAvailableGraphs = () =>
-    sections.map((s, i) => {
+
+  const initAvailableGraphs = () =>{
+  
+    return sections.map((s, i) => {
       return {
         name: s.name,
         sectionName: s.sectionName,
@@ -632,12 +573,15 @@ const ProfileStats = () => {
         selected: i === 0 ? true : false,
       };
     });
+  }
 
   const [allAvailableGraphs, setAllAvailableGraphs] = useState(
     initAvailableGraphs()
   );
 
+
   const handleSelectGraph = (name) => {
+    console.log(name)
     const newAvailGraphs = allAvailableGraphs.map((graph) => {
       return {
         ...graph,
@@ -647,12 +591,15 @@ const ProfileStats = () => {
     setAllAvailableGraphs(newAvailGraphs);
   };
 
+  // const selectedGraphName = () =>
+  //   allAvailableGraphs.filter((graph) => graph.selected)[0].name;
   const selectedGraphName = () =>
-    allAvailableGraphs.filter((graph) => graph.selected)[0].name;
-  console.log(selectedGraphName());
-  console.log(allAvailableGraphs);
+  allAvailableGraphs.filter((graph) => graph.selected)[0].name;
+  // console.log(selectedGraphName());
+  // console.log(allAvailableGraphs);
   return (
-    <Layout>
+    allAvailableGraphs.length ? (
+      <Layout>
       <Intro
         handleSelectGraph={handleSelectGraph}
         allAvailableGraphs={allAvailableGraphs}
@@ -661,17 +608,22 @@ const ProfileStats = () => {
         p="This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center. New data is released each evening and dates back to 12am two days previously."
       />
 
-      {sections.map((section) =>
-        section.name === selectedGraphName() ? (
+      {sections.map((section,i) =>{
+      
+        return section.name === selectedGraphName() ? (
+         
           <Section
-            key={section.avail[0].fieldName}
+            key={section.avail[0].name}
             section={section}
-            initTitle={section.avail[0].name}
+            // initTitle={section.avail[0].name}
           />
         ) : null
+}
       )}
       <Breakdown />
     </Layout>
+    ) : null
+
   );
 };
 

@@ -98,7 +98,7 @@ const configureStore = () => {
 
       // copy[0].all = withAverageDailyCasesEach5Days;
       copy.map((graph) => (graph.all = withAverageDailyCasesEach5Days));
-      console.log(copy);
+      // console.log(copy);
       return { daily2: copy };
     },
     SET_SELECTED_DATE_AND_DATA2: (curState, latestDate) => {
@@ -169,7 +169,7 @@ const configureStore = () => {
         name: 'DailyAlt',
         id: 1,
         sectionName: 'Daily Cases',
-        description: 'Description of Daily Cases section',
+        description: '5 day average is average of current days new confirmed cases and 4 previous days.',
         xAxisLabel: '# cases',
         xAxisAttribute: 'Date',
         selectedAttributeNames: ['ConfirmedCovidCases'],
@@ -208,7 +208,7 @@ const configureStore = () => {
         name: 'DailyAlt',
         id: 2,
         sectionName: 'Daily Cases (Percentage Change)',
-        description: 'Descrioption of daily cases percentage change',
+        description: 'Percentage Change calculated as (V2 - V1) x 100 / V1. 5 day average is average of current day and 4 previous days. ',
         xAxisLabel: '% change',
         xAxisAttribute: 'Date',
         selectedAttributeNames: ['percentageDailyChange'],

@@ -31,7 +31,8 @@ const Line = ({
       d={path}
       fill="none"
       stroke={graphData.color}
-      opacity={graphData.selected ? '1' : '0.4'}
+      // stroke={graphData.selected ? 'var(--white)' : graphData.color}
+      opacity={graphData.selected ? '1' : '0.2'}
       strokeWidth={graphData.selected ? '4px' : '2px'}
       onMouseOver={(e) => handleHover(e, graphData)}
       onMouseLeave={(e) => handleHoverLeave(e)}

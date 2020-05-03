@@ -65,7 +65,7 @@ const Daily2 = () => {
               description={graph.description}
             />
             {!isLoading && graph.all.length ? (
-              <TextBox dailyData={graph} />
+              <TextBox allData={graph} />
             ) : (
               'Loading...'
             )}
