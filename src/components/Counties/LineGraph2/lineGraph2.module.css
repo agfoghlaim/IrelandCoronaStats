@@ -1,9 +1,3 @@
-/* .graphHeadingWrap {
-  display: grid;
-  justify-items: center;
-  justify-items: center;
-} */
-
 .lineGraphSvgWrap svg line {
   stroke: var(--white);
   opacity: 0.4;

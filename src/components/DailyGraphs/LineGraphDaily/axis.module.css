@@ -7,9 +7,11 @@ svg > .axisGroupX > g > text {
 
 svg > .axisGroupY > g > line {
   stroke: var(--white);
+  opacity: 0.2;
 }
 svg > .axisGroupX > g > line {
   stroke: var(--white);
+  opacity: 0.2;
 }
 
 /* graph border */

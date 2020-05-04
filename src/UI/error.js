@@ -7,6 +7,7 @@ const ErrorComp = ({ msg }) => (
       background: 'var(--purple)',
       padding: '1rem',
       borderRadius: '0.4rem',
+      margin: '3rem 0'
     }}
   >
     {msg}

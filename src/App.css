@@ -26,7 +26,7 @@ html {
 }
 
 /*
-  see Daily2 component, axis.js
+  see dailyGraphsStore component, axis.js
   NOTE 725px is related to width of graph defined in js
 */
 .dodgyTransformClutterLogScaleLabels {

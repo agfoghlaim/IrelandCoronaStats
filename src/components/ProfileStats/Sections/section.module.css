@@ -23,13 +23,11 @@
 
 .sectionHeader p {
   color: var(--white);
-  /* text-align: center; */
   padding: 1rem;
   width: 100%;
   font-weight: normal;
   font-size: 0.8rem;
 }
-
 
 .profileStatsGraphMain {
   min-width: 0;
@@ -61,30 +59,20 @@
     grid-template-rows: 2fr 3fr;
     grid-auto-flow: row;
     grid-template-columns: 1fr;
-
   }
   .profileStatsGraphLeft {
     padding: 0;
   }
-  /* .graphSectionBtnGroupWrap {
-
-
-    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
-   
-  } */
-
 }
-
 
 .graphSectionBtnGroupWrap {
   display: grid;
   justify-content: center;
   align-content: center;
-  /* padding: 1rem; */
   border-radius: 0.4rem;
   grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
-  /* grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); */
   grid-gap: 0.5rem;
+  min-height: 3rem;
 }
 
 .graphSectionBtnGroupWrap button {
@@ -98,5 +86,4 @@
   font-size: 0.6rem;
   text-transform: uppercase;
   outline-color: var(--purple);
-  
 }

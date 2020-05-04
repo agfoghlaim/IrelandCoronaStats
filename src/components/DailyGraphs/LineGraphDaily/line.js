@@ -29,7 +29,6 @@ const Line = ({
       fill="none"
       stroke={color}
       id={fieldName}
-      // opacity={graphData.selected ? '1' : '1'}
       strokeWidth={graphData.selected ? '4px' : '2px'}
       onMouseOver={(e) => handleHover(e, color)}
       onMouseLeave={(e) => handleHoverLeave(e)}

@@ -2,10 +2,9 @@ import React, { useState, useRef } from 'react';
 import * as d3 from 'd3';
 import classes from './lineGraphDaily2.module.css';
 import Axis from './axis';
-import YAxisLabel from './yAxisLabel';
+import YAxisLabel from '../../../UI/Graphs/yAxisLabel';
 import Line from './line';
 import { useStore } from '../../../Store/store';
-// import HoverRectangles from '../HoverRectangles/hoverRectangles';
 import HoverRectangles from '../../../UI/Graphs/HoverRectangles/hoverRectangles';
 import BoringButton from '../../../UI/Buttons/boringButton';
 
@@ -20,9 +19,9 @@ const dimensions = {
   height: 600,
 };
 const { margin, width, height } = dimensions;
-const LineGraphDaily2 = ({ graphId }) => {
+const LineGraphDaily = ({ graphId }) => {
   const dispatch = useStore(false)[1];
-  const dailyData = useStore()[0].daily2;
+  const dailyData = useStore()[0].dailyGraphsStore;
 
   const daily = dailyData.filter((d) => d.id === graphId)[0]; //should be called graph
 
@@ -105,7 +104,7 @@ const LineGraphDaily2 = ({ graphId }) => {
   const handleTextBox = (data, dateFieldName) => {
     if (!data || !dateFieldName) return;
     const dateToSelect = data[dateFieldName];
-    dispatch('SET_SELECTED_DATE_AND_DATA2', dateToSelect);
+    dispatch('SET_DAILY_GRAPHS_SELECTED_DATE_AND_DATA', dateToSelect);
   };
 
   const handleHover = (e, color) => {
@@ -235,4 +234,4 @@ const LineGraphDaily2 = ({ graphId }) => {
   );
 };
 
-export default LineGraphDaily2;
+export default LineGraphDaily;

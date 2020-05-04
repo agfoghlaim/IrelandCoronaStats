@@ -1,7 +1,6 @@
-// import { initStore } from './store';
 import { initStore } from '../../Store/store';
 
-// shared with counties-store (& profileStats.js=>section.js !)
+// TODO shared with counties-store (& profileStats.js=>section.js !)
 const removeFromNestedAttributes = (data) => {
   return data.map((d) => {
     let obj = {};
@@ -68,12 +67,10 @@ const calculatePercentageChangeOf = (data, ofWhat = 'ConfirmedCovidCases') => {
   });
 };
 
-const calculateAverageDailyCasesEach5Days = () => {};
 const configureStore = () => {
   const actions = {
-
-    SET_ALL_DAILY2: (curState, response) => {
-      const copy = curState.daily2;
+    SET_ALL_DAILY_GRAPHS: (curState, response) => {
+      const copy = curState.dailyGraphsStore;
 
       const withAverageChangeDailyCases = [
         removeFromNestedAttributes,
@@ -99,10 +96,10 @@ const configureStore = () => {
       // copy[0].all = withAverageDailyCasesEach5Days;
       copy.map((graph) => (graph.all = withAverageDailyCasesEach5Days));
       // console.log(copy);
-      return { daily2: copy };
+      return { dailyGraphsStore: copy };
     },
-    SET_SELECTED_DATE_AND_DATA2: (curState, latestDate) => {
-      const copy = curState.daily2;
+    SET_DAILY_GRAPHS_SELECTED_DATE_AND_DATA: (curState, latestDate) => {
+      const copy = curState.dailyGraphsStore;
 
       // each graph
       copy.map((graph) => {
@@ -115,19 +112,16 @@ const configureStore = () => {
         return graph;
       });
 
-   
       return { dailyAlt: copy };
     },
-    SELECT_DAILY_ATTRS2: (curState, {fieldName, graphId}) => {
+    SELECT_DAILY_GRAPHS_ATTRS: (curState, { fieldName, graphId }) => {
       // which graph??
-  
-      const copy = curState.daily2;
 
- 
+      const copy = curState.dailyGraphsStore;
 
       copy.map((graph) => {
         // .avail bool
-        if( graph.id === graphId ) {
+        if (graph.id === graphId) {
           const newAvail = graph.avail.map((a) => {
             if (a.fieldName === fieldName) {
               a.selected = !a.selected;
@@ -135,7 +129,7 @@ const configureStore = () => {
             return a;
           });
           graph.avail = newAvail;
-  
+
           // .selectedAttributeNames
           const doAttrNames = (oldNames) => {
             // not the right whatever....
@@ -149,12 +143,12 @@ const configureStore = () => {
             }
             return oldNames;
           };
-          
+
           graph.selectedAttributeNames = doAttrNames(
             graph.selectedAttributeNames
           );
         }
-        
+
         return graph;
       });
 
@@ -164,12 +158,13 @@ const configureStore = () => {
     },
   };
   initStore(actions, {
-    daily2: [
+    dailyGraphsStore: [
       {
         name: 'DailyAlt',
         id: 1,
         sectionName: 'Daily Cases',
-        description: '5 day average is average of current days new confirmed cases and 4 previous days.',
+        description:
+          '5 day average is average of current days new confirmed cases and 4 previous days.',
         xAxisLabel: '# cases',
         xAxisAttribute: 'Date',
         selectedAttributeNames: ['ConfirmedCovidCases'],
@@ -179,7 +174,7 @@ const configureStore = () => {
         avail: [
           {
             name: 'New Cases',
-           
+
             fieldName: 'ConfirmedCovidCases',
             xAxisDescription: 'Number of Confirmed Cases',
             xAxisAttribute: 'Date',
@@ -208,7 +203,8 @@ const configureStore = () => {
         name: 'DailyAlt',
         id: 2,
         sectionName: 'Daily Cases (Percentage Change)',
-        description: 'Percentage Change calculated as (V2 - V1) x 100 / V1. 5 day average is average of current day and 4 previous days. ',
+        description:
+          'Percentage Change calculated as (V2 - V1) x 100 / V1. 5 day average is average of current day and 4 previous days. ',
         xAxisLabel: '% change',
         xAxisAttribute: 'Date',
         selectedAttributeNames: ['percentageDailyChange'],

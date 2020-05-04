@@ -1,6 +1,7 @@
 // import { initStore } from './store';
 import { initStore } from '../../Store/store';
 import * as d3 from 'd3';
+
 const colorScale = d3
   .scaleSequential()
   .domain([0, 100])
@@ -36,20 +37,12 @@ const removeFromNestedAttributes = (data) => {
   });
 };
 
-// const removeFromNestedField = (data, field) => {
-//   return data.map((d) => {
-//     let obj = {};
-//     for (const key in d[field]) {
-//       obj[key] = d[field][key];
-//     }
-//     return obj;
-//   });
-// };
 const getLatestDate = (county) => {
   const dates = county.stats.map((s) => s.TimeStampDate);
   const newestDate = Math.max(...dates.map((d) => d));
   return newestDate;
 };
+
 const getLatestForCounty = (county) => {
   const dates = county.stats.map((s) => s.TimeStampDate);
   const newestDate = Math.max(...dates.map((d) => d));
@@ -87,13 +80,14 @@ const createManagableObjectAndSetFirstCountyToSelected = (n, i) => {
 const configureStore = () => {
   const actions = {
     SET_ALL_DATA: (curState, response) => {
-      console.log('counties-store');
+
       const copy = curState.sections;
       const allCounties = doTediousStuff(response);
       copy[0].allCounties = allCounties;
 
       // default selectedCounty & selectedCountyLatestData
       copy[0].newSelectedCounty = allCounties[0];
+      
       const latestDate = getLatestDate(allCounties[0]);
       copy[0].selectedCountyLatestData = getLatestForCounty(allCounties[0]);
       copy[0].selectedDate = latestDate;
@@ -106,16 +100,15 @@ const configureStore = () => {
       copy[0].allCountiesLatestData = withoutNestedAttributes;
     },
     UPDATE_ALL_COUNTIES_LATEST_DATA: (curState, date) => {
-
- 
       const copy = curState.sections;
 
-      const newAllCountiesLatestData = copy[0].allCounties.map((county) =>
-        county.stats.filter((stat) => stat.TimeStampDate === date)[0]
+      const newAllCountiesLatestData = copy[0].allCounties.map(
+        (county) =>
+          county.stats.filter((stat) => stat.TimeStampDate === date)[0]
       );
       copy[0].allCountiesLatestData = newAllCountiesLatestData;
 
-      return { sections: copy }
+      return { sections: copy };
     },
     SELECT_ATTRIBUTE: (curState, fieldName) => {
       const sectionUpdate = curState.sections[0].avail.map((a) => {

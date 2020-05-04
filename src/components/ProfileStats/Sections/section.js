@@ -1,122 +1,86 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import classes from './section.module.css';
-import axios from 'axios';
+
 import LineGraph from '../LineGraph/lineGraph';
 import TextBox from '../TextBox/textBox';
 import ErrorComp from '../../../UI/error';
+import {
+  removeNulls,
+  removeFromNestedAttributes,
+  successfullyGotDataForEachSelectedAttr,
+  baseUrl,
+  getOne
+} from './section-util';
 
-const removeNulls = (resp, fieldName) => {
-  const noNulls = resp.filter((m) => {
-    for (const i in m.attributes) {
-      return m.attributes[fieldName] !== null;
-    }
-  });
-  return noNulls;
-};
-
-const removeFromNestedAttributes = (data) => {
-  return data.map((d) => {
-    let obj = {};
-    for (const key in d.attributes) {
-      obj[key] = d.attributes[key];
-    }
-    return obj;
-  });
-};
-
-const baseUrl = (specificUrlPart) =>
-  `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=${specificUrlPart}&outSR=4326&f=json`;
 
 const Section = ({ section }) => {
-  // console.log(section)
-  // const [sectionData, setSectionData] = useState(section);
   const [sectionAvail, setSectionAvail] = useState(section.avail);
   const [shouldUpdate, setShouldUpdate] = useState(true);
-  const [tinyTextAttr, setTinyTextAttr] = useState('');
-  const [tinyTextData, setTinyTextData] = useState();
-  const [tinyTextSelectedDate, setTinyTextSelectedDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
   const [isError, setIsError] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
-  // console.log(sectionAvail)
+  const [isLoading, setIsLoading] = useState(false);
+
   const shouldCancel = useRef(false);
 
-  const getOne = async (part) => {
-    try {
-      setIsError(false);
-      const response = await axios.get(baseUrl(part));
-      return response.data.features;
-    } catch (e) {
-      setIsError(true);
-      return false;
+  const getDataForEachSelected = useCallback(async (attr) => {
+    if (attr.selected && !attr.data.length) {
+      const features = await getOne(attr.urlPart);
+      if (features) {
+        // data is from the beginning of records but first few weeks are all null for Profile Stats
+        const filtered = removeNulls(features, attr.fieldName);
+        const flattened = removeFromNestedAttributes(filtered);
+        attr.data = flattened;
+        return attr;
+      }
     }
-  };
-
-  // const temp = useMemo(
-  //   () => sectionAvail.filter((a) => a.selected).map((b) => b.fieldName),
-  //   [sectionAvail]
-  // );
+    return attr; // always return a but check error below
+  }, []);
 
   useEffect(() => {
     (async () => {
       const getDataForEachSelectedCheckbox = async () => {
-        // console.log('getting...');
         let sectionAvailCopy = sectionAvail;
 
-        const getAllSelectedData = async () =>
-          await Promise.all(
-            sectionAvailCopy.map(async (a) => {
-              if (a.selected && !a.data.length) {
-                // Is it always the case that if avail.data !== [] then we don't need to update...? I think so
-                const features = await getOne(a.urlPart);
-                if (features) {
-                  // data is from the beginning of records but first few weeks are all null for Profile Stats
-                  const filteredFeatures = removeNulls(features, a.fieldName);
-                  const removedFromAttributesObj = removeFromNestedAttributes(
-                    filteredFeatures
-                  );
-                  a.data = removedFromAttributesObj;
-                  // a.data = filteredFeatures;
-                  return a;
-                }
-              }
-              return a;
-            })
-          );
-
-        sectionAvailCopy = await getAllSelectedData();
-
-        if (shouldCancel.current) {
-          return false;
-        }
-
-        setSectionAvail(sectionAvailCopy);
-
-        // set tiny text box to <find selected section>.data.<last>
-        const selectedSection = sectionAvailCopy.find((s) => s.selected);
-        setTinyTextAttr(selectedSection.fieldName);
-        setTinyTextData(selectedSection.data[selectedSection.data.length - 1]);
-        // console.log(selectedSection.data[selectedSection.data.length - 1].StatisticsProfileDate)
-        setTinyTextSelectedDate(
-          selectedSection.data[selectedSection.data.length - 1]
-            .StatisticsProfileDate
+        sectionAvailCopy = await Promise.all(
+          sectionAvailCopy.map(getDataForEachSelected)
         );
 
-        setShouldUpdate(false);
+        if (shouldCancel.current) return false;
+
+        return successfullyGotDataForEachSelectedAttr(sectionAvailCopy)
+          ? sectionAvailCopy
+          : false;
       };
-      // console.log('shouldUpdate: ', shouldUpdate);
+
       if (shouldUpdate) {
-        await getDataForEachSelectedCheckbox();
+        setIsLoading(true);
+        const ans = await getDataForEachSelectedCheckbox();
+
+        if (!ans) setIsError(true);
+
+        if (ans) {
+          setSectionAvail(ans);
+          const selectedSection = ans.find((s) => s.selected);
+
+          // default date to latest
+          setSelectedDate(
+            selectedSection.data[selectedSection.data.length - 1][
+              selectedSection.xAxisAttribute
+            ]
+          );
+
+          setShouldUpdate(false);
+        }
+        setIsLoading(false);
       }
     })();
-  }, [shouldUpdate, sectionAvail]);
+  }, [shouldUpdate, sectionAvail, getDataForEachSelected, isError]);
 
   const handleTextBox = (data, dateFieldName) => {
     if (!data || !dateFieldName) return;
-    // const dateToSelect = data[dateFieldName];
-    setTinyTextSelectedDate(data[dateFieldName]);
-    setTinyTextData(data);
-    setTinyTextAttr(dateFieldName);
+    setSelectedDate(data[dateFieldName]);
   };
+
   const renderLineGraph = () => {
     if (!sectionAvail || !sectionAvail.length) {
       return;
@@ -132,40 +96,30 @@ const Section = ({ section }) => {
   };
 
   const handleSelectData = (e) => {
+    if (isLoading) return;
     const name = e.target.name;
-
     const sectionUpdate = sectionAvail.map((a) => {
       if (a.fieldName === name) {
-        console.log('switch ' + a.fieldName + ' to ' + !a.selected);
         a.selected = !a.selected;
       }
       return a;
     });
-    console.log(sectionUpdate)
     setSectionAvail(sectionUpdate);
-
-    // temp try to get selected attr names (like Daily version of Textbox),
-    const tempSelectedAttrNames = sectionAvail
-      .filter((a) => a.selected)
-      .map((b) => b.fieldName);
-    // console.log(sectionAvail,tempSelectedAttrNames)
 
     // Check if already have the data first
     const haveData = (name) => {
-      // console.log('have ', name, ' ?');
       const checkThis = sectionAvail.filter((s) => s.fieldName === name)[0];
       return checkThis && checkThis.data.length ? false : true;
     };
     const needToGetData = haveData(name);
 
-    if (needToGetData) {
+    if (needToGetData && !isLoading) {
       setShouldUpdate(true);
     }
   };
 
   const renderCheckButtons = () => {
-    console.log("rendering.......", sectionAvail)
-    return sectionAvail.map((a) => (
+    return section.avail.map((a) => (
       <button
         key={a.fieldName}
         id={a.name}
@@ -184,61 +138,49 @@ const Section = ({ section }) => {
     ));
   };
 
-
   const getDataOnSelectedDate = () => {
-    // console.log(tinyTextData)
     const selected = sectionAvail.filter((d) => d.selected);
-    const selectedDate = tinyTextData['StatisticsProfileDate'];
+
     const onlyOnDate = selected.map((s) => {
       const newData = s.data.filter((d) => {
-        return (
-          // d[attributeForDate] === data[attributeForDate]
-          d['StatisticsProfileDate'] === selectedDate
-        );
+        return d[s.xAxisAttribute] === selectedDate;
       });
       s.selectedData = newData;
       return s;
     }, []);
-    // console.log(onlyOnDate)
+
     return onlyOnDate;
   };
 
   return (
     <>
-      {isError ? <ErrorComp msg="Could not load data." /> : null}
-      {/* { !isLoading ? ( */}
-      <div className={classes.profileStatsGraphWrap}>
-        <div className={classes.profileStatsGraphLeft}>
-          <div className={classes.sectionHeader}>
-            <h3>{section.sectionName}</h3>
-            {/* <p>{section.description}</p> */}
+      {isError ? (
+        <ErrorComp msg="Could not load data." />
+      ) : (
+        <div className={classes.profileStatsGraphWrap}>
+          <div className={classes.profileStatsGraphLeft}>
+            <div className={classes.sectionHeader}>
+              <h3>{section.sectionName}</h3>
+              {/* <p>{section.description}</p> */}
+            </div>
+
+            {selectedDate && sectionAvail ? (
+              <TextBox
+                loading={isLoading}
+                selectedDate={selectedDate}
+                selectedDateData={getDataOnSelectedDate()}
+              />
+            ) : null}
+
+            <div className={classes.graphSectionBtnGroupWrap}>
+              {renderCheckButtons()}
+            </div>
           </div>
-
-          {tinyTextAttr &&
-          tinyTextData &&
-          tinyTextData.StatisticsProfileDate &&
-          tinyTextSelectedDate  ? (
-            <TextBox
-              //  avail={sectionAvail}
-              availableData={sectionAvail}
-              // tryThisSelectedAttributeNames={temp}
-              // attributeForDate={sectionAvail.xAxisAttribute}
-              data={tinyTextData} // should be just selected Date
-              section={section}
-              AselectedDate={tinyTextSelectedDate}
-              selectedDateData={getDataOnSelectedDate()}
-              xAxisAttribute={sectionAvail.xAxisAttribute}
-            />
-          ) : null}
-
-          <div className={classes.graphSectionBtnGroupWrap}>
-            {renderCheckButtons()}
+          <div className={classes.profileStatsGraphMain}>
+            {renderLineGraph()}
           </div>
         </div>
-        <div className={classes.profileStatsGraphMain}>{renderLineGraph()}</div>
-      </div>
-      {/* 
-      ) : 'Loading...'} */}
+      )}
     </>
   );
 };

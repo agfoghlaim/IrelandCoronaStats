@@ -3,7 +3,6 @@ import classes from './textBox.module.css';
 
 const TextBox = ({ allData }) => {
   const [daily] = useState(allData);
-  console.log(allData)
 
   const dailyWithTitle = () => {
     return daily.selectedAttributeNames.map((name) => {
@@ -57,7 +56,9 @@ const TextBox = ({ allData }) => {
     <div className={classes.textItem}>
       <div className={classes.infoWrap}>
         <h3>
-          {new Date(daily.selectedDateData[daily.xAxisAttribute]).toString().substring(0, 16)}
+          {new Date(daily.selectedDateData[daily.xAxisAttribute])
+            .toString()
+            .substring(0, 16)}
         </h3>
       </div>
       {renderRightSpans()}

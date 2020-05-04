@@ -19,63 +19,54 @@ const Summary = ({ stats }) => {
     if (stats.length) {
       const latestDailyStats = getLastestDailyStats(stats);
       setLatest(latestDailyStats.attributes);
-   
     }
   }, [stats]);
 
   return (
-    // <section class="globalSectionWrap lightBlackBackground">
     <SectionWrapSimple>
       {latest ? (
         <div className={classes.summaryWrap}>
           <div className={classes.sectionHeading}>
-            <h2 style={{color: 'var(--white'}}>
+            <h2 style={{ color: 'var(--white' }}>
               Last Updated {new Date(latest.Date).toString().substring(0, 15)}
             </h2>
             <p>
-              
-                The graphs below are based on data from data.gov.ie, available{' '}
-                <a
-                  href="https://opendata-geohive.hub.arcgis.com/datasets/d8eb52d56273413b84b0187a4e9117be_0/data?geometry=-7.694%2C53.288%2C-7.691%2C53.289"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  here
-                </a>
-                . It is updated every evening, with the latest record reporting
-                the counts recorded at 1pm the same day.
-            
+              The graphs below are based on data from data.gov.ie, available{' '}
+              <a
+                href="https://opendata-geohive.hub.arcgis.com/datasets/d8eb52d56273413b84b0187a4e9117be_0/data?geometry=-7.694%2C53.288%2C-7.691%2C53.289"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                here
+              </a>
+              . It is updated every evening, with the latest record reporting
+              the counts recorded at 1pm the same day.
             </p>
           </div>
           <div className={classes.summaryInfoWrap}>
             <div className={classes.summaryBox}>
               <h3>
-                {latest.TotalConfirmedCovidCases.toLocaleString()} <small>(+
-                {latest.ConfirmedCovidCases.toLocaleString()})</small>
+                {latest.TotalConfirmedCovidCases.toLocaleString()}{' '}
+                <small>
+                  (+
+                  {latest.ConfirmedCovidCases.toLocaleString()})
+                </small>
               </h3>
               <h4>Total Confirmed Cases</h4>
-              <p>
-                (
-                {new Date(latest.Date)
-                  .toString()
-                  .substring(0, 15)}
-                )
-              </p>
+              <p>({new Date(latest.Date).toString().substring(0, 15)})</p>
             </div>
             <div className={classes.summaryBox}>
               <h3>
                 {' '}
-                {latest.TotalCovidDeaths.toLocaleString()}<small> (+
-                {latest.ConfirmedCovidDeaths.toLocaleString()})</small>
+                {latest.TotalCovidDeaths.toLocaleString()}
+                <small>
+                  {' '}
+                  (+
+                  {latest.ConfirmedCovidDeaths.toLocaleString()})
+                </small>
               </h3>
               <h4>Total Deaths</h4>
-              <p>
-                (
-                {new Date(latest.Date)
-                  .toString()
-                  .substring(0, 15)}
-                )
-              </p>
+              <p>({new Date(latest.Date).toString().substring(0, 15)})</p>
             </div>
             <div className={classes.summaryBox}>
               <h3> {latest.HospitalisedCovidCases.toLocaleString()} </h3>
@@ -88,7 +79,7 @@ const Summary = ({ stats }) => {
                 )
               </p>
             </div>
-    
+
             <div className={classes.summaryBox}>
               <h3> {latest.RequiringICUCovidCases.toLocaleString()} </h3>
               <h4>Total Requiring ICU</h4>
@@ -101,12 +92,10 @@ const Summary = ({ stats }) => {
               </p>
             </div>
           </div>
-          
         </div>
       ) : (
         '  Loading...'
       )}
-    {/* </section> */}
     </SectionWrapSimple>
   );
 };

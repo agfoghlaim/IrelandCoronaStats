@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as d3 from 'd3';
 import classes from './barChart.module.css';
 import { useStore } from '../../../Store/store';
-// import XAxisLabel from '../LineGraph2/xAxisLabel';
 import XAxisLabel from '../../../UI/Graphs/xAxisLabel';
 import BoringButton from '../../../UI/Buttons/boringButton';
 const dimensions = {
@@ -119,9 +118,16 @@ const BarChart = ({ handleSelectOneCounty, handleSelectDate }) => {
             height={barHeight}
             strokeWidth="1"
             // stroke="var(--white)"
-            stroke={c.CountyName === storeSections.newSelectedCounty.name ? selectedData.color : 'var(--white)'}
-            // fill={selectedData.color}
-            fill={c.CountyName === storeSections.newSelectedCounty.name ? 'var(--white)' : selectedData.color}
+            stroke={
+              c.CountyName === storeSections.newSelectedCounty.name
+                ? selectedData.color
+                : 'var(--white)'
+            }
+            fill={
+              c.CountyName === storeSections.newSelectedCounty.name
+                ? 'var(--white)'
+                : selectedData.color
+            }
             opacity={`${
               c.CountyName === storeSections.newSelectedCounty.name ? 1 : 0.75
             }`}
@@ -152,9 +158,8 @@ const BarChart = ({ handleSelectOneCounty, handleSelectDate }) => {
         </div>
       ) : null}
 
-      <BoringButton onClick={toggleLogScale} config={{minWidth:'8rem'}}>
+      <BoringButton onClick={toggleLogScale} config={{ minWidth: '8rem' }}>
         {' '}
-   
         {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
       </BoringButton>
 
