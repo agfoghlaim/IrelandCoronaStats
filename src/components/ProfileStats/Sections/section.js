@@ -76,7 +76,7 @@ const Section = ({ section }) => {
   }, [shouldUpdate, sectionAvail, getDataForEachSelected, isError]);
 
   const handleTextBox = (data, dateFieldName) => {
-    console.log(data, dateFieldName)
+
     if (!data || !dateFieldName) return;
     setSelectedDate(data[dateFieldName]);
   };

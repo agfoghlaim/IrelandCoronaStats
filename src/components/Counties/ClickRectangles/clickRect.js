@@ -37,7 +37,7 @@ const ClickRect = ({
         style={{ transition: 'all 0.005s linear', cursor: 'pointer' }}
         opacity="0.8"
         onClick={() => {
-          console.log('click');
+      
           return handleSelectDate(date);
         }}
       />

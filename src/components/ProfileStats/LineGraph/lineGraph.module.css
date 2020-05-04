@@ -1,6 +1,4 @@
 .svgWrap {
-  /* background: var(--white); */
-  /* background: var(--lightBlack); */
   min-width: 0;
   display: grid;
   justify-content: center;
@@ -20,36 +18,4 @@
   }
 }
 
-/* .lineChartXAxis text {
-  transform: rotate(-90deg) translate(-1.8rem, -0.5rem);
-  font-size: 0.8rem;
-
-} */
-
-/* .lineChartYAxis text {
-  font-size: 0.8rem;
-} */
-
-/* .lineChartWrap {
-  border-radius: 0.4rem;
-  display: grid;
-  grid-gap: 1rem;
-  justify-content: center;
-  grid-template-columns: 1fr 4fr;
-  max-width: 100vw;
-  overflow: hidden;
-  background: var(--purple);
-  padding: 1rem;
-} */
-
-/* @media only screen and (max-width: 900px) {
-  .lineChartWrap {
-    grid-template-rows: 1fr 2fr;
-    grid-template-columns: 1fr;
-  }
-  .lineChartLeftWrap {
-    padding: 0;
-  }
-  
-} */
 

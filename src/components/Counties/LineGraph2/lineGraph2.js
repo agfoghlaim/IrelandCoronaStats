@@ -82,10 +82,8 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
     setHoverPosition([xP, yP]);
   };
 
-  const handleHoverLeaveDate = () => {
-    // console.log('rect not hovered');
-    // setIsHovered(false);
-  };
+  // TODO ?
+  const handleHoverLeaveDate = () => {};
 
   return (
     <div className={classes.svgWrap, classes.lineGraphSvgWrap}>

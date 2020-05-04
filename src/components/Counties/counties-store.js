@@ -80,14 +80,13 @@ const createManagableObjectAndSetFirstCountyToSelected = (n, i) => {
 const configureStore = () => {
   const actions = {
     SET_ALL_DATA: (curState, response) => {
-
       const copy = curState.sections;
       const allCounties = doTediousStuff(response);
       copy[0].allCounties = allCounties;
 
       // default selectedCounty & selectedCountyLatestData
       copy[0].newSelectedCounty = allCounties[0];
-      
+
       const latestDate = getLatestDate(allCounties[0]);
       copy[0].selectedCountyLatestData = getLatestForCounty(allCounties[0]);
       copy[0].selectedDate = latestDate;

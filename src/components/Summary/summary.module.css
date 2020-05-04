@@ -36,16 +36,12 @@
   margin: 0;
 }
 
-.sectionHeading{
-  /* border: 3px solid red; */
+.sectionHeading {
   display: grid;
   margin: 1rem;
-
 }
 
-.sectionHeading p{
- font-size: 0.8rem;
- font-weight: normal;
-
+.sectionHeading p {
+  font-size: 0.8rem;
+  font-weight: normal;
 }
-

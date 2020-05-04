@@ -1,8 +1,6 @@
-
 .textItem {
   display: grid;
   padding: 0.4rem;
-  /* border: 0.1rem solid var(--white); */
   border-radius: 0.4rem;
   grid-gap: 0.4rem;
   background: var(--black);
@@ -13,7 +11,7 @@
   justify-content: space-between;
   background: var(--lightBlack);
   padding-left: 1rem;
-  color:var(--white);
+  color: var(--white);
   border-radius: 0.4rem;
   align-content: center;
   align-items: center;
@@ -25,7 +23,7 @@
 }
 
 .infoWrap h3 {
-  padding:0.5rem 0;
+  padding: 0.5rem 0;
   color: var(--white);
   margin: 0;
 }

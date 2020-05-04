@@ -117,7 +117,6 @@ const BarChart = ({ handleSelectOneCounty, handleSelectDate }) => {
             width={length}
             height={barHeight}
             strokeWidth="1"
-            // stroke="var(--white)"
             stroke={
               c.CountyName === storeSections.newSelectedCounty.name
                 ? selectedData.color
@@ -167,7 +166,6 @@ const BarChart = ({ handleSelectOneCounty, handleSelectDate }) => {
         viewBox={`0 0 ${width} ${height}`}
         ref={svgRef}
         width={width}
-        // height={height}
       >
         <g
           ref={xAxisRef}

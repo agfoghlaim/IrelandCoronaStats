@@ -1,7 +1,6 @@
 .genericTextItem {
   display: grid;
   padding: 0.4rem;
-  /* border: 0.1rem solid var(--white); */
   border-radius: 0.4rem;
   grid-gap: 0.4rem;
   min-height: 20rem;
@@ -10,17 +9,12 @@
 
 @media only screen and (max-width: 740px) {
   .genericTextItem {
-
     min-height: 12rem;
-   
   }
-  
-
 }
 .infoWrap {
   display: flex;
   justify-content: space-between;
-  /* background: var(--purple); */
   background: var(--lightBlack);
   padding-left: 1rem;
   color: var(--white);
@@ -32,7 +26,6 @@
 .infoWrap h3 {
   padding: 0.5rem 0;
   color: var(--white);
-
 }
 .infoWrap p {
   margin: 0;

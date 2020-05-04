@@ -95,7 +95,7 @@ const configureStore = () => {
 
       // copy[0].all = withAverageDailyCasesEach5Days;
       copy.map((graph) => (graph.all = withAverageDailyCasesEach5Days));
-      // console.log(copy);
+    
       return { dailyGraphsStore: copy };
     },
     SET_DAILY_GRAPHS_SELECTED_DATE_AND_DATA: (curState, latestDate) => {
@@ -151,8 +151,6 @@ const configureStore = () => {
 
         return graph;
       });
-
-      console.log(copy);
 
       return { dailyAlt: copy };
     },
