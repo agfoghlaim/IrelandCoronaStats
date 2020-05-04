@@ -1,1 +1,1 @@
-Ireland Coronavirus Stats
+[Ireland Coronavirus Stats](https://upbeat-neumann-7c3766.netlify.app/)
