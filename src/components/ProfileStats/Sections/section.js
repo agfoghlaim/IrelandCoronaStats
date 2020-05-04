@@ -68,15 +68,13 @@ const Section = ({ section }) => {
                 selectedSection.xAxisAttribute
               ]
             );
-  
           }
-         
           setShouldUpdate(false);
         }
         setIsLoading(false);
       }
     })();
-  }, [shouldUpdate, sectionAvail, getDataForEachSelected, isError]);
+  }, [shouldUpdate, sectionAvail, getDataForEachSelected, isError, selectedDate]);
 
   const handleTextBox = (data, dateFieldName) => {
 

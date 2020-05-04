@@ -213,7 +213,7 @@ const LineGraphDaily = ({ graphId }) => {
                 <Line
                   graphData={daily.all}
                   i="0"
-                  key="0"
+                  key={fieldName}
                   handleHover={handleHover}
                   handleHoverLeave={handleHoverLeave}
                   xScale={getXScale()}

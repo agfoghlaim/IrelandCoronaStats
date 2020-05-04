@@ -4,6 +4,7 @@ import classes from './barChart.module.css';
 import { useStore } from '../../../Store/store';
 import XAxisLabel from '../../../UI/Graphs/xAxisLabel';
 import BoringButton from '../../../UI/Buttons/boringButton';
+import LoadingComp from '../../../UI/loading';
 const dimensions = {
   margin: {
     left: 70,
@@ -16,7 +17,7 @@ const dimensions = {
 };
 const { margin, width, height } = dimensions;
 
-const BarChart = ({ handleSelectOneCounty, handleSelectDate }) => {
+const BarChart = ({ handleSelectOneCounty, isLoading }) => {
   const storeSections = useStore()[0].sections[0];
 
   const attribute = storeSections.selectedAttributeName;
@@ -161,37 +162,36 @@ const BarChart = ({ handleSelectOneCounty, handleSelectDate }) => {
         {' '}
         {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
       </BoringButton>
+      {isLoading ? (
+        <LoadingComp />
+      ) : (
+        <svg viewBox={`0 0 ${width} ${height}`} ref={svgRef} width={width}>
+          <g
+            ref={xAxisRef}
+            transform={`translate(0,${
+              dimensions.height - dimensions.margin.top
+            })`}
+          ></g>
+          <g
+            ref={yAxisRef}
+            transform={`translate(${dimensions.margin.left}, 0)`}
+          ></g>
 
-      <svg
-        viewBox={`0 0 ${width} ${height}`}
-        ref={svgRef}
-        width={width}
-      >
-        <g
-          ref={xAxisRef}
-          transform={`translate(0,${
-            dimensions.height - dimensions.margin.top
-          })`}
-        ></g>
-        <g
-          ref={yAxisRef}
-          transform={`translate(${dimensions.margin.left}, 0)`}
-        ></g>
-
-        {storeSections.allCountiesLatestData &&
-        selectedData &&
-        storeSections.allCountiesLatestData.length ? (
-          <>
-            <g>{renderRectangles()}</g>
-          </>
-        ) : null}
-        <XAxisLabel
-          width={width}
-          text={selectedData ? selectedData.xAxisDescription : ''}
-          height={height}
-          margin={margin}
-        />
-      </svg>
+          {storeSections.allCountiesLatestData &&
+          selectedData &&
+          storeSections.allCountiesLatestData.length ? (
+            <>
+              <g>{renderRectangles()}</g>
+            </>
+          ) : null}
+          <XAxisLabel
+            width={width}
+            text={selectedData ? selectedData.xAxisDescription : ''}
+            height={height}
+            margin={margin}
+          />
+        </svg>
+      )}
     </div>
   );
 };

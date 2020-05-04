@@ -40,7 +40,7 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
     };
     const newSelected = findSelectedAttribute();
     setSelectedAttribute(newSelected.fieldName);
-  });
+  }, [storeSections.avail]);
 
   const useForXExtent = storeSections.allCounties[0].stats;
   const xExtent = d3.extent(useForXExtent, (d) => d.TimeStampDate);
@@ -86,7 +86,7 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
   const handleHoverLeaveDate = () => {};
 
   return (
-    <div className={classes.svgWrap, classes.lineGraphSvgWrap}>
+    <div className={`${classes.svgWrap} ${classes.lineGraphSvgWrap}`}>
       {isHovered && hoverPosition.length ? (
         <div
           style={{
@@ -132,7 +132,7 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
         ) : null}
         {storeSections && storeSections.allCounties.length
           ? storeSections.allCounties.map((graphData, i) => (
-              <>
+             
                 <Line
                   graphData={graphData}
                   i={i}
@@ -145,7 +145,7 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
                   selectedAttribute={selectedAttribute}
                   handleSelectCounty={handleSelectCounty}
                 />
-              </>
+          
             ))
           : null}
       </svg>

@@ -39,6 +39,7 @@ const HoverRectangles = ({
           <HoverRect
             rect={rect}
             attr={attr}
+            key={attr[xAxisAttribute]}
             // graphData={graphData}
             handleHoverLeaveDate={handleHoverLeaveDate}
             handleHoverDate={handleHoverDate}

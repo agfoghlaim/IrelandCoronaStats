@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './textBox.module.css';
 import { useStore } from '../../../Store/store';
 
+
 const TextBox = () => {
   const storeSections = useStore()[0].sections[0];
   const selectedCountyLatestData = storeSections.selectedCountyLatestData;
@@ -19,7 +20,9 @@ const TextBox = () => {
 
   return selectedCountyLatestData ? (
     <div className={classes.textItem}>
+ 
       <div className={classes.infoWrap}>
+     
         <h3>
           {selectedCountyLatestData.CountyName} <br />
           <span className={classes.small}>

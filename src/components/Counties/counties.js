@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../layout';
 import axios from 'axios';
 import ErrorComp from '../../UI/error';
+
 import configureStore from './counties-store';
 import { useStore } from '../../Store/store';
 
@@ -32,7 +33,7 @@ const Counties = () => {
         setIsError(true);
       }
     })();
-  }, []);
+  },[]);
 
   useEffect(() => {
     (async () => {
@@ -49,7 +50,7 @@ const Counties = () => {
         setIsError(true);
       }
     })();
-  }, []);
+  },[]);
 
   const handleSelectOneCounty = (county) => {
     dispatch('SELECT_COUNTY', county);
@@ -83,12 +84,13 @@ const Counties = () => {
           handleSelectOneCounty={handleSelectOneCounty}
           handleSelectData={handleSelectData}
           handleSelectDate={handleSelectDate}
+          isLoading={isLoading}
         />
-
         <LineGraphSection
           handleSelectDate={handleSelectDate}
           handleSelectCounty={handleSelectCounty}
           handleSelectData={handleSelectData}
+          isLoading={isLoading}
         />
       </>
     </Layout>
