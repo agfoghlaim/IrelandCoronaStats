@@ -49,7 +49,7 @@ const Summary = ({ stats }) => {
                 {latest.TotalConfirmedCovidCases.toLocaleString()}{' '}
                 <small>
                   (+
-                  {latest.ConfirmedCovidCases.toLocaleString()})
+                  {latest.ConfirmedCovidCases.toLocaleString()})*
                 </small>
               </h3>
               <h4>Total Confirmed Cases</h4>
@@ -62,7 +62,7 @@ const Summary = ({ stats }) => {
                 <small>
                   {' '}
                   (+
-                  {latest.ConfirmedCovidDeaths.toLocaleString()})
+                  {latest.ConfirmedCovidDeaths.toLocaleString()})*
                 </small>
               </h3>
               <h4>Total Deaths</h4>
@@ -92,6 +92,7 @@ const Summary = ({ stats }) => {
               </p>
             </div>
           </div>
+          <span style={{color:'var(--orange)', fontSize:'0.7rem', fontWeight:'normal'}}>*Latest daily figures</span>
         </div>
       ) : (
         '  Loading...'

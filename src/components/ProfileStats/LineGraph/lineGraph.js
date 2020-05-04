@@ -132,7 +132,7 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
 
         <Lines data={data} xScale={xScale} yScale={yScale} />
 
-        {data && data.length && data[0].selected ? (
+        {data && data.length  ? (
           <HoverRectangles
             graphData={data[0].data}
             dimensions={dimensions}

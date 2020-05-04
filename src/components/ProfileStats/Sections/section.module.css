@@ -78,7 +78,7 @@
 .graphSectionBtnGroupWrap button {
   background: var(--blue);
   border: none;
-  height: 2rem;
+  min-height: 2rem;
   padding: 0.2rem 0.4rem;
   border-radius: 0.4rem;
   color: var(--white);

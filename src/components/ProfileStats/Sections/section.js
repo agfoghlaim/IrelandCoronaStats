@@ -61,13 +61,16 @@ const Section = ({ section }) => {
           setSectionAvail(ans);
           const selectedSection = ans.find((s) => s.selected);
 
-          // default date to latest
-          setSelectedDate(
-            selectedSection.data[selectedSection.data.length - 1][
-              selectedSection.xAxisAttribute
-            ]
-          );
-
+          // default date to latest - first time only!
+          if(!selectedDate) {
+            setSelectedDate(
+              selectedSection.data[selectedSection.data.length - 1][
+                selectedSection.xAxisAttribute
+              ]
+            );
+  
+          }
+         
           setShouldUpdate(false);
         }
         setIsLoading(false);
