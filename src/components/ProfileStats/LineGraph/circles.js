@@ -13,7 +13,7 @@ const Circles = ({data, yScale, xScale, handleTextBox, handleHover, handleHoverL
             key={`${graphData.fieldName}-${i}`}
             className={classes.lineGraphCircle}
             onClick={() =>
-              handleTextBox(attr, graphData.fieldName, graphData)
+              handleTextBox(attr, graphData.xAxisAttribute)
             }
             onMouseEnter={(e) => handleHover(e, attr, graphData)}
             onMouseLeave={(e) => handleHoverLeave(e)}

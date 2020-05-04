@@ -3,25 +3,43 @@ import * as d3 from 'd3';
 import classes from './lineGraph.module.css';
 import Lines from './lines';
 import Circles from './circles';
-// import HoverRectangles from '../HoverRectangles/hoverRectangles';
-// import HoverRectangles from '../../ProfileStats/HoverRectangles/hoverRectangles';
 import HoverRectangles from '../../../UI/Graphs/HoverRectangles/hoverRectangles';
 import TinyTooltip from '../../../UI/Tooltips/TinyTooltip';
 import YAxisLabel from '../../../UI/Graphs/yAxisLabel';
 import Axis from '../../../UI/Graphs/axis';
 
+// Prevent lines/circles spilling over from the start of graph. Use selected attrubute with the earliest non null values for the date
+const calculateYExtentOfSelectedAttributes = (data) => {
+  const selected = data.filter((d) => d.selected);
+  const getExtentsForAllSelectedAttributes = () => {
+    const extents = selected.map((attr) => {
+      return d3.extent(attr.data, (d) => d.StatisticsProfileDate);
+    });
+    return extents;
+  };
+  const selectedExtents = getExtentsForAllSelectedAttributes();
+  const maxValue = selectedExtents.map((h) =>
+    Math.max(...selectedExtents.map((h) => h[1]))
+  )[0];
+  const minValue = selectedExtents.map((h) =>
+    Math.min(...selectedExtents.map((h) => h[0]))
+  )[0];
+  const xExtent = [minValue, maxValue];
+
+  return xExtent;
+};
 
 const dimensions = {
-  margin:{
+  margin: {
     left: 50,
     right: 50,
     top: 50,
     bottom: 50,
   },
-  width:800,
-  height:600
-}
-const {margin, width, height} = dimensions;
+  width: 800,
+  height: 600,
+};
+const { margin, width, height } = dimensions;
 const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
   const [data, setData] = useState(theData);
 
@@ -32,13 +50,8 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
   const [hoverColor, setHoverColor] = useState();
   const [hoverPosition, setHoverPosition] = useState([]);
 
-  // need to go through selected and use first non null value. lines/circles are spilling over from the start.
-  const xExtent = d3.extent(
-    data[0].data,
-    // (d) => d.attributes.StatisticsProfileDate
-    // (d) => d.attributes[data[0].xAxisAttribute]
-    (d) => d[data[0].xAxisAttribute]
-  );
+  // let xExtent = d3.extent(data[0].data, (d) => d[data[0].xAxisAttribute]);
+  const xExtent = calculateYExtentOfSelectedAttributes(data);
 
   useEffect(() => {
     setData(theData);
@@ -59,7 +72,6 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
     .range([height - margin.top, margin.bottom])
     .nice();
 
-
   const handleHoverDate = (e, info) => {
     // daily data date attr is 'Date'
     // statistics profile data date attr is 'StatisticsProfileDate'
@@ -67,9 +79,7 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
     if (!info[dateFieldName]) {
       dateFieldName = 'Date';
     }
-    setHoverInfo(
-      new Date(info[dateFieldName]).toString().substring(0, 10)
-    );
+    setHoverInfo(new Date(info[dateFieldName]).toString().substring(0, 10));
     setHoverColor('var(--lightBlack)');
 
     const xP = e.clientX + 20;
@@ -110,22 +120,23 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
       ) : null}
 
       <svg ref={svgRef} viewBox="0 0 800 600" width={width}>
-
-        <Axis dimensions={dimensions} xScale={xScale} yScale={yScale} tickNumDays={2} />
-        {yAxisLabel ? <YAxisLabel text={yAxisLabel} height={height} margin={margin} /> : null}
+        <Axis
+          dimensions={dimensions}
+          xScale={xScale}
+          yScale={yScale}
+          tickNumDays={2}
+        />
+        {yAxisLabel ? (
+          <YAxisLabel text={yAxisLabel} height={height} margin={margin} />
+        ) : null}
 
         <Lines data={data} xScale={xScale} yScale={yScale} />
 
         {data && data.length && data[0].selected ? (
           <HoverRectangles
-            // graphData={data[0]}
             graphData={data[0].data}
             dimensions={dimensions}
-            // xAxisAttribute="StatisticsProfileDate"
             xAxisAttribute={data[0].xAxisAttribute}
-            // width={width}
-            // height={height}
-            // margin={margin}
             xScale={xScale}
             handleHoverLeaveDate={handleHoverLeaveDate}
             handleHoverDate={handleHoverDate}
@@ -137,10 +148,10 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
           data={data}
           yScale={yScale}
           xScale={xScale}
-   
           handleTextBox={handleTextBox}
           handleHover={handleHover}
           handleHoverLeave={handleHoverLeave}
+        
         />
       </svg>
     </div>

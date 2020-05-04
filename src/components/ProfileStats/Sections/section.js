@@ -8,7 +8,6 @@ import {
   removeNulls,
   removeFromNestedAttributes,
   successfullyGotDataForEachSelectedAttr,
-  baseUrl,
   getOne
 } from './section-util';
 
@@ -77,6 +76,7 @@ const Section = ({ section }) => {
   }, [shouldUpdate, sectionAvail, getDataForEachSelected, isError]);
 
   const handleTextBox = (data, dateFieldName) => {
+    console.log(data, dateFieldName)
     if (!data || !dateFieldName) return;
     setSelectedDate(data[dateFieldName]);
   };
@@ -88,7 +88,6 @@ const Section = ({ section }) => {
     return (
       <LineGraph
         theData={sectionAvail}
-        // section={sectionData}
         yAxisLabel={section.yAxisLabel}
         handleTextBox={handleTextBox}
       />

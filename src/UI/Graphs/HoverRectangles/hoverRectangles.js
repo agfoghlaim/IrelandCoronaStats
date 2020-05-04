@@ -10,6 +10,7 @@ const HoverRectangles = ({
   handleHoverLeaveDate,
   handleTextBox,
 }) => {
+
   const [selectedRectDate, setSelectedRectDate] = useState('');
   const { width, height, margin } = dimensions;
 
