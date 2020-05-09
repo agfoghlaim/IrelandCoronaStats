@@ -7,6 +7,15 @@
   --orange: #e35500;
   --green: #4fb81c;
   --white: #eff1ef;
+
+  /* Other colours based off counties colorScale */
+  --covidPink: #f04494;
+  --covidLime: #ccd038;
+  --covidGreen: #19d1b6;
+  --covidPurple: #a73cb3;
+  --covidBlue: #3292e1;
+  --covidOrange: #ff833d;
+  --covidYellow: #ccd038;
 }
 
 html {

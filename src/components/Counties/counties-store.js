@@ -32,7 +32,9 @@ const removeFromNestedAttributes = (data) => {
     let obj = {};
     for (const key in d.attributes) {
       obj[key] = d.attributes[key];
+      
     }
+    // obj['color'] = colorScale(d.attributes.PopulationCensus16);
     return obj;
   });
 };

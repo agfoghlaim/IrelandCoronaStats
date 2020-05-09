@@ -8,6 +8,7 @@ import { useStore } from '../../Store/store';
 
 import BarChartSection from './BarChartSection/barChartSection';
 import LineGraphSection from './LineChartSection/lineChartSection';
+import TreeSection from './TreeSection/treeSection';
 configureStore();
 
 const uriLatestAllCounties = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=CountyName,PopulationCensus16,ConfirmedCovidCases,PopulationProportionCovidCases,FID,TimeStampDate&outSR=4326&resultRecordCount=26&orderByFields=TimeStampDate%20DESC&returnGeometry=false&f=json`;
@@ -53,6 +54,8 @@ const Counties = () => {
   },[]);
 
   const handleSelectOneCounty = (county) => {
+    console.log(county)
+    console.log("dispatch...")
     dispatch('SELECT_COUNTY', county);
   };
 
@@ -80,6 +83,13 @@ const Counties = () => {
       <>
         {isError ? <ErrorComp msg="Could not load data." /> : null}
 
+        <TreeSection 
+         handleSelectOneCounty={handleSelectOneCounty}
+         handleSelectData={handleSelectData}
+         handleSelectDate={handleSelectDate}
+         isLoading={isLoading}
+        />
+        
         <BarChartSection
           handleSelectOneCounty={handleSelectOneCounty}
           handleSelectData={handleSelectData}
@@ -92,6 +102,7 @@ const Counties = () => {
           handleSelectData={handleSelectData}
           isLoading={isLoading}
         />
+        
       </>
     </Layout>
   );
