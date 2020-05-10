@@ -1,15 +1,16 @@
 import * as d3 from 'd3';
-import React, { useRef, useState } from 'react';
+import React from 'react';
+import CountyTile from './countyTile';
 
-const color = d3
-  .scaleOrdinal()
-  .domain(['ulster', 'munster', 'connaught', 'leinster'])
-  .range([
-    'var(--covidGreen)',
-    'var(--covidBlue)',
-    'var(--covidPurple)',
-    'var(--covidYellow)',
-  ]);
+// const color = d3
+//   .scaleOrdinal()
+//   .domain(['ulster', 'munster', 'connaught', 'leinster'])
+//   .range([
+//     'var(--covidGreen)',
+//     'var(--covidBlue)',
+//     'var(--covidPurple)',
+//     'var(--covidYellow)',
+//   ]);
 
 const PROVINCES = [
   {
@@ -98,14 +99,21 @@ const withoutProvinces = (graphData) => {
   return { children: graphData };
 };
 
-const getOpacity = (extent) => d3.scaleLinear().domain(extent).range([0.2, 1]);
+// const getOpacity = (extent) => d3.scaleLinear().domain(extent).range([0.2, 1]);
+// const getOpacity = (extent) => d3.scaleQuantize().domain(extent).range([0.6,0.7,0.8,0.9, 1]);
+const getOpacity = (graphData, attribute) =>
+  d3
+    .scaleQuantile()
+    .domain(graphData.map((d) => d[attribute]))
+    .range([0.6, 0.7, 0.8, 0.9, 1]);
 
 const CountyTiles = ({
   graphData,
   attribute,
   showProvinces,
   handleSelectOneCounty,
-  selectedAttributeColor
+  selectedAttributeColor,
+  selectedCountyName,
 }) => {
   const sortedGraphData = graphData.sort((a, b) => a[attribute] - b[attribute]);
 
@@ -116,12 +124,8 @@ const CountyTiles = ({
     ? withProvinces
     : withoutProvinces(sortedGraphData);
 
-  const extentOfSelectedAttribute = d3.extent(
-    graphData,
-    (d) => d[attribute] / 10
-  );
 
-  const opacity = getOpacity(extentOfSelectedAttribute);
+  const opacity = getOpacity(graphData, attribute);
   const root = d3
     .hierarchy(dataWithOrWithoutProvinces)
     .sum((d) => d[attribute]);
@@ -136,113 +140,27 @@ const CountyTiles = ({
     .paddingBottom(10)(root);
 
   return root.leaves().map((tree, i, arr) => {
-    console.log(tree);
     const rect = {
       x: tree.x0,
       y: tree.y0,
       width: tree.x1 - tree.x0,
       height: tree.y1 - tree.y0,
-      // fill: showProvinces ? color(tree.parent.data.name) : selectedAttributeColor,
       fill: selectedAttributeColor,
+      stroke:
+        tree.data.CountyName === selectedCountyName ? 'var(--white)' : 'none',
       opacity: opacity(tree.data[attribute]),
     };
 
     return (
-      <g
-        key={tree.data.CountyName}
-        style={{cursor:'pointer'}}
-        onClick={()=>handleSelectOneCounty(tree.data.CountyName)}
-      >
-        <rect
-          stroke={rect.stroke}
-          fill={rect.fill}
-          x={rect.x}
-          y={rect.y}
-          width={rect.width}
-          height={rect.height}
-          opacity={rect.opacity}
-        />
-        {showProvinces &&
-        (i === 0 || tree.parent.data.name !== arr[i - 1].parent.data.name) ? (
-          <text
-            x={rect.x}
-            y={rect.y - 4}
-            fontSize="0.6rem"
-            fontWeight="900"
-            fill="var(--yellow)"
-          >
-            {tree.parent.data.name
-              ? tree.parent.data.name.charAt(0).toUpperCase() +
-                tree.parent.data.name.slice(1)
-              : ''}
-          </text>
-        ) : null}
-
-        {rect.width > 80 ? (
-          <>
-            <text
-              x={rect.x + 4}
-              y={rect.y + 12}
-              height="20"
-              fontSize="0.6rem"
-              fontWeight="900"
-              fill="var(--white)"
-              style={{ textTransform: 'uppercase', letterSpacing: '0.2rem' }}
-            >
-              {tree.data.CountyName}{' '}
-              {/* {new Date(tree.data.TimeStampDate).toString().substring(0, 16)} ( */}
-              {/* ({tree.data[attribute]}) */}
-            </text>
-            {rect.height > 20 ? (
-              <text
-                x={rect.x + 4}
-                y={rect.y + 22}
-                height="20"
-                fontSize="0.5rem"
-                fontWeight="500"
-                fill="var(--white)"
-                style={{ textTransform: 'uppercase', letterSpacing: '0.1rem' }}
-              >
-                {/* {tree.data.CountyName}{' '} */}
-                {/* {new Date(tree.data.TimeStampDate).toString().substring(0, 16)} ( */}
-                ({Math.round(tree.data[attribute])})
-              </text>
-            ) : null}
-          </>
-        ) : (
-          <>
-            <text
-              x={rect.x + 4}
-              y={rect.y + 12}
-              height="20"
-              fontSize={rect.width < 30 ? '0.5rem' : '0.6rem'}
-              fontWeight="900"
-              fill="var(--white)"
-              // stroke="var(--black)"
-              // strokeWidth={rect.width < 30 ? '0.05rem' : '0.08rem'}
-            >
-              {tree.data.reg}{' '}
-              {/* {new Date(tree.data.TimeStampDate).toString().substring(0, 16)} ( */}
-              {/* ({tree.data[attribute]}) */}
-            </text>
-            {rect.height > 30 ? (
-              <text
-                x={rect.x + 4}
-                y={rect.y + 22}
-                height="20"
-                fontSize="0.5rem"
-                fontWeight="500"
-                fill="var(--white)"
-                style={{ textTransform: 'uppercase', letterSpacing: '0.1rem' }}
-              >
-                {/* {tree.data.CountyName}{' '} */}
-                {/* {new Date(tree.data.TimeStampDate).toString().substring(0, 16)} ( */}
-                ({Math.round(tree.data[attribute])})
-              </text>
-            ) : null}
-          </>
-        )}
-      </g>
+      <CountyTile 
+        tree={tree}
+        rect={rect}
+        handleSelectOneCounty={handleSelectOneCounty}
+        showProvinces={showProvinces}
+        i={i}
+        arr={arr}
+        attribute={attribute}
+      />
     );
   });
 };

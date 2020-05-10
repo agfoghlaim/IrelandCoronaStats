@@ -23,7 +23,7 @@ const TreeGraph = ({showProvinces, handleSelectOneCounty}) => {
 
   // get colour corresponding to selected attribute (need it for countyTile colour)
   const selectedAttributeColor = storeSections.avail.filter((data) => data.selected)[0].color;
-  console.log(selectedAttributeColor)
+
 
   const svgRef = useRef();
 
@@ -32,7 +32,7 @@ const TreeGraph = ({showProvinces, handleSelectOneCounty}) => {
       viewBox={`0 0 ${width} ${height}`}
       ref={svgRef}
       width={width}
-      style={{ background: 'var(--black)' }}
+      style={{ background: 'var(--black)', maxWidth: '100%' }}
     >
       <CountyTiles
         
@@ -41,6 +41,7 @@ const TreeGraph = ({showProvinces, handleSelectOneCounty}) => {
         showProvinces={showProvinces}
         handleSelectOneCounty={handleSelectOneCounty}
         selectedAttributeColor={selectedAttributeColor}
+        selectedCountyName={storeSections.newSelectedCounty.name}
  
       />
       ;
