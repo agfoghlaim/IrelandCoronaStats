@@ -19,6 +19,7 @@ const Counties = () => {
   const dispatch = useStore()[1];
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   // Latest - all counties
   useEffect(() => {
@@ -71,10 +72,10 @@ const Counties = () => {
   // click on ClickRectangle
   const handleSelectDate = (date) => {
     dispatch('SELECT_DATE', date);
-
-    // also update allCountiesLatestData (for Bar Chart)
     dispatch('UPDATE_ALL_COUNTIES_LATEST_DATA', date);
   };
+
+
 
   return (
     <Layout>
@@ -86,6 +87,9 @@ const Counties = () => {
          handleSelectData={handleSelectData}
          handleSelectDate={handleSelectDate}
          isLoading={isLoading}
+         isPlaying={isPlaying}
+         setIsPlaying={setIsPlaying}
+       
         />
         
         <BarChartSection
@@ -93,6 +97,8 @@ const Counties = () => {
           handleSelectData={handleSelectData}
           handleSelectDate={handleSelectDate}
           isLoading={isLoading}
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
         />
         <LineGraphSection
           handleSelectDate={handleSelectDate}

@@ -12,14 +12,25 @@ import BoringButton from '../../../UI/Buttons/boringButton';
 import TreeGraph from './treeGraph';
 import ClickArrows from '../ClickArrows/clickArrows';
 import AttributeBtns from '../SectionsUI/AttributeBtns/attributeBtns';
+
 const TreeSection = ({
   handleSelectOneCounty,
   handleSelectData,
   handleSelectDate,
+  isPlaying,
+  setIsPlaying,
   isLoading,
 }) => {
   const storeSections = useStore()[0].sections[0];
   const [showProvinces, setShowProvinces] = useState(false);
+  // const [isPlaying, setIsPlaying] = useState(false);
+
+  const handleSetIsPlaying = (date) => {
+    // console.log(date)
+    console.log("set", isPlaying)
+    setIsPlaying(!isPlaying);
+  }
+
   return isLoading ? (
     <SectionWrapSimple minHeight="50vh">
       <LoadingComp />
@@ -40,6 +51,7 @@ const TreeSection = ({
               tempJustDates={storeSections.allCounties[0].stats.map(
                 (s) => s.TimeStampDate
               )}
+              setIsPlaying ={handleSetIsPlaying}
             />
           ) : null}
         </SectionHeader>
@@ -60,6 +72,9 @@ const TreeSection = ({
         <TreeGraph
           showProvinces={showProvinces}
           handleSelectOneCounty={handleSelectOneCounty}
+          isPlaying={isPlaying}
+          // localIsTreeGraphPlaying ={isPlaying}
+          setIsPlaying={handleSetIsPlaying}
         />
         {/* <BarChart
               handleSelectOneCounty={handleSelectOneCounty}

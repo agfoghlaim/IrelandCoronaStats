@@ -1,19 +1,25 @@
 import React from 'react';
 import classes from './header.module.css';
-import { Link } from 'react-router-dom';
-const Header = () => (
+import { NavLink } from 'react-router-dom';
+const Header = (props) => (
   <header className={classes.header}>
     <h1>Ireland Coronavirus Stats</h1>
     <nav>
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <NavLink exact to="/" activeClassName={classes.navActive}>
+            Home
+          </NavLink>
         </li>
         <li>
-          <Link to="/stats">Profiles</Link>
+          <NavLink exact to="/stats" activeClassName={classes.navActive}>
+            Profiles
+          </NavLink>
         </li>
         <li>
-          <Link to="/counties">Counties</Link>
+          <NavLink exact to="/counties" activeClassName={classes.navActive}>
+            Counties
+          </NavLink>
         </li>
       </ul>
     </nav>

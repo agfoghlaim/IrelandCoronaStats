@@ -10,8 +10,8 @@
   grid-gap: 1rem;
 }
 
-.clickArrowsWrap h6 {
-  color: var(--white);
+.clickArrowsWrap h5 {
+  color: var(--yellow);
   margin: 0;
 } 
 .clickArrows {
@@ -21,9 +21,9 @@
 
 .clickArrowsWrap button {
   background: none;
-  color: var(--orange);
+  color: var(--yellow);
   border: none;
   font-weight: 900;
-  font-size: 0.7rem;
+  font-size: 1rem;
   cursor: pointer;
 }

@@ -15,6 +15,8 @@ const BarChartSection = ({
   handleSelectOneCounty,
   handleSelectData,
   handleSelectDate,
+  isPlaying,
+  setIsPlaying,
   isLoading,
 }) => {
   const storeSections = useStore()[0].sections[0];
@@ -42,6 +44,8 @@ const BarChartSection = ({
                   tempJustDates={storeSections.allCounties[0].stats.map(
                     (s) => s.TimeStampDate
                   )}
+                  isPlaying={isPlaying}
+                  setIsPlaying={setIsPlaying}
                 />
               ) : null}
             </SectionHeader>

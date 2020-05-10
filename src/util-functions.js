@@ -84,6 +84,7 @@ export const countiesStoreUtil = {
 export const sharedUtil = {
 
   getLatestDate: (county) => {
+
     const dates = county.stats.map((s) => s.TimeStampDate);
     const newestDate = Math.max(...dates.map((d) => d));
     return newestDate;

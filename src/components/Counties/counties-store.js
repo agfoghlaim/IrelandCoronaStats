@@ -122,7 +122,6 @@ const configureStore = () => {
         selectedDate: '',
         selectedCountyDataForSelectedDate: {}, // Rename, may as well use this for selected date data as well
         selectedAttributeName: 'ConfirmedCovidCases',
-      
         avail: [
           {
             name: 'Total Number of Cases',

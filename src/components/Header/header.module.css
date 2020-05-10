@@ -1,16 +1,21 @@
 .header {
-  background: var(--orange);
+  background: var(--black);
   display: grid;
   padding: 2rem 2rem 1rem 2rem;
-  display: grid;
   width: 100%;
-  grid-gap: 1rem;
+  /* grid-gap: 1rem; */
   color: var(--white);
   grid-template-rows: 1fr 1fr;
+  border-bottom: 0.1rem solid var(--gray);
 }
 
 .header h1 {
   margin: 0;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: -0.1rem;
+  font-weight: 900;
+  line-height: 2rem;
 }
 nav {
   display: grid;
@@ -31,7 +36,15 @@ nav ul li {
 }
 nav ul li a {
   text-decoration: none;
-  color: var(--lightBlack);
-  font-size: 1rem;
-  font-weight: 700;
+  color: var(--gray);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.08rem;;
+}
+
+.navActive{
+ 
+  font-weight: 900;
+  color: var(--yellow);
+
 }

@@ -145,7 +145,10 @@ const CountyTiles = ({
       y: tree.y0,
       width: tree.x1 - tree.x0,
       height: tree.y1 - tree.y0,
-      fill: selectedAttributeColor,
+      // fill: selectedAttributeColor,
+      // fill should match barGraph white, TODO (have to change text colour for white)
+      fill:
+        tree.data.CountyName === selectedCountyName ? 'var(--lightBlack)' : selectedAttributeColor,
       stroke:
         tree.data.CountyName === selectedCountyName ? 'var(--white)' : 'none',
       opacity: opacity(tree.data[attribute]),
@@ -153,6 +156,7 @@ const CountyTiles = ({
 
     return (
       <CountyTile 
+        key={i}
         tree={tree}
         rect={rect}
         handleSelectOneCounty={handleSelectOneCounty}
