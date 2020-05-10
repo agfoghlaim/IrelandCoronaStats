@@ -45,10 +45,21 @@ const getLatestDate = (county) => {
   return newestDate;
 };
 
-const getLatestForCounty = (county) => {
-  const dates = county.stats.map((s) => s.TimeStampDate);
-  const newestDate = Math.max(...dates.map((d) => d));
-  const newestData = county.stats.filter((s) => s.TimeStampDate === newestDate);
+// const getLatestForCounty = (county) => {
+//   const dates = county.stats.map((s) => s.TimeStampDate);
+//   const newestDate = Math.max(...dates.map((d) => d));
+//   const newestData = county.stats.filter((s) => s.TimeStampDate === newestDate);
+//   return newestData[0];
+// };
+
+const getLatestOrSelectedDateForCounty = (county, selectedDate) => {
+  let dateToUse = selectedDate;
+  if(!dateToUse){
+    const dates = county.stats.map((s) => s.TimeStampDate);
+    dateToUse = Math.max(...dates.map((d) => d));
+  }
+  
+  const newestData = county.stats.filter((s) => s.TimeStampDate === dateToUse);
   return newestData[0];
 };
 
@@ -89,8 +100,11 @@ const configureStore = () => {
       // default selectedCounty & selectedCountyLatestData
       copy[0].newSelectedCounty = allCounties[0];
 
-      const latestDate = getLatestDate(allCounties[0]);
-      copy[0].selectedCountyLatestData = getLatestForCounty(allCounties[0]);
+    
+      copy[0].selectedCountyLatestData = getLatestOrSelectedDateForCounty(allCounties[0], undefined);
+
+        // Should only happen on init, otherwise use selectedDate
+        const latestDate = getLatestDate(allCounties[0]);
       copy[0].selectedDate = latestDate;
 
       return { sections: copy };
@@ -134,7 +148,11 @@ const configureStore = () => {
       const selectedCounty = copy[0].allCounties.filter(
         (a) => a.name === county
       )[0];
-      const latestData = getLatestForCounty(selectedCounty);
+
+      // Should only happen on init, otherwise use selected Date
+      const selectedDate = copy[0].selectedDate || '';
+      const latestData = getLatestOrSelectedDateForCounty(selectedCounty, selectedDate);
+      
 
       copy[0].newSelectedCounty = selectedCounty;
 

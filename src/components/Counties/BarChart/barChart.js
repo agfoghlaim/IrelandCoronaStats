@@ -98,7 +98,6 @@ const BarChart = ({ handleSelectOneCounty, isLoading }) => {
     setIsHovered(false);
   };
   const localHandleSelectCounty = (county) => {
-    console.log(county)
     handleSelectOneCounty(county);
   };
 

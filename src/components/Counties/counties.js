@@ -54,8 +54,6 @@ const Counties = () => {
   },[]);
 
   const handleSelectOneCounty = (county) => {
-    console.log(county)
-    console.log("dispatch...")
     dispatch('SELECT_COUNTY', county);
   };
 
