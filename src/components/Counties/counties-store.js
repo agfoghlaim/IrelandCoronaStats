@@ -1,95 +1,17 @@
-// import { initStore } from './store';
 import { initStore } from '../../Store/store';
-import * as d3 from 'd3';
+import { countiesStoreUtil as util, sharedUtil }  from '../../util-functions';
 
-const colorScale = d3
-  .scaleSequential()
-  .domain([0, 100])
-  .interpolator(d3.interpolateRainbow);
-
-const sortIntoArraysByCounty = (data, field = 'CountyName') => {
-  // data in = [{galway},{galway},{longford}]
-  // want data out = [[{galway},{galway}],[{longford}]]
-  const usedCountyNames = [];
-  const newData = [];
-  data.forEach((d) => {
-    // new county
-    if (!usedCountyNames.includes(d[field])) {
-      usedCountyNames.push(d[field]);
-      newData.push([d]);
-    } else {
-      // find county in array of arrays and push new one in
-      const correctArray = newData.filter((n) => n[0][field] === d[field])[0];
-      correctArray.push(d);
-    }
-  });
-  return newData;
-};
-
-// Shared with dailyAlt-store
-const removeFromNestedAttributes = (data) => {
-  return data.map((d) => {
-    let obj = {};
-    for (const key in d.attributes) {
-      obj[key] = d.attributes[key];
-      
-    }
-    // obj['color'] = colorScale(d.attributes.PopulationCensus16);
-    return obj;
-  });
-};
-
-const getLatestDate = (county) => {
-  const dates = county.stats.map((s) => s.TimeStampDate);
-  const newestDate = Math.max(...dates.map((d) => d));
-  return newestDate;
-};
-
-// const getLatestForCounty = (county) => {
-//   const dates = county.stats.map((s) => s.TimeStampDate);
-//   const newestDate = Math.max(...dates.map((d) => d));
-//   const newestData = county.stats.filter((s) => s.TimeStampDate === newestDate);
-//   return newestData[0];
-// };
-
-const getLatestOrSelectedDateForCounty = (county, selectedDate) => {
-  let dateToUse = selectedDate;
-  if(!dateToUse){
-    const dates = county.stats.map((s) => s.TimeStampDate);
-    dateToUse = Math.max(...dates.map((d) => d));
-  }
-  
-  const newestData = county.stats.filter((s) => s.TimeStampDate === dateToUse);
-  return newestData[0];
-};
-
-const turnArraysIntoNiceObjects = (data) => {
-  return data.map((n, i) =>
-    createManagableObjectAndSetFirstCountyToSelected(n, i)
-  );
-};
-
+// Can't think of a better name than doTediousStuff so leaving this function here so one can easily see what it's doing.
 const doTediousStuff = (features) => {
   return [
-    removeFromNestedAttributes,
-    sortIntoArraysByCounty,
-    turnArraysIntoNiceObjects,
+    util.removeFromNestedAttributes,
+    util.sortIntoArraysByCounty,
+    util.turnArraysIntoNiceObjects,
   ].reduce((features, fn) => {
     return fn(features);
   }, features);
 };
 
-const createManagableObjectAndSetFirstCountyToSelected = (n, i) => {
-  const obj = {};
-  obj.name = n[0].CountyName;
-  obj.selected = false;
-  obj.stats = [...n];
-  obj['color'] = colorScale(n[0].PopulationCensus16);
-  if (i === 0) {
-    obj['selected'] = true;
-  }
-  return obj;
-};
 const configureStore = () => {
   const actions = {
     SET_ALL_DATA: (curState, response) => {
@@ -101,16 +23,16 @@ const configureStore = () => {
       copy[0].newSelectedCounty = allCounties[0];
 
     
-      copy[0].selectedCountyLatestData = getLatestOrSelectedDateForCounty(allCounties[0], undefined);
+      copy[0].selectedCountyLatestData = util.getLatestOrSelectedDateForCounty(allCounties[0], undefined);
 
-        // Should only happen on init, otherwise use selectedDate
-        const latestDate = getLatestDate(allCounties[0]);
+      // Set selected date to date of latest available data for init
+      const latestDate = sharedUtil.getLatestDate(allCounties[0]);
       copy[0].selectedDate = latestDate;
 
       return { sections: copy };
     },
     SET_ALL_COUNTIES_LATEST_DATA: (curState, response) => {
-      const withoutNestedAttributes = removeFromNestedAttributes(response);
+      const withoutNestedAttributes = util.removeFromNestedAttributes(response);
       const copy = curState.sections;
       copy[0].allCountiesLatestData = withoutNestedAttributes;
     },
@@ -151,7 +73,7 @@ const configureStore = () => {
 
       // Should only happen on init, otherwise use selected Date
       const selectedDate = copy[0].selectedDate || '';
-      const latestData = getLatestOrSelectedDateForCounty(selectedCounty, selectedDate);
+      const latestData = util.getLatestOrSelectedDateForCounty(selectedCounty, selectedDate);
       
 
       copy[0].newSelectedCounty = selectedCounty;
