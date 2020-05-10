@@ -123,7 +123,6 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
             )}
             dimensions={dimensions}
             xScale={xScale}
-            xAxisAttr={storeSections.dateFieldName}
             handleHoverLeaveDate={handleHoverLeaveDate}
             handleHoverDate={handleHoverDate}
             handleSelectDate={handleSelectDate}

@@ -1,7 +1,7 @@
 import { initStore } from '../../Store/store';
-import { countiesStoreUtil as util, sharedUtil }  from '../../util-functions';
+import { countiesStoreUtil as util, sharedUtil } from '../../util-functions';
 
-// Can't think of a better name than doTediousStuff so leaving this function here so one can easily see what it's doing.
+// Leaving this function here so one can easily see what it's doing.
 const doTediousStuff = (features) => {
   return [
     util.removeFromNestedAttributes,
@@ -14,28 +14,31 @@ const doTediousStuff = (features) => {
 
 const configureStore = () => {
   const actions = {
-    SET_ALL_DATA: (curState, response) => {
+    INIT_COUNTY_DATA: (curState, response) => {
       const copy = curState.sections;
+
       const allCounties = doTediousStuff(response);
       copy[0].allCounties = allCounties;
 
-      // default selectedCounty & selectedCountyLatestData
-      copy[0].newSelectedCounty = allCounties[0];
+      // Init Default selected county to first county in array
+      copy[0].allStatsAboutSelectedCounty = allCounties[0];
+      copy[0].selectedCountyDataForSelectedDate = util.getLatestOrSelectedDateDataForCounty(
+        allCounties[0],
+        undefined
+      );
 
-    
-      copy[0].selectedCountyLatestData = util.getLatestOrSelectedDateForCounty(allCounties[0], undefined);
-
-      // Set selected date to date of latest available data for init
-      const latestDate = sharedUtil.getLatestDate(allCounties[0]);
-      copy[0].selectedDate = latestDate;
+      // Init Default date to date of latest available data for first county in array
+      copy[0].selectedDate = sharedUtil.getLatestDate(allCounties[0]);
 
       return { sections: copy };
     },
-    SET_ALL_COUNTIES_LATEST_DATA: (curState, response) => {
+    INIT_ALL_COUNTIES_LATEST_DATA: (curState, response) => {
       const withoutNestedAttributes = util.removeFromNestedAttributes(response);
       const copy = curState.sections;
       copy[0].allCountiesLatestData = withoutNestedAttributes;
     },
+
+    // When selected date changes...
     UPDATE_ALL_COUNTIES_LATEST_DATA: (curState, date) => {
       const copy = curState.sections;
 
@@ -47,23 +50,24 @@ const configureStore = () => {
 
       return { sections: copy };
     },
+
     SELECT_ATTRIBUTE: (curState, fieldName) => {
-      const sectionUpdate = curState.sections[0].avail.map((a) => {
-        if (a.fieldName === fieldName) {
-          a.selected = true;
-        } else {
-          a.selected = false;
-        }
-        return a;
-      });
-      const update = curState.sections;
-      update[0].avail = sectionUpdate;
+      const copy = curState.sections;
+
+      const withThisFieldNameSelected = util.selectAttributeWithThisFieldName(
+        copy[0].avail,
+        fieldName
+      );
+
+      copy[0].avail = withThisFieldNameSelected;
 
       // also set just the name
-      update[0].selectedAttributeName = fieldName;
+      copy[0].selectedAttributeName = fieldName;
 
-      return { sections: update };
+      return { sections: copy };
     },
+
+    
     SELECT_COUNTY: (curState, county) => {
       const copy = curState.sections;
 
@@ -71,15 +75,14 @@ const configureStore = () => {
         (a) => a.name === county
       )[0];
 
-      // Should only happen on init, otherwise use selected Date
-      const selectedDate = copy[0].selectedDate || '';
-      const latestData = util.getLatestOrSelectedDateForCounty(selectedCounty, selectedDate);
-      
+      const selectedDate = copy[0].selectedDate || ''; 
+      const latestData = util.getLatestOrSelectedDateDataForCounty(
+        selectedCounty,
+        selectedDate
+      );
 
-      copy[0].newSelectedCounty = selectedCounty;
-
-      // also set selectedCountyLatestData
-      copy[0].selectedCountyLatestData = latestData;
+      copy[0].allStatsAboutSelectedCounty = selectedCounty;
+      copy[0].selectedCountyDataForSelectedDate = latestData;
 
       // and set selected bool in allCounties
       copy[0].allCounties = copy[0].allCounties.map((all) => {
@@ -94,13 +97,13 @@ const configureStore = () => {
       return { sections: copy };
     },
     SELECT_DATE: (curState, date) => {
-      // want to set selectedCountyLatest data to whatever is in newSelectedCounty ie find correct one by date in newSelectedCounty.state
+      // want to set selectedCountyLatest data to whatever is in allStatsAboutSelectedCounty ie find correct one by date in allStatsAboutSelectedCounty.stats
       const copy = curState.sections;
-      const ans = copy[0].newSelectedCounty.stats.filter(
+      const ans = copy[0].allStatsAboutSelectedCounty.stats.filter(
         (county) => county.TimeStampDate === date
       )[0];
 
-      copy[0].selectedCountyLatestData = ans;
+      copy[0].selectedCountyDataForSelectedDate = ans;
       copy[0].selectedDate = date;
 
       // also set allCountiesLatestData
@@ -112,14 +115,14 @@ const configureStore = () => {
       {
         name: 'Counties Time',
         sectionName: 'Counties',
-        allCounties: [],
-        allCountiesLatestData: [],
-        newSelectedCounty: {},
+        allCounties: [], // allCountiesAllResultsConfirmedCasesMoreThanZero 
+        allCountiesLatestData: [], // [{county}x26]
+        allStatsAboutSelectedCounty: {}, // Is one {} from allCounties[]
         xAxisAttribute: 'TimeStampDate',
         selectedDate: '',
-        selectedCountyLatestData: {}, // Rename, may as well use this for selected date data as well
+        selectedCountyDataForSelectedDate: {}, // Rename, may as well use this for selected date data as well
         selectedAttributeName: 'ConfirmedCovidCases',
-        dateFieldName: 'TimeStampDate',
+      
         avail: [
           {
             name: 'Total Number of Cases',
@@ -128,7 +131,6 @@ const configureStore = () => {
             xAxisDescription: 'Number of Confirmed Cases',
             selected: true,
             color: 'var(--purple)',
-            data: [],
           },
           {
             name: 'Cases per 100,000',
@@ -137,7 +139,6 @@ const configureStore = () => {
             xAxisDescription: 'Cases per 100,000 of Population',
             selected: false,
             color: 'var(--green)',
-            data: [],
           },
           {
             name: 'Population 2016',
@@ -146,7 +147,6 @@ const configureStore = () => {
             xAxisDescription: 'Population 2016',
             selected: false,
             color: 'var(--orange)',
-            data: [],
           },
         ],
       },

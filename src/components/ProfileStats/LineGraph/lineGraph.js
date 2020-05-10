@@ -73,8 +73,9 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
     .nice();
 
   const handleHoverDate = (e, info) => {
-    // daily data date attr is 'Date'
+    // daily data date attr is 'Date' (not relevant anymore...)
     // statistics profile data date attr is 'StatisticsProfileDate'
+    // This should not be hardcoded, (theData[?].xAxisAttribute). I'm leaving it cause it's just easier.
     let dateFieldName = 'StatisticsProfileDate';
     if (!info[dateFieldName]) {
       dateFieldName = 'Date';
@@ -132,7 +133,7 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
 
         <Lines data={data} xScale={xScale} yScale={yScale} />
 
-        {data && data.length  ? (
+        {data && data.length ? (
           <HoverRectangles
             graphData={data[0].data}
             dimensions={dimensions}
@@ -151,7 +152,6 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
           handleTextBox={handleTextBox}
           handleHover={handleHover}
           handleHoverLeave={handleHoverLeave}
-        
         />
       </svg>
     </div>

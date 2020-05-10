@@ -5,9 +5,8 @@ import { useStore } from '../../../Store/store';
 
 const TextBox = () => {
   const storeSections = useStore()[0].sections[0];
-  const selectedCountyLatestData = storeSections.selectedCountyLatestData;
+  const selectedCountyDataForSelectedDate = storeSections.selectedCountyDataForSelectedDate;
 
-  const whateverTheyCalledDateThisTime = storeSections.dateFieldName;
 
   const RightSpan = ({ text }) => {
     let color = 'var(--blue)';
@@ -18,15 +17,15 @@ const TextBox = () => {
     );
   };
 
-  return selectedCountyLatestData ? (
+  return selectedCountyDataForSelectedDate ? (
     <div className={classes.textItem}>
  
       <div className={classes.infoWrap}>
      
         <h3>
-          {selectedCountyLatestData.CountyName} <br />
+          {selectedCountyDataForSelectedDate.CountyName} <br />
           <span className={classes.small}>
-            {new Date(selectedCountyLatestData[whateverTheyCalledDateThisTime])
+            {new Date(selectedCountyDataForSelectedDate[storeSections.xAxisAttribute])
               .toString()
               .substring(0, 16)}
           </span>
@@ -35,14 +34,14 @@ const TextBox = () => {
       <div className={classes.infoWrap}>
         <p>Confirmed Cases: </p>
         <RightSpan
-          text={selectedCountyLatestData.ConfirmedCovidCases}
+          text={selectedCountyDataForSelectedDate.ConfirmedCovidCases}
           fieldName="ConfirmedCovidCases"
         ></RightSpan>
       </div>
       <div className={classes.infoWrap}>
         <p>Population 2016: </p>
         <RightSpan
-          text={selectedCountyLatestData.PopulationCensus16}
+          text={selectedCountyDataForSelectedDate.PopulationCensus16}
           fieldName="PopulationCensus16"
         ></RightSpan>
       </div>
@@ -50,8 +49,8 @@ const TextBox = () => {
         <p>Cases per 100,000: </p>
         <RightSpan
           text={
-            selectedCountyLatestData.PopulationProportionCovidCases
-              ? selectedCountyLatestData.PopulationProportionCovidCases.toFixed(
+            selectedCountyDataForSelectedDate.PopulationProportionCovidCases
+              ? selectedCountyDataForSelectedDate.PopulationProportionCovidCases.toFixed(
                   2
                 )
               : ''

@@ -41,7 +41,7 @@ const TreeGraph = ({showProvinces, handleSelectOneCounty}) => {
         showProvinces={showProvinces}
         handleSelectOneCounty={handleSelectOneCounty}
         selectedAttributeColor={selectedAttributeColor}
-        selectedCountyName={storeSections.newSelectedCounty.name}
+        selectedCountyName={storeSections.allStatsAboutSelectedCounty.name}
  
       />
       ;

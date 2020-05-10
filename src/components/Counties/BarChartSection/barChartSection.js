@@ -18,7 +18,7 @@ const BarChartSection = ({
   isLoading,
 }) => {
   const storeSections = useStore()[0].sections[0];
-  console.log("Latest Date = ", new Date(storeSections.selectedDate).toString().substring(0,16))
+
   return (
       isLoading ? (
         <SectionWrapSimple minHeight="50vh">

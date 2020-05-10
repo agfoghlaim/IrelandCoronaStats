@@ -119,17 +119,17 @@ const BarChart = ({ handleSelectOneCounty, isLoading }) => {
             height={barHeight}
             strokeWidth="1"
             stroke={
-              c.CountyName === storeSections.newSelectedCounty.name
+              c.CountyName === storeSections.allStatsAboutSelectedCounty.name
                 ? selectedData.color
                 : 'var(--white)'
             }
             fill={
-              c.CountyName === storeSections.newSelectedCounty.name
+              c.CountyName === storeSections.allStatsAboutSelectedCounty.name
                 ? 'var(--white)'
                 : selectedData.color
             }
             opacity={`${
-              c.CountyName === storeSections.newSelectedCounty.name ? 1 : 0.75
+              c.CountyName === storeSections.allStatsAboutSelectedCounty.name ? 1 : 0.75
             }`}
             x={margin.left}
             y={y}

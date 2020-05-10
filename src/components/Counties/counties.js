@@ -27,7 +27,7 @@ const Counties = () => {
         setIsLoading(true);
         setIsError(false);
         const response = await axios.get(uriLatestAllCounties);
-        dispatch('SET_ALL_COUNTIES_LATEST_DATA', response.data.features);
+        dispatch('INIT_ALL_COUNTIES_LATEST_DATA', response.data.features);
         setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
@@ -44,7 +44,7 @@ const Counties = () => {
         const response = await axios.get(
           allCountiesAllResultsConfirmedCasesMoreThanZero
         );
-        dispatch('SET_ALL_DATA', response.data.features);
+        dispatch('INIT_COUNTY_DATA', response.data.features);
         setIsLoading(false);
       } catch (e) {
         setIsLoading(false);

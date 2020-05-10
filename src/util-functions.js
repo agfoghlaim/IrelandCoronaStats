@@ -35,7 +35,7 @@ export const countiesStoreUtil = {
       return obj;
     });
   },
-  getLatestOrSelectedDateForCounty: (county, selectedDate) => {
+  getLatestOrSelectedDateDataForCounty: (county, selectedDate) => {
     let dateToUse = selectedDate;
     if(!dateToUse){
       const dates = county.stats.map((s) => s.TimeStampDate);
@@ -53,6 +53,7 @@ export const countiesStoreUtil = {
     const createManagableObjectAndSetFirstCountyToSelected = (n, i) => {
       const obj = {};
       obj.name = n[0].CountyName;
+      // should add reg
       obj.selected = false;
       obj.stats = [...n];
       obj['color'] = countiesStoreUtil.colorScale(n[0].PopulationCensus16);
@@ -65,6 +66,16 @@ export const countiesStoreUtil = {
     return data.map((n, i) =>
       createManagableObjectAndSetFirstCountyToSelected(n, i)
     );
+  },
+  selectAttributeWithThisFieldName: (attributes, fieldName)=> {
+    return attributes.map((a) => {
+      if (a.fieldName === fieldName) {
+        a.selected = true;
+      } else {
+        a.selected = false;
+      }
+      return a;
+    });
   }
   
  
