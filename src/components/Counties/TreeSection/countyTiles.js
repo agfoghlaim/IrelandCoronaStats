@@ -105,7 +105,7 @@ const getOpacity = (graphData, attribute) =>
   d3
     .scaleQuantile()
     .domain(graphData.map((d) => d[attribute]))
-    .range([0.6, 0.7, 0.8, 0.9, 1]);
+    .range([0.5,0.6, 0.7, 0.8]);
 
 const CountyTiles = ({
   graphData,
@@ -141,14 +141,17 @@ const CountyTiles = ({
 
   return root.leaves().map((tree, i, arr) => {
     const rect = {
+      isSelected:
+      tree.data.CountyName === selectedCountyName ? true : false,
       x: tree.x0,
       y: tree.y0,
       width: tree.x1 - tree.x0,
       height: tree.y1 - tree.y0,
       // fill: selectedAttributeColor,
       // fill should match barGraph white, TODO (have to change text colour for white)
-      fill:
-        tree.data.CountyName === selectedCountyName ? 'var(--lightBlack)' : selectedAttributeColor,
+      // fill:
+      //   tree.data.CountyName === selectedCountyName ? 'var(--white)' : selectedAttributeColor,
+      fill: selectedAttributeColor,
       stroke:
         tree.data.CountyName === selectedCountyName ? 'var(--white)' : 'none',
       opacity: opacity(tree.data[attribute]),

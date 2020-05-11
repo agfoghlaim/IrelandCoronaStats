@@ -29,7 +29,8 @@ const CountyTile = ({
       <rect
         stroke={rect.stroke}
         strokeWidth="0.1rem"
-        fill={rect.fill}
+        // fill={rect.fill}
+        fill={rect.isSelected ? 'var(--white)' : rect.fill}
         x={rect.x}
         y={rect.y}
         width={rect.width}
@@ -62,7 +63,8 @@ const CountyTile = ({
             height="20"
             fontSize="0.6rem"
             fontWeight="900"
-            fill="var(--white)"
+            fill={rect.isSelected ? 'var(--lightBlack)' : 'var(--white)'}
+            // fill="var(--white)"
             style={{ textTransform: 'uppercase', letterSpacing: '0.2rem' }}
           >
             {tree.data.CountyName}{' '}
@@ -74,7 +76,8 @@ const CountyTile = ({
               height="20"
               fontSize="0.5rem"
               fontWeight="500"
-              fill="var(--white)"
+              fill={rect.isSelected ? 'var(--lightBlack)' : 'var(--white)'}
+              // fill="var(--white)"
               style={{ textTransform: 'uppercase', letterSpacing: '0.1rem' }}
             >
               ({Math.round(tree.data[attribute])})
@@ -89,7 +92,8 @@ const CountyTile = ({
             height="20"
             fontSize={rect.width < 30 ? '0.5rem' : '0.6rem'}
             fontWeight="900"
-            fill="var(--white)"
+            fill={rect.isSelected ? 'var(--lightBlack)' : 'var(--white)'}
+            // fill="var(--white)"
           >
             {tree.data.reg}{' '}
           </text>
@@ -100,7 +104,8 @@ const CountyTile = ({
               height="20"
               fontSize="0.5rem"
               fontWeight="500"
-              fill="var(--white)"
+              fill={rect.isSelected ? 'var(--lightBlack)' : 'var(--white)'}
+              // fill="var(--white)"
               style={{ textTransform: 'uppercase', letterSpacing: '0.1rem' }}
             >
               ({Math.round(tree.data[attribute])})
