@@ -161,7 +161,6 @@ const Section = ({ section }) => {
           <div className={classes.profileStatsGraphLeft}>
             <div className={classes.sectionHeader}>
               <h3>{section.sectionName}</h3>
-              {/* <p>{section.description}</p> */}
             </div>
 
             {selectedDate && sectionAvail ? (
@@ -177,6 +176,9 @@ const Section = ({ section }) => {
             </div>
           </div>
           <div className={classes.profileStatsGraphMain}>
+          <div className={classes.sectionHeader}>
+              {/* <h3>{section.sectionName}</h3> */}
+            </div>
             {renderLineGraph()}
           </div>
         </div>

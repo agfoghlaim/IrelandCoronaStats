@@ -14,11 +14,19 @@
 }
 
 .sectionHeader h3 {
-  color: var(--white);
+  /* color: var(--white);
   letter-spacing: 0.08rem;
   text-align: center;
   padding: 1rem;
-  width: 100%;
+  width: 100%; */
+  color: var(--yellow);
+  letter-spacing: 0.1rem;
+  text-align: center;
+  /* padding: 1rem; */
+  /* width: 100%; */
+  text-transform: uppercase;
+  font-weight: 900;
+ 
 }
 
 .sectionHeader p {

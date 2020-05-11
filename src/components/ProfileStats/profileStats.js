@@ -4,6 +4,9 @@ import Section from './Sections/section';
 import Intro from './Intro/intro.js';
 import { sections } from './sections-data';
 
+import SectionWrapSimple from '../../UI/Sections/SectionWrapSimple/sectionWrapSimple';
+import SelectGraphBtnGroup from '../../UI/Buttons/SelectGraphBtnGroup/selectGraphBtnGroup';
+
 const ProfileStats = () => {
   const initAvailableGraphs = () => {
     return sections.map((s, i) => {
@@ -35,20 +38,26 @@ const ProfileStats = () => {
 
   return (
     <Layout>
-      allAvailableGraphs.length ? (
-      <Intro
-        handleSelectGraph={handleSelectGraph}
-        allAvailableGraphs={allAvailableGraphs}
-        h1="Graphs"
-        desc="Select graph below."
-        p="This data is part of a Daily Statistic Profile of Covid-19 made available by the Health Protection Surveillance Center. New data is released each evening and dates back to 12am two days previously."
-      />
+      <SectionWrapSimple offsetBottom="-3rem">
+        <SelectGraphBtnGroup
+          data={allAvailableGraphs}
+          handleSelectGraph={handleSelectGraph}
+        />
+      </SectionWrapSimple>
+
       {sections.map((section, i) => {
         return section.name === selectedGraphName() ? (
           <Section key={section.avail[0].name} section={section} />
         ) : null;
       })}
-      ) : null
+
+      <SectionWrapSimple offsetTop="-3rem">
+        <p>
+          This data is part of a Daily Statistic Profile of Covid-19 made
+          available by the Health Protection Surveillance Center. New data is
+          released each evening and dates back to 12am two days previously.
+        </p>
+      </SectionWrapSimple>
     </Layout>
   );
 };

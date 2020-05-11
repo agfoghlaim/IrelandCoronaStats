@@ -23,13 +23,14 @@ const TreeSection = ({
 }) => {
   const storeSections = useStore()[0].sections[0];
   const [showProvinces, setShowProvinces] = useState(false);
+  console.log("Tree ", isPlaying)
   // const [isPlaying, setIsPlaying] = useState(false);
 
-  const handleSetIsPlaying = (date) => {
-    // console.log(date)
-    console.log("set", isPlaying)
-    setIsPlaying(!isPlaying);
-  }
+  // const handleSetIsPlaying = (date) => {
+  //   // console.log(date)
+  //   console.log("set", isPlaying)
+  //   setIsPlaying(!isPlaying);
+  // }
 
   return isLoading ? (
     <SectionWrapSimple minHeight="50vh">
@@ -51,7 +52,9 @@ const TreeSection = ({
               tempJustDates={storeSections.allCounties[0].stats.map(
                 (s) => s.TimeStampDate
               )}
-              setIsPlaying ={handleSetIsPlaying}
+              // setIsPlaying ={handleSetIsPlaying}
+              setIsPlaying ={setIsPlaying}
+              isPlaying={isPlaying}
             />
           ) : null}
         </SectionHeader>
@@ -73,8 +76,8 @@ const TreeSection = ({
           showProvinces={showProvinces}
           handleSelectOneCounty={handleSelectOneCounty}
           isPlaying={isPlaying}
-          // localIsTreeGraphPlaying ={isPlaying}
-          setIsPlaying={handleSetIsPlaying}
+          // setIsPlaying={handleSetIsPlaying}
+          setIsPlaying={setIsPlaying}
         />
         {/* <BarChart
               handleSelectOneCounty={handleSelectOneCounty}

@@ -6,6 +6,7 @@ const ClickArrows = ({
   selectedDate,
   tempJustDates,
   setIsPlaying,
+  isPlaying
 }) => {
   const localHandleSelectDate = (isNext) => {
     const indexer = (i) => (isNext ? i + 1 : i - 1);
@@ -45,11 +46,13 @@ const ClickArrows = ({
         </button>
         <button
           style={{ fontSize: '2rem' }}
-          onClick={() => setIsPlaying(selectedDate)}
+          onClick={() => setIsPlaying(!isPlaying)}
         >
-          <span role="img" aria-label="play">
-            &#x23F5;
-          </span>
+          {isPlaying ?
+          <span>Pause</span>
+          
+      
+        : <span role="img" aria-label="play">&#x23F5;</span>}
         </button>
         <button onClick={() => localHandleSelectDate(true)}>
           <span role="img" aria-label="forward one">

@@ -46,6 +46,7 @@ const BarChartSection = ({
                   )}
                   isPlaying={isPlaying}
                   setIsPlaying={setIsPlaying}
+                 
                 />
               ) : null}
             </SectionHeader>
@@ -57,6 +58,7 @@ const BarChartSection = ({
           </SectionSide>
 
           <SectionMain background="var(--lightBlack)">
+
             <BarChart
               handleSelectOneCounty={handleSelectOneCounty}
               handleSelectDate={handleSelectDate}

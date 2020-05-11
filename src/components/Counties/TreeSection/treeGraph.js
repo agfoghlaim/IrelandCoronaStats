@@ -26,34 +26,34 @@ const TreeGraph = ({
   const dispatch = useStore()[1];
   const attribute = storeSections.selectedAttributeName;
 
-  const incrementSelectedDate = useCallback(() => {
-    let useDate = storeSections.selectedDate + ONE_DAY;
-    const latestPossibleDate = util.getLatestDate(storeSections.allCounties[0]);
-    if (storeSections.selectedDate < latestPossibleDate) {
-      dispatch('SELECT_DATE', useDate);
-      dispatch('UPDATE_ALL_COUNTIES_LATEST_DATA', useDate);
-      return true;
-    } else {
-      setIsPlaying(false);
-      return false;
-    }
-  }, [
-    dispatch,
-    setIsPlaying,
-    storeSections.selectedDate,
-    storeSections.allCounties,
-  ]);
+  // const incrementSelectedDate = useCallback(() => {
+  //   let useDate = storeSections.selectedDate + ONE_DAY;
+  //   const latestPossibleDate = util.getLatestDate(storeSections.allCounties[0]);
+  //   if (storeSections.selectedDate < latestPossibleDate) {
+  //     dispatch('SELECT_DATE', useDate);
+  //     dispatch('UPDATE_ALL_COUNTIES_LATEST_DATA', useDate);
+  //     return true;
+  //   } else {
+  //     setIsPlaying();
+  //     return false;
+  //   }
+  // }, [
+  //   dispatch,
+  //   setIsPlaying,
+  //   storeSections.selectedDate,
+  //   storeSections.allCounties,
+  // ]);
 
-  useEffect(() => {
-    let interval;
-    if (isPlaying) {
-      interval = setInterval(() => {
-        return incrementSelectedDate();
-      }, 400);
-      if (!interval) clearInterval(interval);
-    }
-    return () => clearInterval(interval);
-  }, [isPlaying, incrementSelectedDate]);
+  // useEffect(() => {
+  //   let interval;
+  //   if (isPlaying) {
+  //     interval = setInterval(() => {
+  //       return incrementSelectedDate();
+  //     }, 400);
+  //     if (!interval) clearInterval(interval);
+  //   }
+  //   return () => clearInterval(interval);
+  // }, [isPlaying, incrementSelectedDate]);
 
   // get colour corresponding to selected attribute (need it for countyTile colour)
   const selectedAttributeColor = storeSections.avail.filter(

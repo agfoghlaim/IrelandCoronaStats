@@ -16,10 +16,19 @@ p {
   font-size: 0.8rem;
 }
 .sectionHeader h3 {
-  padding: 1rem;
+  /* padding: 1rem;
   letter-spacing: 0.08rem;
+
+  width: 100%; */
+  color: var(--yellow);
+  letter-spacing: 0.1rem;
   text-align: center;
-  width: 100%;
+  /* text-align: center; */
+  /* padding: 1rem; */
+  /* width: 100%; */
+  text-transform: uppercase;
+  font-weight: 900;
+   /* font-size: 1rem; */
 }
 
 .sectionHeader h3 small {

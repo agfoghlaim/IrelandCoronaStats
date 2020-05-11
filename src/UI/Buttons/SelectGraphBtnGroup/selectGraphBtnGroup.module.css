@@ -1,15 +1,3 @@
-.desc {
-  margin: 0; 
-  font-size: 0.6rem; 
-  letter-spacing: 0.05rem;
-}
-
-.p {
-  margin: 0;
-  font-size: 0.8rem;
-
-}
-
 .btnGroupWrap {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
