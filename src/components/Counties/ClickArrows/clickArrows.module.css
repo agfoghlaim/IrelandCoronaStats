@@ -1,5 +1,4 @@
 .clickArrowsWrap {
-  /* background: var(--lightBlack); */
   border-radius: 0.4rem;
   width: 100%;
   display: grid;
@@ -31,9 +30,8 @@
   transition: all 100ms ease-out;
 }
 
-.clickArrowsWrap button:active, .clickArrowsWrap button:hover {
+.clickArrowsWrap button:active,
+.clickArrowsWrap button:hover {
   transform: scale(1.05);
   opacity: 0.9;
-  
- 
 }

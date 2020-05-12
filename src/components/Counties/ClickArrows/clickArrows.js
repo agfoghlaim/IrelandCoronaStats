@@ -5,14 +5,14 @@ import CtrlSvg from '../../../img/ctrlSvg';
 const ClickArrows = ({
   handleSelectDate,
   selectedDate,
-  tempJustDates,
+  justDates,
   setIsPlaying,
   isPlaying,
 }) => {
   const localHandleSelectDate = (isNext) => {
     const indexer = (i) => (isNext ? i + 1 : i - 1);
-    const selectedIndex = tempJustDates.indexOf(selectedDate);
-    const ans = tempJustDates[indexer(selectedIndex)];
+    const selectedIndex = justDates.indexOf(selectedDate);
+    const ans = justDates[indexer(selectedIndex)];
     const nextPrevDate = ans ? ans : selectedDate;
 
     if (nextPrevDate === selectedDate) return;
@@ -21,24 +21,14 @@ const ClickArrows = ({
   };
 
   const localHandleBackToStart = () => {
-    const earliestDate = Math.min(...tempJustDates.map((d) => d));
+    const earliestDate = Math.min(...justDates.map((d) => d));
     handleSelectDate(earliestDate);
   };
 
   const localHandleToLastDate = () => {
-    const latestDate = Math.max(...tempJustDates.map((d) => d));
+    const latestDate = Math.max(...justDates.map((d) => d));
     handleSelectDate(latestDate);
   };
-
-  // const controls = [
-  //   {name: 'back', color: 'var(--yellow)', height: '1rem', aria: 'Back one' },
-  //   {name: 'forward', color: 'var(--yellow)', height: '1rem', aria: 'Forward one' },
-  //   {name: 'beginning', color: 'var(--yellow)', height: '1rem', aria: 'Back to beginning' },
-  //   {name: 'end', color: 'var(--yellow)', height: '1rem', aria: 'Skip to end' },
-  //   {name: 'play', color: 'var(--yellow)', height: '2rem', aria: 'Play' },
-  //   {name: 'stop', color: 'var(--yellow)', height: '2rem', aria: 'Stop' },
-  // ]
-
 
   return (
     <div className={classes.clickArrowsWrap}>
@@ -56,10 +46,7 @@ const ClickArrows = ({
             <CtrlSvg ctrlType="back" color="var(--yellow)" height="1rem" />
           </span>
         </button>
-        <button
-          // style={{ fontSize: '2rem' }}
-          onClick={() => setIsPlaying(!isPlaying)}
-        >
+        <button onClick={() => setIsPlaying(!isPlaying)}>
           {isPlaying ? (
             <span>
               <CtrlSvg ctrlType="stop" color="var(--yellow)" height="2rem" />

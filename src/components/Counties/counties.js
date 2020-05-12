@@ -1,24 +1,26 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useStore } from '../../Store/store';
+import axios from 'axios';
+import configureStore from './counties-store';
+import { sharedUtil as util } from '../../util-functions';
+import { COUNTIES } from '../../constants.js';
+
 import Layout from '../layout';
-import BarChartSection from './BarChartSection/barChartSection';
-import LineGraphSection from './LineChartSection/lineChartSection';
-import TreeSection from './TreeSection/treeSection';
 import SectionWrapSimple from '../../UI/Sections/SectionWrapSimple/sectionWrapSimple';
 import SelectGraphBtnGroup from '../../UI/Buttons/SelectGraphBtnGroup/selectGraphBtnGroup';
 import ErrorComp from '../../UI/error';
-
-import axios from 'axios';
-import configureStore from './counties-store';
-import { useStore } from '../../Store/store';
-import { sharedUtil as util } from '../../util-functions';
+import CountiesSection from './Sections/countiesSection';
+import BarChart from './BarChart/barChart';
+import LineGraph from './LineGraph/lineGraph';
+import TreeGraph from './TreeGraph/treeGraph';
 
 configureStore();
 
-// TODO move constants
-const ONE_DAY = 86400000;
-const uriLatestAllCounties = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=CountyName,PopulationCensus16,ConfirmedCovidCases,PopulationProportionCovidCases,FID,TimeStampDate&outSR=4326&resultRecordCount=26&orderByFields=TimeStampDate%20DESC&returnGeometry=false&f=json`;
-
-const allCountiesAllResultsConfirmedCasesMoreThanZero = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=ConfirmedCovidCases>0&1%3D1&outFields=CountyName,PopulationCensus16,ConfirmedCovidCases,PopulationProportionCovidCases,FID,TimeStampDate&returnGeometry=false&outSR=4326&f=json`;
+const {
+  ONE_DAY,
+  uriLatestAllCounties,
+  allCountiesAllResultsConfirmedCasesMoreThanZero,
+} = COUNTIES;
 
 const Counties = () => {
   const dispatch = useStore()[1];
@@ -26,6 +28,7 @@ const Counties = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showProvinces, setShowProvinces] = useState(false);
 
   const [selectedSection, setSelectedSection] = useState('bar');
 
@@ -91,54 +94,60 @@ const Counties = () => {
     dispatch('UPDATE_ALL_COUNTIES_LATEST_DATA', date);
   };
 
-  const renderGraphSection = () => {
+  const renderGraph = () => {
     switch (selectedSection) {
       case 'bar':
         return (
-          <BarChartSection
+          <BarChart
             handleSelectOneCounty={handleSelectOneCounty}
-            handleSelectData={handleSelectData}
             handleSelectDate={handleSelectDate}
             isLoading={isLoading}
-            isPlaying={isPlaying}
-            setIsPlaying={setIsPlaying}
           />
         );
       case 'tree':
         return (
-          <TreeSection
+          <TreeGraph
             handleSelectOneCounty={handleSelectOneCounty}
-            handleSelectData={handleSelectData}
             handleSelectDate={handleSelectDate}
             isLoading={isLoading}
-            isPlaying={isPlaying}
-            setIsPlaying={setIsPlaying}
+            showProvinces={showProvinces}
+            setShowProvinces={setShowProvinces}
           />
         );
       case 'line':
         return (
-          <LineGraphSection
-            handleSelectDate={handleSelectDate}
+          <LineGraph
             handleSelectCounty={handleSelectCounty}
-            handleSelectData={handleSelectData}
-            isLoading={isLoading}
-            isPlaying={isPlaying}
-            setIsPlaying={setIsPlaying}
+            handleSelectDate={handleSelectDate}
           />
         );
-
       default:
         return (
-          <BarChartSection
+          <TreeGraph
             handleSelectOneCounty={handleSelectOneCounty}
-            handleSelectData={handleSelectData}
             handleSelectDate={handleSelectDate}
             isLoading={isLoading}
-            isPlaying={isPlaying}
-            setIsPlaying={setIsPlaying}
+            showProvinces={showProvinces}
+            setShowProvinces={setShowProvinces}
           />
         );
     }
+  };
+
+  const renderGraphSection = () => {
+    return (
+      <CountiesSection
+        storeSections={storeSections}
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        handleSelectDate={handleSelectDate}
+        handleSelectData={handleSelectData}
+        handleSelectOneCounty={handleSelectOneCounty}
+        isLoading={isLoading}
+      >
+        {renderGraph()}
+      </CountiesSection>
+    );
   };
 
   const incrementSelectedDate = useCallback(() => {
@@ -180,7 +189,6 @@ const Counties = () => {
             handleSelectGraph={setSelectedSection}
           />
         </SectionWrapSimple>
-
         {renderGraphSection()}
       </>
     </Layout>

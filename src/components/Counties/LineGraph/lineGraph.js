@@ -19,7 +19,7 @@ const dimensions = {
 };
 const { margin, width, height } = dimensions;
 
-const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
+const LineGraph = ({ handleSelectCounty, handleSelectDate }) => {
   const storeSections = useStore()[0].sections[0];
   const selectedData = storeSections.avail.filter((data) => data.selected)[0];
   const svgRef = useRef(null);
@@ -29,10 +29,8 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
   const [hoverColor, setHoverColor] = useState();
   const [hoverPosition, setHoverPosition] = useState([]);
   const [selectedAttribute, setSelectedAttribute] = useState('');
-
   const [hoverInfoDate, setHoverInfoDate] = useState('');
 
-  // always runs!
   useEffect(() => {
     const findSelectedAttribute = () => {
       const selected = storeSections.avail.filter((d) => d.selected)[0];
@@ -71,6 +69,7 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
   };
 
   const handleHoverLeave = (e) => {
+
     setIsHovered(false);
   };
 
@@ -83,7 +82,9 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
   };
 
   // TODO ?
-  const handleHoverLeaveDate = () => {};
+  const handleHoverLeaveDate = () => {
+
+  };
 
   return (
     <>
@@ -156,4 +157,4 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
   );
 };
 
-export default LineGraph2;
+export default LineGraph;

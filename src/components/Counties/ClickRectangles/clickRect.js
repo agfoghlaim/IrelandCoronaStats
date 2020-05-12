@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
+// TODO This is flawed UI-wise. It's because hovering for county <Line> & date is too much. The 'Click Rectangles' are too small... could add them to top of the graph as well. Best solution probably to use same hover date thing as Daily&profile stats and remove the ability to select a county by clicking on the line. 
 const ClickRect = ({
   rect,
   date,
   handleHoverDate,
-  handleHoverLeaveDate,
+  // handleHoverLeaveDate,
   handleSelectDate,
   selected,
 }) => {
@@ -16,7 +17,7 @@ const ClickRect = ({
   };
   const localHandleHoverLeave = (e) => {
     setIsHovered(false);
-    handleHoverLeaveDate(e);
+    // handleHoverLeaveDate(e);
   };
 
   return (

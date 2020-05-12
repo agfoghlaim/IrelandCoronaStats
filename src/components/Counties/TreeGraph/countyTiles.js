@@ -1,65 +1,9 @@
-import * as d3 from 'd3';
 import React from 'react';
+import * as d3 from 'd3';
 import CountyTile from './countyTile';
+import { COUNTIES } from '../../../constants';
 
-// const color = d3
-//   .scaleOrdinal()
-//   .domain(['ulster', 'munster', 'connaught', 'leinster'])
-//   .range([
-//     'var(--covidGreen)',
-//     'var(--covidBlue)',
-//     'var(--covidPurple)',
-//     'var(--covidYellow)',
-//   ]);
-
-const PROVINCES = [
-  {
-    name: 'connaught',
-    counties: [
-      { name: 'Mayo', reg: 'MO' },
-      { name: 'Galway', reg: 'G' },
-      { name: 'Sligo', reg: 'SO' },
-      { name: 'Leitrim', reg: 'LM' },
-      { name: 'Roscommon', reg: 'RN' },
-    ],
-  },
-  {
-    name: 'ulster',
-    counties: [
-      { name: 'Donegal', reg: 'DL' },
-      { name: 'Monaghan', reg: 'MN' },
-      { name: 'Cavan', reg: 'CN' },
-    ],
-  },
-  {
-    name: 'leinster',
-    counties: [
-      { name: 'Longford', reg: 'LD' },
-      { name: 'Westmeath', reg: 'WH' },
-      { name: 'Louth', reg: 'LH' },
-      { name: 'Meath', reg: 'MH' },
-      { name: 'Dublin', reg: 'D' },
-      { name: 'Wicklow', reg: 'WW' },
-      { name: 'Wexford', reg: 'WX' },
-      { name: 'Kilkenny', reg: 'KK' },
-      { name: 'Carlow', reg: 'CW' },
-      { name: 'Kildare', reg: 'KE' },
-      { name: 'Laois', reg: 'LS' },
-      { name: 'Offaly', reg: 'OY' },
-    ],
-  },
-  {
-    name: 'munster',
-    counties: [
-      { name: 'Cork', reg: 'C' },
-      { name: 'Kerry', reg: 'KY' },
-      { name: 'Limerick', reg: 'L' },
-      { name: 'Clare', reg: 'CE' },
-      { name: 'Tipperary', reg: 'T' },
-      { name: 'Waterford', reg: 'W' },
-    ],
-  },
-];
+const { PROVINCES } = COUNTIES;
 const dimensions = {
   margin: {
     left: 70,
@@ -72,6 +16,7 @@ const dimensions = {
 };
 const { margin, width, height } = dimensions;
 
+// TODO - leaving this here for now
 const divideIntoProvences = (countyData, attribute) => {
   const ans = PROVINCES.map((prov, i) => {
     const names = prov.counties.map((c) => c.name);
@@ -92,9 +37,6 @@ const divideIntoProvences = (countyData, attribute) => {
   // return ans;
 };
 
-// const withProvinces = (graphData, attribute) => {
-//   return { children: divideIntoProvences(graphData, attribute) };
-// };
 const withoutProvinces = (graphData) => {
   return { children: graphData };
 };
@@ -115,6 +57,8 @@ const CountyTiles = ({
   selectedAttributeColor,
   selectedCountyName,
 }) => {
+
+  // TODO, this should happen automatically in store maybe? Definitely too much sorting going on here.
   const sortedGraphData = graphData.sort((a, b) => a[attribute] - b[attribute]);
 
   // Only calling divideIntoProvince() when actually needed causes reg to be missing first time. TODO add reg somewhere more sensible and don't call this until showProvinces is true.
@@ -123,7 +67,6 @@ const CountyTiles = ({
   const dataWithOrWithoutProvinces = showProvinces
     ? withProvinces
     : withoutProvinces(sortedGraphData);
-
 
   const opacity = getOpacity(graphData, attribute);
   const root = d3
@@ -147,10 +90,6 @@ const CountyTiles = ({
       y: tree.y0,
       width: tree.x1 - tree.x0,
       height: tree.y1 - tree.y0,
-      // fill: selectedAttributeColor,
-      // fill should match barGraph white, TODO (have to change text colour for white)
-      // fill:
-      //   tree.data.CountyName === selectedCountyName ? 'var(--white)' : selectedAttributeColor,
       fill: selectedAttributeColor,
       stroke:
         tree.data.CountyName === selectedCountyName ? 'var(--white)' : 'none',

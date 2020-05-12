@@ -35,6 +35,7 @@ const configureStore = () => {
     INIT_ALL_COUNTIES_LATEST_DATA: (curState, response) => {
       const withoutNestedAttributes = util.removeFromNestedAttributes(response);
       const copy = curState.sections;
+
       copy[0].allCountiesLatestData = withoutNestedAttributes;
     },
 
@@ -67,7 +68,6 @@ const configureStore = () => {
       return { sections: copy };
     },
 
-    
     SELECT_COUNTY: (curState, county) => {
       const copy = curState.sections;
 
@@ -75,7 +75,7 @@ const configureStore = () => {
         (a) => a.name === county
       )[0];
 
-      const selectedDate = copy[0].selectedDate || ''; 
+      const selectedDate = copy[0].selectedDate || '';
       const latestData = util.getLatestOrSelectedDateDataForCounty(
         selectedCounty,
         selectedDate
@@ -115,7 +115,7 @@ const configureStore = () => {
       {
         name: 'Counties Time',
         sectionName: 'Counties',
-        allCounties: [], // allCountiesAllResultsConfirmedCasesMoreThanZero 
+        allCounties: [], // allCountiesAllResultsConfirmedCasesMoreThanZero
         allCountiesLatestData: [], // [{county}x26]
         allStatsAboutSelectedCounty: {}, // Is one {} from allCounties[]
         xAxisAttribute: 'TimeStampDate',

@@ -6,7 +6,7 @@ const ClickRectangles = ({
   dimensions,
   xScale,
   handleHoverDate,
-  handleHoverLeaveDate,
+  // handleHoverLeaveDate,
   handleSelectDate,
   selectedDate, 
 }) => {
@@ -35,7 +35,7 @@ const ClickRectangles = ({
             date={date}
             key={i}
             selected={date === selectedDate}
-            handleHoverLeaveDate={handleHoverLeaveDate}
+            // handleHoverLeaveDate={handleHoverLeaveDate}
             handleHoverDate={handleHoverDate}
             handleSelectDate={handleSelectDate}
           />
