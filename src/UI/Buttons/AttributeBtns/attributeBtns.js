@@ -16,7 +16,7 @@ const AttributeBtns = ({availableAttributes, handleSelectData, graphIndex}) => {
         border: `${
           !a.selected ? `0.1rem solid ${a.color}` : `${a.color} `
         }`,
-        color: `${a.selected ? `var(--white)` : `var(--white)`}`,
+        color: `${a.selected && a.color === 'var(--white)' ? `var(--lightBlack)` : `var(--white)`}`,
         outline: 'none',
       }}
       onClick={(e) => handleSelectData(e, graphIndex)}

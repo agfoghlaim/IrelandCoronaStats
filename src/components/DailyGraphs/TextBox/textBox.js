@@ -27,7 +27,10 @@ const TextBox = ({ allData }) => {
     if (color) defaultColor = color;
     return (
       <span
-        style={{ background: `${defaultColor}` }}
+        style={{ 
+          background: `${defaultColor}`,
+          color: `${defaultColor === 'var(--white)' ? 'var(--black)' : ''}`
+         }}
         className={classes.rightSpan}
       >
         {text || ''}

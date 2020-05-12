@@ -2,14 +2,18 @@ import React from 'react';
 import classes from './textBox.module.css';
 import { useStore } from '../../../Store/store';
 
-
 const TextBox = () => {
   const storeSections = useStore()[0].sections[0];
-  const selectedCountyDataForSelectedDate = storeSections.selectedCountyDataForSelectedDate;
+  const selectedCountyDataForSelectedDate =
+    storeSections.selectedCountyDataForSelectedDate;
 
-
-  const RightSpan = ({ text }) => {
+  const RightSpan = ({ text, fieldName }) => {
+    const getColor = (name) =>
+      storeSections.avail.filter((s) => s.fieldName === name)[0].color;
     let color = 'var(--blue)';
+    let attrColor = getColor(fieldName);
+    if (attrColor) color = attrColor;
+
     return (
       <span style={{ background: `${color}` }} className={classes.rightSpan}>
         {text || ''}
@@ -19,13 +23,13 @@ const TextBox = () => {
 
   return selectedCountyDataForSelectedDate ? (
     <div className={classes.textItem}>
- 
       <div className={classes.infoWrap}>
-     
         <h3>
           {selectedCountyDataForSelectedDate.CountyName} <br />
           <span className={classes.small}>
-            {new Date(selectedCountyDataForSelectedDate[storeSections.xAxisAttribute])
+            {new Date(
+              selectedCountyDataForSelectedDate[storeSections.xAxisAttribute]
+            )
               .toString()
               .substring(0, 16)}
           </span>

@@ -124,7 +124,7 @@ const configureStore = () => {
         selectedAttributeName: 'ConfirmedCovidCases',
         avail: [
           {
-            name: 'Total Number of Cases',
+            name: 'Confirmed Cases',
             fieldName: 'ConfirmedCovidCases',
             yAxisAttribute: 'CountyName',
             xAxisDescription: 'Number of Confirmed Cases',

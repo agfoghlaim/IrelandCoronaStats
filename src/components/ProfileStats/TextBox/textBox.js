@@ -21,7 +21,11 @@ const TextBox = ({ selectedDateData, selectedDate, loading }) => {
 
   const RightSpan = ({ text, color }) => {
     return (
-      <span style={{ background: `${color}` }} className={classes.rightSpan}>
+      <span style={{ 
+        background: `${color}`,
+        color: `${color==='var(--white)' ? 'var(--black)' : ''}` 
+      }} 
+        className={classes.rightSpan}>
         {text}
       </span>
     );

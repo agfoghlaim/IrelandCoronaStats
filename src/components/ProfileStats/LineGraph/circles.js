@@ -24,7 +24,7 @@ const Circles = ({
               onMouseLeave={(e) => handleHoverLeave(e)}
               cx={x}
               cy={y}
-              r="0.3rem"
+              r="0.2rem"
               fill={graphData.color}
             ></circle>
           ) : x && y && graphData.useDifferentShape ? (
@@ -38,7 +38,7 @@ const Circles = ({
               y={y}
               rx="0.1rem"
               width="0.2rem"
-              height="0.6rem"
+              height="0.5rem"
               fill={graphData.color}
             ></rect>
           ) : null;
