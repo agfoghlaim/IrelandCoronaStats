@@ -6,7 +6,7 @@ const ClickArrows = ({
   selectedDate,
   tempJustDates,
   setIsPlaying,
-  isPlaying
+  isPlaying,
 }) => {
   const localHandleSelectDate = (isNext) => {
     const indexer = (i) => (isNext ? i + 1 : i - 1);
@@ -28,31 +28,39 @@ const ClickArrows = ({
     const latestDate = Math.max(...tempJustDates.map((d) => d));
     handleSelectDate(latestDate);
   };
+  // const indexOfSelected = tempJustDates.indexOf(selectedDate);
+
+  // const fiveDates = tempJustDates.filter(
+  //   (t, i) => Math.abs(indexOfSelected - i) < 3
+  // );
 
   return (
     <div className={classes.clickArrowsWrap}>
-      <h5>{new Date(selectedDate).toString().substring(0, 16)}</h5>
+      <span className={classes.dateSpan}>
+        {new Date(selectedDate).toString().substring(0, 16)}
+      </span>
       <div className={classes.clickArrows}>
         <button onClick={() => localHandleBackToStart()}>
           <span role="img" aria-label="back to start">
-            &#x23EE;&#xfe0e;
+            &#x23EE; &#xfe0e;
           </span>
         </button>
         <button onClick={() => localHandleSelectDate(false)}>
           <span role="img" aria-label="back one">
-            {' '}
-            &#x23EA;&#xfe0e;
+            &#x23EA; &#xfe0e;
           </span>
         </button>
         <button
           style={{ fontSize: '2rem' }}
           onClick={() => setIsPlaying(!isPlaying)}
         >
-          {isPlaying ?
-          <span>Pause</span>
-          
-      
-        : <span role="img" aria-label="play">&#x23F5;</span>}
+          {isPlaying ? (
+            <span>&#x23F9; &#xfe0e;</span>
+          ) : (
+            <span role="img" aria-label="play">
+              &#x23F5;
+            </span>
+          )}
         </button>
         <button onClick={() => localHandleSelectDate(true)}>
           <span role="img" aria-label="forward one">

@@ -1,25 +1,9 @@
-.lineGraphSvgWrap svg line {
+.lineSvg line {
   stroke: var(--white);
   opacity: 0.4;
 }
 
-.lineGraphSvgWrap h3 {
-  color: var(--white);
-}
-
-.lineGraphSvgWrap svg text {
-  fill: var(--white);
-}
-.lineGraphSvgWrap svg {
-  max-width: 100%;
-  padding: 1rem;
-}
-
-.lineGraphSvgWrap svg {
-  max-width: 100%;
-  border-radius: 0.4rem;
-}
-.lineGraphSvgWrap svg path:hover {
+.lineSvg path:hover {
   stroke-width: 0.4rem;
   opacity: 1;
 }

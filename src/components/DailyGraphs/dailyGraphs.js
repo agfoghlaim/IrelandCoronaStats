@@ -8,7 +8,7 @@ import SectionSide from '../../UI/Sections/SectionSide/sectionSide';
 import SectionHeader from '../../UI/Sections/SectionHeader/sectionHeader';
 import LineGraphDaily from './LineGraphDaily/lineGraphDaily';
 
-import DailyAttributeBtns from '../Counties/SectionsUI/DailyAttributeBtns/dailyAttributeBtns';
+import AttributeBtns from '../../UI/Buttons/AttributeBtns/attributeBtns';
 import TextBox from './TextBox/textBox';
 
 configureDailyGraphsStore();
@@ -69,13 +69,14 @@ const DailyGraphs = () => {
             ) : (
               'Loading...'
             )}
-            <DailyAttributeBtns
+       
+            <AttributeBtns
               availableAttributes={graph.avail}
               graphIndex={graph.id}
               handleSelectData={handleSelectData}
             />
           </SectionSide>
-          <SectionMain background='var(--lightBlack)'>
+          <SectionMain>
             {!isLoading && graph && graph.all.length ? (
               <LineGraphDaily
                 // graphData={graph}

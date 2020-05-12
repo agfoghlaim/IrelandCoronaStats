@@ -9,13 +9,13 @@ import ClickRectangles from '../ClickRectangles/clickRectangles';
 
 const dimensions = {
   margin: {
-    left: 50,
-    right: 50,
-    top: 50,
-    bottom: 50,
+    left: 70,
+    right: 60,
+    top: 60,
+    bottom: 60,
   },
   width: 1000,
-  height: 800,
+  height: 600,
 };
 const { margin, width, height } = dimensions;
 
@@ -86,8 +86,9 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
   const handleHoverLeaveDate = () => {};
 
   return (
-    <div className={`${classes.svgWrap} ${classes.lineGraphSvgWrap}`}>
-      {isHovered && hoverPosition.length ? (
+    <>
+  
+     { isHovered && hoverPosition.length ? (
         <div
           style={{
             opacity: `${isHovered ? '1' : '0'}`,
@@ -105,10 +106,12 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
         </div>
       ) : null}
 
-      <svg
+    <svg
         ref={svgRef}
-        viewBox={`0 0 ${width} ${height}`}
+        className={classes.lineSvg}
+        viewBox={`0 40 ${width-50} ${height}`}
         width={width}
+        style={{maxWidth:'100%'}}
       >
         <Axis dimensions={dimensions} xScale={xScale} yScale={yScale} />
         <YAxisLabel
@@ -148,7 +151,8 @@ const LineGraph2 = ({ handleSelectCounty, handleSelectDate }) => {
             ))
           : null}
       </svg>
-    </div>
+
+    </>
   );
 };
 

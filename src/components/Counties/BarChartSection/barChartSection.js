@@ -2,8 +2,8 @@ import React from 'react';
 import BarChart from '../BarChart/barChart';
 import { useStore } from '../../../Store/store';
 import TextBox from '../TextBox/textBox';
-import AttributeBtns from '../SectionsUI/AttributeBtns/attributeBtns';
-
+// import AttributeBtns from '../SectionsUI/AttributeBtns/attributeBtns';
+import AttributeBtns from '../../../UI/Buttons/AttributeBtns/attributeBtns';
 import SectionWrap from '../../../UI/Sections/SectionWrap/sectionWrap';
 import SectionWrapSimple from '../../../UI/Sections/SectionWrapSimple/sectionWrapSimple';
 import SectionSide from '../../../UI/Sections/SectionSide/sectionSide';
@@ -21,59 +21,46 @@ const BarChartSection = ({
 }) => {
   const storeSections = useStore()[0].sections[0];
 
-  return (
-      isLoading ? (
-        <SectionWrapSimple minHeight="50vh">
-        <LoadingComp />
-        </SectionWrapSimple>
-      ) : (
-          
-        <SectionWrap>
-          <SectionSide>
-            <SectionHeader
-              title={`${
-                storeSections.avail.filter((a) => a.selected)[0].name
-              } by County`}
-              subtitle=""
-            >
-              {storeSections.selectedDate &&
-              storeSections.allCounties.length ? (
-                <ClickArrows
-                  handleSelectDate={handleSelectDate}
-                  selectedDate={storeSections.selectedDate}
-                  tempJustDates={storeSections.allCounties[0].stats.map(
-                    (s) => s.TimeStampDate
-                  )}
-                  isPlaying={isPlaying}
-                  setIsPlaying={setIsPlaying}
-                 
-                />
-              ) : null}
-            </SectionHeader>
-            <TextBox clickArrows={ClickArrows} />
-            <AttributeBtns
-              availableAttributes={storeSections.avail}
-              handleSelectData={handleSelectData}
-            />
-          </SectionSide>
-
-          <SectionMain background="var(--lightBlack)">
-
-            <BarChart
-              handleSelectOneCounty={handleSelectOneCounty}
+  return isLoading ? (
+    <SectionWrapSimple minHeight="50vh">
+      <LoadingComp />
+    </SectionWrapSimple>
+  ) : (
+    <SectionWrap>
+      <SectionSide>
+        <SectionHeader
+          title={`${
+            storeSections.avail.filter((a) => a.selected)[0].name
+          } by County`}
+          subtitle=""
+        >
+          {storeSections.selectedDate && storeSections.allCounties.length ? (
+            <ClickArrows
               handleSelectDate={handleSelectDate}
-              isLoading={isLoading}
+              selectedDate={storeSections.selectedDate}
+              tempJustDates={storeSections.allCounties[0].stats.map(
+                (s) => s.TimeStampDate
+              )}
+              isPlaying={isPlaying}
+              setIsPlaying={setIsPlaying}
             />
-          </SectionMain>
-      
-        </SectionWrap>
-      )
-        
-        
-     
+          ) : null}
+        </SectionHeader>
+        <TextBox clickArrows={ClickArrows} />
+        <AttributeBtns
+          availableAttributes={storeSections.avail}
+          handleSelectData={handleSelectData}
+        />
+      </SectionSide>
 
-   
-    
+      <SectionMain>
+        <BarChart
+          handleSelectOneCounty={handleSelectOneCounty}
+          handleSelectDate={handleSelectDate}
+          isLoading={isLoading}
+        />
+      </SectionMain>
+    </SectionWrap>
   );
 };
 

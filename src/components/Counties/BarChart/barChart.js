@@ -13,7 +13,7 @@ const dimensions = {
     bottom: 60,
   },
   width: 1000,
-  height: 800,
+  height: 550,
 };
 const { margin, width, height } = dimensions;
 
@@ -129,7 +129,9 @@ const BarChart = ({ handleSelectOneCounty, isLoading }) => {
                 : selectedData.color
             }
             opacity={`${
-              c.CountyName === storeSections.allStatsAboutSelectedCounty.name ? 1 : 0.75
+              c.CountyName === storeSections.allStatsAboutSelectedCounty.name
+                ? 1
+                : 0.75
             }`}
             x={margin.left}
             y={y}
@@ -139,7 +141,7 @@ const BarChart = ({ handleSelectOneCounty, isLoading }) => {
     });
   };
   return (
-    <div className={(classes.svgWrap, classes.barChartSvgWrap)}>
+    <>
       {isHovered && hoverPosition.length ? (
         <div
           style={{
@@ -158,14 +160,10 @@ const BarChart = ({ handleSelectOneCounty, isLoading }) => {
         </div>
       ) : null}
 
-      <BoringButton onClick={toggleLogScale} config={{ minWidth: '8rem' }}>
-        {' '}
-        {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
-      </BoringButton>
       {isLoading ? (
         <LoadingComp />
       ) : (
-        <svg viewBox={`0 0 ${width} ${height}`} ref={svgRef} width={width}>
+        <svg className={classes.barChartSvg} viewBox={`0 40 ${width-50} ${height}`} ref={svgRef} width={width}>
           <g
             ref={xAxisRef}
             transform={`translate(0,${
@@ -192,7 +190,12 @@ const BarChart = ({ handleSelectOneCounty, isLoading }) => {
           />
         </svg>
       )}
-    </div>
+      {/* <button className={classes.basicBtn} onClick={toggleLogScale}>  {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}</button> */}
+      <BoringButton onClick={toggleLogScale} config={{position: 'absolute', right: '0', top: '-1rem', padding: '0.25rem 0.5rem', background:'var(--white)', color:'var(--lightBlack)'}}>
+        {' '}
+        {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
+      </BoringButton>
+    </>
   );
 };
 

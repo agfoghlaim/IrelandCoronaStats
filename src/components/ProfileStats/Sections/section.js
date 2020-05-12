@@ -8,10 +8,14 @@ import {
   removeNulls,
   removeFromNestedAttributes,
   successfullyGotDataForEachSelectedAttr,
-  getOne
+  getOne,
 } from './section-util';
 
-
+import SectionWrap from '../../../UI/Sections/SectionWrap/sectionWrap';
+import SectionSide from '../../../UI/Sections/SectionSide/sectionSide';
+import SectionMain from '../../../UI/Sections/SectionMain/sectionMain';
+import SectionHeader from '../../../UI/Sections/SectionHeader/sectionHeader';
+import AttributeBtns from '../../../UI/Buttons/AttributeBtns/attributeBtns';
 const Section = ({ section }) => {
   const [sectionAvail, setSectionAvail] = useState(section.avail);
   const [shouldUpdate, setShouldUpdate] = useState(true);
@@ -62,7 +66,7 @@ const Section = ({ section }) => {
           const selectedSection = ans.find((s) => s.selected);
 
           // default date to latest - first time only!
-          if(!selectedDate) {
+          if (!selectedDate) {
             setSelectedDate(
               selectedSection.data[selectedSection.data.length - 1][
                 selectedSection.xAxisAttribute
@@ -74,10 +78,15 @@ const Section = ({ section }) => {
         setIsLoading(false);
       }
     })();
-  }, [shouldUpdate, sectionAvail, getDataForEachSelected, isError, selectedDate]);
+  }, [
+    shouldUpdate,
+    sectionAvail,
+    getDataForEachSelected,
+    isError,
+    selectedDate,
+  ]);
 
   const handleTextBox = (data, dateFieldName) => {
-
     if (!data || !dateFieldName) return;
     setSelectedDate(data[dateFieldName]);
   };
@@ -118,26 +127,6 @@ const Section = ({ section }) => {
     }
   };
 
-  const renderCheckButtons = () => {
-    return section.avail.map((a) => (
-      <button
-        key={a.fieldName}
-        id={a.name}
-        name={a.fieldName}
-        selected={a.selected}
-        style={{
-          opacity: `${a.selected ? '0.5' : `1`}`,
-          background: `${a.selected ? 'gray' : `${a.color}`}`,
-          border: `${a.selected ? `0.1rem solid ${a.color}` : `0.1rem solid `}`,
-          outline: 'none',
-        }}
-        onClick={(e) => handleSelectData(e)}
-      >
-        {a.name}
-      </button>
-    ));
-  };
-
   const getDataOnSelectedDate = () => {
     const selected = sectionAvail.filter((d) => d.selected);
 
@@ -157,11 +146,9 @@ const Section = ({ section }) => {
       {isError ? (
         <ErrorComp msg="Could not load data." />
       ) : (
-        <div className={classes.profileStatsGraphWrap}>
-          <div className={classes.profileStatsGraphLeft}>
-            <div className={classes.sectionHeader}>
-              <h3>{section.sectionName}</h3>
-            </div>
+        <SectionWrap>
+          <SectionSide>
+            <SectionHeader title={section.sectionName} />
 
             {selectedDate && sectionAvail ? (
               <TextBox
@@ -172,16 +159,11 @@ const Section = ({ section }) => {
             ) : null}
 
             <div className={classes.graphSectionBtnGroupWrap}>
-              {renderCheckButtons()}
+              <AttributeBtns availableAttributes={section.avail} handleSelectData={handleSelectData} />
             </div>
-          </div>
-          <div className={classes.profileStatsGraphMain}>
-          <div className={classes.sectionHeader}>
-              {/* <h3>{section.sectionName}</h3> */}
-            </div>
-            {renderLineGraph()}
-          </div>
-        </div>
+          </SectionSide>
+          <SectionMain>{renderLineGraph()}</SectionMain>
+        </SectionWrap>
       )}
     </>
   );

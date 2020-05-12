@@ -1,0 +1,9 @@
+.basicBtn {
+  font-weight: 700;
+  font-size: 0.6rem;
+  outline: none;
+  position: absolute;
+  top: -1rem;
+  position: absolute;
+  right: 0;
+}

@@ -1,6 +1,13 @@
 .sectionSideWrap {
   border-radius: 0.4rem;
-  padding: 0.4rem;
+  /* padding: 0.4rem; */
+  /* 50px relates to svg viewBox */
+  /* padding: 50px 0.4rem; */
   display: grid;
-  grid-gap: 1rem;
+  grid-gap: 2rem;
+  /* align-content: space-between; */
+  align-content: flex-start;
+  background: var(--midBlack);
+  padding: 1rem 0.5rem;
+  
 }

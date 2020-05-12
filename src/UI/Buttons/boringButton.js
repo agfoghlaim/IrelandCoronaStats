@@ -1,9 +1,9 @@
 import React from 'react';
 // import classes from './boringButton.module.css';
 
-const BoringButton = ({ config, onClick, children}) => {
+const BoringButton = ({ config,  onClick, children}) => {
 
-  const { background, borderRadius, color, border, fontWeight, fontSize, padding, outline, minWidth} = config || {};
+  const { background, borderRadius, color, border, fontWeight, fontSize, padding, outline, minWidth, position, right, left, top, bottom} = config || {};
 
   return <button 
   style={{
@@ -15,8 +15,12 @@ const BoringButton = ({ config, onClick, children}) => {
     fontSize: `${fontSize ? fontSize : '0.6rem'}`,
     padding: `${padding ? padding : '0.5rem 1rem'}`,
     outline: `${outline ? outline : 'none'}`, 
-    minWidth: `${minWidth ? minWidth : '5rem'}`
-  
+    minWidth: `${minWidth ? minWidth : '5rem'}`,
+    position: `${position ? position : ''}`,
+    right: `${right ? right : ''}`,
+    left: `${left ? left : ''}`,
+    top: `${top ? top : ''}`,
+    bottom: `${bottom ? bottom : ''}`
   }}
   onClick={onClick}
 >

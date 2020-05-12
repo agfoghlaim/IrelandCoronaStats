@@ -153,8 +153,8 @@ const LineGraphDaily = ({ graphId }) => {
   };
 
   return (
-    <div className={classes.svgWrap}>
-      <BoringButton onClick={toggleLogScale} config={{minWidth:'8rem'}}>
+    <>
+      <BoringButton onClick={toggleLogScale} config={{position: 'absolute', right: '0', top: '-1rem', padding: '0.25rem 0.5rem', background:'var(--white)', color:'var(--lightBlack)'}}>
         {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
       </BoringButton>
 
@@ -181,7 +181,6 @@ const LineGraphDaily = ({ graphId }) => {
         ref={svgRef}
         viewBox="0 0 800 600"
         width={width}
-        // height={height}
       >
         {daily && daily.all.length ? (
           <>
@@ -230,7 +229,7 @@ const LineGraphDaily = ({ graphId }) => {
         ) : null}
 
       </svg>
-    </div>
+    </>
   );
 };
 

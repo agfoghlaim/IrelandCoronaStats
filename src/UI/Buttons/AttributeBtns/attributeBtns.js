@@ -1,7 +1,8 @@
 import React from 'react';
 import classes from './attributeBtns.module.css'
 
-const AttributeBtns = ({availableAttributes, handleSelectData}) => {
+const AttributeBtns = ({availableAttributes, handleSelectData, graphIndex}) => {
+
   return<div className={classes.btnGroupWrap}>
   { availableAttributes.map((a) => (
     <button
@@ -11,13 +12,14 @@ const AttributeBtns = ({availableAttributes, handleSelectData}) => {
       selected={a.selected}
       style={{
         opacity: `${!a.selected ? '0.8' : `1`}`,
-        background: `${a.selected ? `${a.color}` : `var(--lightBlack)`}`,
+        background: `${a.selected ? `${a.color}` : `var(--gray)`}`,
         border: `${
-          !a.selected ? `0.1rem solid ${a.color}` : `0.1rem solid `
+          !a.selected ? `0.1rem solid ${a.color}` : `${a.color} `
         }`,
+        color: `${a.selected ? `var(--white)` : `var(--white)`}`,
         outline: 'none',
       }}
-      onClick={(e) => handleSelectData(e)}
+      onClick={(e) => handleSelectData(e, graphIndex)}
     >
       {a.name}
     </button>

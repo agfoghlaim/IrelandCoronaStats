@@ -109,7 +109,7 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
   };
 
   return (
-    <div className={classes.svgWrap}>
+    <>
       {isHovered && hoverPosition.length ? (
         <TinyTooltip
           isHovered={isHovered}
@@ -120,7 +120,7 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
         </TinyTooltip>
       ) : null}
 
-      <svg ref={svgRef} viewBox="0 0 800 600" width={width}>
+      <svg ref={svgRef} viewBox="0 20 800 600" width={width} style={{maxWidth: '100%'}}>
         <Axis
           dimensions={dimensions}
           xScale={xScale}
@@ -154,7 +154,7 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
           handleHoverLeave={handleHoverLeave}
         />
       </svg>
-    </div>
+    </>
   );
 };
 

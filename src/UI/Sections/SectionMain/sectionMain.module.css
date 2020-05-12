@@ -3,9 +3,11 @@
     display: grid;
     justify-content: center;
     border-radius: 0.4rem;
-    align-content: center;
+    align-content: flex-start;
     align-items: center; 
     background: var(--white);
-  
+    padding: 0;
+    position: relative;
+    background: var(--midBlack);
   }
   

@@ -11,8 +11,8 @@ import BoringButton from '../../../UI/Buttons/boringButton';
 // import Tree from './tree';
 import TreeGraph from './treeGraph';
 import ClickArrows from '../ClickArrows/clickArrows';
-import AttributeBtns from '../SectionsUI/AttributeBtns/attributeBtns';
-
+// import AttributeBtns from '../SectionsUI/AttributeBtns/attributeBtns';
+import AttributeBtns from '../../../UI/Buttons/AttributeBtns/attributeBtns';
 const TreeSection = ({
   handleSelectOneCounty,
   handleSelectData,
@@ -23,7 +23,7 @@ const TreeSection = ({
 }) => {
   const storeSections = useStore()[0].sections[0];
   const [showProvinces, setShowProvinces] = useState(false);
-  console.log("Tree ", isPlaying)
+  console.log('Tree ', isPlaying);
   // const [isPlaying, setIsPlaying] = useState(false);
 
   // const handleSetIsPlaying = (date) => {
@@ -53,7 +53,7 @@ const TreeSection = ({
                 (s) => s.TimeStampDate
               )}
               // setIsPlaying ={handleSetIsPlaying}
-              setIsPlaying ={setIsPlaying}
+              setIsPlaying={setIsPlaying}
               isPlaying={isPlaying}
             />
           ) : null}
@@ -65,25 +65,22 @@ const TreeSection = ({
         />
       </SectionSide>
 
-      <SectionMain background="var(--lightBlack)">
+      <SectionMain>
         {/* <Tree /> */}
-
-        <BoringButton onClick={() => setShowProvinces(!showProvinces)}>
-          {showProvinces ? 'Hide Provinces' : 'Show  Provinces'}
-        </BoringButton>
 
         <TreeGraph
           showProvinces={showProvinces}
+          setShowProvinces={setShowProvinces}
           handleSelectOneCounty={handleSelectOneCounty}
           isPlaying={isPlaying}
           // setIsPlaying={handleSetIsPlaying}
           setIsPlaying={setIsPlaying}
         />
-        {/* <BarChart
-              handleSelectOneCounty={handleSelectOneCounty}
-              handleSelectDate={handleSelectDate}
-              isLoading={isLoading}
-            /> */}
+
+        {/* <BoringButton onClick={() => setShowProvinces(!showProvinces)}>
+          {showProvinces ? 'Hide Provinces' : 'Show  Provinces'}
+        </BoringButton> */}
+
       </SectionMain>
     </SectionWrap>
   );
