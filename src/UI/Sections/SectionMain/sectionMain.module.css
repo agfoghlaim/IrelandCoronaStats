@@ -1,13 +1,20 @@
 .sectionMain {
   min-width: 0;
-    display: grid;
-    justify-content: center;
-    border-radius: 0.4rem;
+  display: grid;
+  justify-content: center;
+  border-radius: 0.4rem;
+  align-content: center;
+  align-items: center;
+  background: var(--white);
+  padding: 0;
+  position: relative;
+  background: var(--midBlack);
+}
+@media only screen and (max-width: 900px) {
+  .sectionMain {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
     align-content: flex-start;
-    align-items: center; 
-    background: var(--white);
-    padding: 0;
-    position: relative;
-    background: var(--midBlack);
+    margin-bottom: 2rem; /* this is important to not cut off SectionSimple component. Hacky and bad but important*/
   }
-  
+}

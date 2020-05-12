@@ -149,17 +149,22 @@ const Section = ({ section }) => {
         <SectionWrap>
           <SectionSide>
             <SectionHeader title={section.sectionName} />
+            <div className={classes.forBreakPointBetween900And300}>
+              {selectedDate && sectionAvail ? (
+                <TextBox
+                  loading={isLoading}
+                  selectedDate={selectedDate}
+                  selectedDateData={getDataOnSelectedDate()}
+                  numAvailableAttrs={section.avail.length}
+                />
+              ) : null}
 
-            {selectedDate && sectionAvail ? (
-              <TextBox
-                loading={isLoading}
-                selectedDate={selectedDate}
-                selectedDateData={getDataOnSelectedDate()}
-              />
-            ) : null}
-
-            <div className={classes.graphSectionBtnGroupWrap}>
-              <AttributeBtns availableAttributes={section.avail} handleSelectData={handleSelectData} />
+              <div className={classes.graphSectionBtnGroupWrap}>
+                <AttributeBtns
+                  availableAttributes={section.avail}
+                  handleSelectData={handleSelectData}
+                />
+              </div>
             </div>
           </SectionSide>
           <SectionMain>{renderLineGraph()}</SectionMain>

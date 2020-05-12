@@ -13,6 +13,8 @@ import TreeGraph from './treeGraph';
 import ClickArrows from '../ClickArrows/clickArrows';
 // import AttributeBtns from '../SectionsUI/AttributeBtns/attributeBtns';
 import AttributeBtns from '../../../UI/Buttons/AttributeBtns/attributeBtns';
+import classes from './treeSection.module.css';
+
 const TreeSection = ({
   handleSelectOneCounty,
   handleSelectData,
@@ -23,7 +25,7 @@ const TreeSection = ({
 }) => {
   const storeSections = useStore()[0].sections[0];
   const [showProvinces, setShowProvinces] = useState(false);
-  console.log('Tree ', isPlaying);
+
   // const [isPlaying, setIsPlaying] = useState(false);
 
   // const handleSetIsPlaying = (date) => {
@@ -58,11 +60,13 @@ const TreeSection = ({
             />
           ) : null}
         </SectionHeader>
+        <div className={classes.forBreakPointBetween900And300}>
         <TextBox clickArrows={ClickArrows} />
         <AttributeBtns
           availableAttributes={storeSections.avail}
           handleSelectData={handleSelectData}
         />
+        </div>
       </SectionSide>
 
       <SectionMain>

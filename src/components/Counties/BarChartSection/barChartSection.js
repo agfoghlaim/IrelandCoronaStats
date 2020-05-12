@@ -11,6 +11,7 @@ import SectionMain from '../../../UI/Sections/SectionMain/sectionMain';
 import SectionHeader from '../../../UI/Sections/SectionHeader/sectionHeader';
 import ClickArrows from '../ClickArrows/clickArrows';
 import LoadingComp from '../../../UI/loading';
+import classes from './barChartSection.module.css';
 const BarChartSection = ({
   handleSelectOneCounty,
   handleSelectData,
@@ -46,11 +47,13 @@ const BarChartSection = ({
             />
           ) : null}
         </SectionHeader>
-        <TextBox clickArrows={ClickArrows} />
-        <AttributeBtns
-          availableAttributes={storeSections.avail}
-          handleSelectData={handleSelectData}
-        />
+        <div className={classes.forBreakPointBetween900And300}>
+          <TextBox clickArrows={ClickArrows} />
+          <AttributeBtns
+            availableAttributes={storeSections.avail}
+            handleSelectData={handleSelectData}
+          />
+        </div>
       </SectionSide>
 
       <SectionMain>

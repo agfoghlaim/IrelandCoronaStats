@@ -1,70 +1,3 @@
-/* .profileStatsGraphLeft {
-  padding: 0.4rem;
-  display: grid;
-  grid-gap: 1rem;
-  background: var(--lightBlack);
-}
-
-.sectionHeader {
-  display: grid;
-  justify-items: center;
-  align-items: center;
-  min-width: 15rem;
-}
-
-.sectionHeader h3 {
-  color: var(--white);
-  letter-spacing: 0.1rem;
-  text-align: center;
-  font-weight: 900;
-  margin:0;
- 
-}
-
-.sectionHeader p {
-  color: var(--white);
-  padding: 1rem;
-  width: 100%;
-  font-weight: normal;
-  font-size: 0.8rem;
-}
-
-.profileStatsGraphMain {
-  min-width: 0;
-  display: grid;
-  justify-content: center;
-  border-radius: 0.4rem;
-  align-content: flex-start;
-  align-items: center;
-}
-
-.profileStatsGraphMain svg {
-  max-width: 100%;
-  fill: var(--black);
-}
-
-.profileStatsGraphWrap {
-  padding: 1rem;
-  border-radius: 0.4rem;
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-  grid-gap: 1rem;
-  padding: 0;
-  background: var(--lightBlack);
-  padding: 1rem;
-}
-
-@media only screen and (max-width: 740px) {
-  .profileStatsGraphWrap {
-    grid-template-rows: 2fr 3fr;
-    grid-auto-flow: row;
-    grid-template-columns: 1fr;
-  }
-  .profileStatsGraphLeft {
-    padding: 0;
-  }
-} */
-
 .graphSectionBtnGroupWrap {
   display: grid;
   justify-content: center;
@@ -87,3 +20,22 @@
   text-transform: uppercase;
   outline-color: var(--purple);
 }
+
+.forBreakPointBetween900And300 {
+  display: grid;
+  grid-gap: 2rem;
+}
+
+@media only screen and (max-width: 900px) {
+  .forBreakPointBetween900And300{
+    grid-template-columns: 1fr 1fr;
+  }
+  
+}
+
+@media only screen and (max-width: 300px) {
+  .forBreakPointBetween900And300{
+    grid-template-columns: 1fr;
+  }
+}
+

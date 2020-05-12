@@ -177,7 +177,7 @@ const configureStore = () => {
             xAxisDescription: 'Number of Confirmed Cases',
             xAxisAttribute: 'Date',
             selected: true,
-            color: 'var(--purple)',
+            color: 'var(--green)',
           },
           {
             name: 'New Cases (5 day avg)',

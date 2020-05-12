@@ -2,7 +2,6 @@
 .textItem {
   display: grid;
   padding: 0.4rem;
-  /* border: 0.1rem solid var(--white); */
   border-radius: 0.4rem;
   grid-gap: 0.4rem;
   background: var(--black);
@@ -11,7 +10,6 @@
 
 @media only screen and (max-width: 780px){
 .textItem {
-
   min-height: 12rem;
 }
 }

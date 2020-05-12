@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './clickArrows.module.css';
+import CtrlSvg from '../../../img/ctrlSvg';
 
 const ClickArrows = ({
   handleSelectDate,
@@ -28,11 +29,16 @@ const ClickArrows = ({
     const latestDate = Math.max(...tempJustDates.map((d) => d));
     handleSelectDate(latestDate);
   };
-  // const indexOfSelected = tempJustDates.indexOf(selectedDate);
 
-  // const fiveDates = tempJustDates.filter(
-  //   (t, i) => Math.abs(indexOfSelected - i) < 3
-  // );
+  // const controls = [
+  //   {name: 'back', color: 'var(--yellow)', height: '1rem', aria: 'Back one' },
+  //   {name: 'forward', color: 'var(--yellow)', height: '1rem', aria: 'Forward one' },
+  //   {name: 'beginning', color: 'var(--yellow)', height: '1rem', aria: 'Back to beginning' },
+  //   {name: 'end', color: 'var(--yellow)', height: '1rem', aria: 'Skip to end' },
+  //   {name: 'play', color: 'var(--yellow)', height: '2rem', aria: 'Play' },
+  //   {name: 'stop', color: 'var(--yellow)', height: '2rem', aria: 'Stop' },
+  // ]
+
 
   return (
     <div className={classes.clickArrowsWrap}>
@@ -42,34 +48,36 @@ const ClickArrows = ({
       <div className={classes.clickArrows}>
         <button onClick={() => localHandleBackToStart()}>
           <span role="img" aria-label="back to start">
-            &#x23EE; &#xfe0e;
+            <CtrlSvg ctrlType="beginning" color="var(--yellow)" height="1rem" />
           </span>
         </button>
         <button onClick={() => localHandleSelectDate(false)}>
           <span role="img" aria-label="back one">
-            &#x23EA; &#xfe0e;
+            <CtrlSvg ctrlType="back" color="var(--yellow)" height="1rem" />
           </span>
         </button>
         <button
-          style={{ fontSize: '2rem' }}
+          // style={{ fontSize: '2rem' }}
           onClick={() => setIsPlaying(!isPlaying)}
         >
           {isPlaying ? (
-            <span>&#x23F9; &#xfe0e;</span>
+            <span>
+              <CtrlSvg ctrlType="stop" color="var(--yellow)" height="2rem" />
+            </span>
           ) : (
             <span role="img" aria-label="play">
-              &#x23F5;
+              <CtrlSvg ctrlType="play" color="var(--yellow)" height="2rem" />
             </span>
           )}
         </button>
         <button onClick={() => localHandleSelectDate(true)}>
           <span role="img" aria-label="forward one">
-            &#x23e9;&#xfe0e;
+            <CtrlSvg ctrlType="forward" color="var(--yellow)" height="1rem" />
           </span>
         </button>
         <button onClick={() => localHandleToLastDate()}>
           <span role="img" aria-label="to end">
-            &#x23ED;&#xfe0e;
+            <CtrlSvg ctrlType="end" color="var(--yellow)" height="1rem" />
           </span>
         </button>
       </div>

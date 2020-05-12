@@ -11,3 +11,29 @@
   padding: 1rem 0.5rem;
   
 }
+
+
+/* @media only screen and (max-width: 900px) {
+  .sectionSideWrap {
+  
+    padding-bottom: 0;
+    
+  }
+
+} */
+
+@media only screen and (max-width: 900px) {
+  .sectionSideWrap {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    align-content: unset;
+  }
+  
+}
+
+@media only screen and (max-width: 300px) {
+  .sectionSideWrap {
+
+    align-content: center;
+  }
+}

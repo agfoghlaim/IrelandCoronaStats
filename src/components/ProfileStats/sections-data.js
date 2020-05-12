@@ -14,7 +14,7 @@ export  const sections = [
         fieldName: 'CommunityTransmission',
         xAxisAttribute: 'StatisticsProfileDate',
         selected: true,
-        color: 'var(--purple)',
+        color: 'var(--green)',
         data: [],
       },
       {
@@ -68,7 +68,7 @@ export  const sections = [
         fieldName: 'HospitalisedCovidCases',
         xAxisAttribute: 'StatisticsProfileDate',
         selected: true,
-        color: 'var(--purple)',
+        color: 'var(--yellow)',
         data: [],
       },
       {
@@ -105,7 +105,7 @@ export  const sections = [
         fieldName: 'Female',
         xAxisAttribute: 'StatisticsProfileDate',
         selected: true,
-        color: 'var(--purple)',
+        color: 'var(--yellow)',
         data: [],
       },
       {
@@ -546,7 +546,7 @@ export  const sections = [
         xAxisAttribute: 'StatisticsProfileDate',
 
         selected: true,
-        color: 'var(--purple)',
+        color: 'var(--yellow)',
         data: [],
       },
      

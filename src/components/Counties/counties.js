@@ -122,6 +122,8 @@ const Counties = () => {
             handleSelectCounty={handleSelectCounty}
             handleSelectData={handleSelectData}
             isLoading={isLoading}
+            isPlaying={isPlaying}
+            setIsPlaying={setIsPlaying}
           />
         );
 

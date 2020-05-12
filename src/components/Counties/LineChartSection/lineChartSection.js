@@ -11,11 +11,15 @@ import SectionMain from '../../../UI/Sections/SectionMain/sectionMain';
 import SectionHeader from '../../../UI/Sections/SectionHeader/sectionHeader';
 import LoadingComp from '../../../UI/loading';
 import { useStore } from '../../../Store/store';
+import classes from './lineChartSection.module.css';
+import ClickArrows from '../ClickArrows/clickArrows';
 
 const LineGraphSection = ({
   handleSelectData,
   handleSelectCounty,
   handleSelectDate,
+  isPlaying,
+  setIsPlaying,
   isLoading,
 }) => {
   const storeSections = useStore()[0].sections[0];
@@ -32,14 +36,27 @@ const LineGraphSection = ({
             storeSections.avail.filter((a) => a.selected)[0].name
           } by County`}
           subtitle=""
-        ></SectionHeader>
-        <TextBox />
+        >
 
+{storeSections.selectedDate && storeSections.allCounties.length ? (
+            <ClickArrows
+              handleSelectDate={handleSelectDate}
+              selectedDate={storeSections.selectedDate}
+              tempJustDates={storeSections.allCounties[0].stats.map(
+                (s) => s.TimeStampDate
+              )}
+              isPlaying={isPlaying}
+              setIsPlaying={setIsPlaying}
+            />
+          ) : null}
+        </SectionHeader>
+        <div className={classes.forBreakPointBetween900And300}>
+        <TextBox />
         <AttributeBtns
           availableAttributes={storeSections.avail}
           handleSelectData={handleSelectData}
         />
-
+        </div>
         <CountyBts
           counties={storeSections.allCounties}
           handleSelectCounty={handleSelectCounty}

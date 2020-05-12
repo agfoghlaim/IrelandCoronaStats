@@ -10,6 +10,7 @@ import LineGraphDaily from './LineGraphDaily/lineGraphDaily';
 
 import AttributeBtns from '../../UI/Buttons/AttributeBtns/attributeBtns';
 import TextBox from './TextBox/textBox';
+import classes from './dailyGraphs.module.css'
 
 configureDailyGraphsStore();
 
@@ -21,7 +22,6 @@ const DailyGraphs = () => {
   const [isError, setIsError] = useState(false);
   const dispatch = useStore()[1];
   const graphs = useStore()[0].dailyGraphsStore;
-
 
   useEffect(() => {
     (async () => {
@@ -56,7 +56,6 @@ const DailyGraphs = () => {
   };
   return graphs && graphs.length
     ? graphs.map((graph, index) => (
- 
         <SectionWrap key={index}>
           <SectionSide>
             <SectionHeader
@@ -64,17 +63,20 @@ const DailyGraphs = () => {
               subtitle=""
               description={graph.description}
             />
-            {!isLoading && graph.all.length ? (
-              <TextBox allData={graph} />
-            ) : (
-              'Loading...'
-            )}
-       
-            <AttributeBtns
-              availableAttributes={graph.avail}
-              graphIndex={graph.id}
-              handleSelectData={handleSelectData}
-            />
+
+            <div className={classes.forBreakPointBetween900And300}>
+              {!isLoading && graph.all.length ? (
+                <TextBox allData={graph} />
+              ) : (
+                'Loading...'
+              )}
+
+              <AttributeBtns
+                availableAttributes={graph.avail}
+                graphIndex={graph.id}
+                handleSelectData={handleSelectData}
+              />
+            </div>
           </SectionSide>
           <SectionMain>
             {!isLoading && graph && graph.all.length ? (
@@ -87,7 +89,6 @@ const DailyGraphs = () => {
             )}
           </SectionMain>
         </SectionWrap>
-
       ))
     : null;
 };
