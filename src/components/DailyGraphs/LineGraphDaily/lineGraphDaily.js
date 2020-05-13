@@ -154,10 +154,30 @@ const LineGraphDaily = ({ graphId }) => {
 
   return (
     <>
-      <BoringButton onClick={toggleLogScale} config={{position: 'absolute', right: '0', top: '-1rem', padding: '0.25rem 0.5rem', background:'var(--white)', color:'var(--lightBlack)'}}>
+      {/* <BoringButton onClick={toggleLogScale} config={{position: 'absolute', right: '0', top: '-1rem', padding: '0.25rem 0.5rem', background:'var(--white)', color:'var(--lightBlack)'}}>
+        {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
+      </BoringButton> */}
+      <BoringButton
+        onClick={toggleLogScale}
+        overRideStyle={{
+          background: `${selectLogScale ? 'var(--lightBlack)' : 'var(--covidGreen)'}`,
+          color: `${selectLogScale ? 'var(--covidGreen)' : 'var(--lightBlack)'}`,
+          borderRadius: ' 0.4rem',
+          border: 'none',
+          fontWeight: '800',
+          letterSpacing: '0.1rem',
+          textTransform: 'uppercase',
+          fontSize: '0.6rem',
+          padding: '0.5rem 1rem',
+          outline: 'none',
+          minWidth: '5rem',
+          display: 'grid',
+          alignSelf: 'center',
+          justifySelf: 'center',
+        }}
+      >
         {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
       </BoringButton>
-
       {isHovered && hoverPosition.length ? (
         <div
           style={{

@@ -1,26 +1,11 @@
 .sectionSideWrap {
   border-radius: 0.4rem;
-  /* padding: 0.4rem; */
-  /* 50px relates to svg viewBox */
-  /* padding: 50px 0.4rem; */
   display: grid;
   grid-gap: 2rem;
-  /* align-content: space-between; */
-  align-content: flex-start;
+  align-content: center;
   background: var(--midBlack);
   padding: 1rem 0.5rem;
-  
 }
-
-
-/* @media only screen and (max-width: 900px) {
-  .sectionSideWrap {
-  
-    padding-bottom: 0;
-    
-  }
-
-} */
 
 @media only screen and (max-width: 900px) {
   .sectionSideWrap {
@@ -28,12 +13,10 @@
     border-bottom-left-radius: 0;
     align-content: unset;
   }
-  
 }
 
 @media only screen and (max-width: 300px) {
   .sectionSideWrap {
-
     align-content: center;
   }
 }

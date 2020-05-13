@@ -12,9 +12,9 @@
 }
 @media only screen and (max-width: 900px) {
   .sectionMain {
+    background: none;
     border-top-right-radius: 0;
     border-top-left-radius: 0;
     align-content: flex-start;
-    margin-bottom: 2rem; /* this is important to not cut off SectionSimple component. Hacky and bad but important*/
   }
 }

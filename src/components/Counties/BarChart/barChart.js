@@ -142,6 +142,28 @@ const BarChart = ({ handleSelectOneCounty, isLoading }) => {
   };
   return (
     <>
+      <BoringButton
+        onClick={toggleLogScale}
+        overRideStyle={{
+          background: `${selectLogScale ? 'var(--lightBlack)' : 'var(--covidGreen)'}`,
+          color: `${selectLogScale ? 'var(--covidGreen)' : 'var(--lightBlack)'}`,
+          borderRadius: ' 0.4rem',
+          border: 'none',
+          fontWeight: '800',
+          letterSpacing: '0.1rem',
+          textTransform: 'uppercase',
+          fontSize: '0.6rem',
+          padding: '0.5rem 1rem',
+          outline: 'none',
+          minWidth: '5rem',
+          display: 'grid',
+          alignSelf: 'center',
+          justifySelf: 'center',
+        }}
+      >
+        {' '}
+        {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
+      </BoringButton>
       {isHovered && hoverPosition.length ? (
         <div
           style={{
@@ -163,7 +185,12 @@ const BarChart = ({ handleSelectOneCounty, isLoading }) => {
       {isLoading ? (
         <LoadingComp />
       ) : (
-        <svg className={classes.barChartSvg} viewBox={`0 40 ${width-50} ${height}`} ref={svgRef} width={width}>
+        <svg
+          className={classes.barChartSvg}
+          viewBox={`0 40 ${width - 50} ${height}`}
+          ref={svgRef}
+          width={width}
+        >
           <g
             ref={xAxisRef}
             transform={`translate(0,${
@@ -190,11 +217,6 @@ const BarChart = ({ handleSelectOneCounty, isLoading }) => {
           />
         </svg>
       )}
-      {/* <button className={classes.basicBtn} onClick={toggleLogScale}>  {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}</button> */}
-      <BoringButton onClick={toggleLogScale} config={{position: 'absolute', right: '0', top: '-1rem', padding: '0.25rem 0.5rem', background:'var(--white)', color:'var(--lightBlack)'}}>
-        {' '}
-        {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
-      </BoringButton>
     </>
   );
 };

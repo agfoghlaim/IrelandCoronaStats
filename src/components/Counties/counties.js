@@ -13,7 +13,7 @@ import CountiesSection from './Sections/countiesSection';
 import BarChart from './BarChart/barChart';
 import LineGraph from './LineGraph/lineGraph';
 import TreeGraph from './TreeGraph/treeGraph';
-
+import SectionWrapper from '../../UI/Sections/SectionWrapper/sectionWrapper';
 configureStore();
 
 const {
@@ -183,13 +183,15 @@ const Counties = () => {
     <Layout>
       <>
         {isError ? <ErrorComp msg="Could not load data." /> : null}
-        <SectionWrapSimple offsetBottom="-3rem">
+
+        <SectionWrapper>
           <SelectGraphBtnGroup
             data={availGraphs}
             handleSelectGraph={setSelectedSection}
           />
-        </SectionWrapSimple>
+   
         {renderGraphSection()}
+        </SectionWrapper>
       </>
     </Layout>
   );

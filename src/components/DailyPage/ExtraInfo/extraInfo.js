@@ -1,10 +1,10 @@
 import React from 'react';
-import SectionWrapSimple from '../../../UI/Sections/SectionWrapSimple/sectionWrapSimple';
+import SectionWrapper from '../../../UI/Sections/SectionWrapper/sectionWrapper';
 // import classes from './extraInfo.module.css';
 
 const ExtraInfo = () => {
   return (
-    <SectionWrapSimple>
+    <SectionWrapper>
       <p>
         All data taken from data.gov.ie, available{' '}
         <a
@@ -59,7 +59,7 @@ const ExtraInfo = () => {
         </a>
         .
       </p>
-    </SectionWrapSimple>
+    </SectionWrapper>
   );
 };
 

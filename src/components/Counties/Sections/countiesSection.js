@@ -15,6 +15,7 @@ const CountiesSection = ({
   isLoading,
   classes
 }) => {
+
   return isLoading ? (
     <SectionWrapSimple minHeight="50vh">
       <LoadingComp />
@@ -36,6 +37,8 @@ const CountiesSection = ({
       </SectionMain>
     </SectionWrap>
   );
+  
+
 };
 
 export default CountiesSection;

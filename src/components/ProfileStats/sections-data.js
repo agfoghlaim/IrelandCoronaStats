@@ -268,7 +268,7 @@ export  const sections = [
         fieldName: 'HospitalisedAged45to54',
         xAxisAttribute: 'StatisticsProfileDate',
         selected: false,
-        color: 'blue',
+        color: 'var(--covidBlue)',
         data: [],
       },
       {
@@ -276,7 +276,7 @@ export  const sections = [
         urlPart: `StatisticsProfileDate,Aged35to44,HospitalisedAged35to44,CovidCasesConfirmed`,
         fieldName: 'HospitalisedAged35to44',
         xAxisAttribute: 'StatisticsProfileDate',
-        color: 'violet',
+        color: 'var(--covidPurple)',
         selected: false,
         data: [],
       },
@@ -286,7 +286,7 @@ export  const sections = [
         fieldName: 'HospitalisedAged25to34',
         xAxisAttribute: 'StatisticsProfileDate',
         selected: false,
-        color: 'darkgreen',
+        color: 'var(--covidGreen)',
         data: [],
       },
       {
@@ -322,7 +322,7 @@ export  const sections = [
         fieldName: 'HospitalisedCovidCases',
         xAxisAttribute: 'StatisticsProfileDate',
         selected: false,
-        color: 'var(--blue)',
+        color: 'var(--covidOrange)',
         data: [],
       },
       {
@@ -331,7 +331,7 @@ export  const sections = [
         fieldName: 'RequiringICUCovidCases',
         xAxisAttribute: 'StatisticsProfileDate',
         selected: false,
-        color: 'var(--green)',
+        color: 'var(--yellow)',
         data: [],
       },
       {
@@ -358,7 +358,7 @@ export  const sections = [
         fieldName: 'HospitalisedAged65up',
         xAxisAttribute: 'StatisticsProfileDate',
         selected: true,
-        color: 'rgb(204, 208, 56)',
+        color: 'var(--covidPink)',
         data: [],
       },
       {
@@ -368,7 +368,7 @@ export  const sections = [
         xAxisAttribute: 'StatisticsProfileDate',
         selected: false,
         useDifferentShape: true,
-        color: 'rgb(204, 208, 56)',
+        color: 'var(--covidPink)',
         data: [],
       },
       {
@@ -414,7 +414,7 @@ export  const sections = [
         urlPart: `StatisticsProfileDate,HospitalisedAged35to44,CovidCasesConfirmed`,
         fieldName: 'HospitalisedAged35to44',
         xAxisAttribute: 'StatisticsProfileDate',
-        color: 'rgb(240, 68, 148)',
+        color: 'var(--covidPurple)',
         selected: false,
         data: [],
       },
@@ -423,7 +423,7 @@ export  const sections = [
         urlPart: `StatisticsProfileDate,Aged35to44,CovidCasesConfirmed`,
         fieldName: 'Aged35to44',
         xAxisAttribute: 'StatisticsProfileDate',
-        color: 'rgb(240, 68, 148)',
+        color: 'var(--covidPurple)',
         selected: false,
         useDifferentShape: true,
         data: [],
@@ -434,7 +434,7 @@ export  const sections = [
         fieldName: 'HospitalisedAged25to34',
         xAxisAttribute: 'StatisticsProfileDate',
         selected: false,
-        color: 'rgb(255, 131, 61)',
+        color: 'var(--covidGreen)',
         data: [],
       },
       {
@@ -444,7 +444,7 @@ export  const sections = [
         xAxisAttribute: 'StatisticsProfileDate',
         selected: false,
         useDifferentShape: true,
-        color: 'rgb(255, 131, 61)',
+        color: 'var(--covidGreen)',
         data: [],
       },
       {
@@ -490,7 +490,7 @@ export  const sections = [
         fieldName: 'Aged1to4',
         xAxisAttribute: 'StatisticsProfileDate',
         selected: false,
-        color: 'var(--blue)',
+        color: 'var(--orange)',
         data: [],
       },
       {

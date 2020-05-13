@@ -14,11 +14,11 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Header />
-        <Layout>
+   
           <Route exact path="/" component={DailyPage} />
           <Route exact path="/stats" component={ProfileStats} />
           <Route exact path="/counties" component={Counties} />
-        </Layout>
+        
       </div>
     </BrowserRouter>
   );

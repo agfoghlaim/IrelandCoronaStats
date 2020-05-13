@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import classes from './summary.module.css';
-import SectionWrapSimple from '../../UI/Sections/SectionWrapSimple/sectionWrapSimple';
+import SectionWrapper from '../../UI/Sections/SectionWrapper/sectionWrapper';
 import SummaryBox from './summaryBox';
 import ErrorComp from '../../UI/error';
 import LoadingComp from '../../UI/loading';
@@ -54,7 +54,7 @@ const Summary = () => {
 
 
   return (
-    <SectionWrapSimple>
+    <SectionWrapper>
       {isError ? (
         <ErrorComp msg="Could not load Summary." />
       ) : (
@@ -94,7 +94,7 @@ const Summary = () => {
           )}
         </div>
       )}
-    </SectionWrapSimple>
+    </SectionWrapper>
   );
 };
 

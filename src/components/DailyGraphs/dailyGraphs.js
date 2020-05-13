@@ -3,6 +3,7 @@ import axios from 'axios';
 import configureDailyGraphsStore from './dailyGraphs-store';
 import { useStore } from '../../Store/store';
 import SectionWrap from '../../UI/Sections/SectionWrap/sectionWrap';
+import SectionWrapper from '../../UI/Sections/SectionWrapper/sectionWrapper';
 import SectionMain from '../../UI/Sections/SectionMain/sectionMain';
 import SectionSide from '../../UI/Sections/SectionSide/sectionSide';
 import SectionHeader from '../../UI/Sections/SectionHeader/sectionHeader';
@@ -56,6 +57,7 @@ const DailyGraphs = () => {
   };
   return graphs && graphs.length
     ? graphs.map((graph, index) => (
+      <SectionWrapper>
         <SectionWrap key={index}>
           <SectionSide>
             <SectionHeader
@@ -81,7 +83,6 @@ const DailyGraphs = () => {
           <SectionMain>
             {!isLoading && graph && graph.all.length ? (
               <LineGraphDaily
-                // graphData={graph}
                 graphId={graph.id}
               />
             ) : (
@@ -89,6 +90,7 @@ const DailyGraphs = () => {
             )}
           </SectionMain>
         </SectionWrap>
+        </SectionWrapper>
       ))
     : null;
 };

@@ -4,7 +4,7 @@ const XAxisLabel = ({text, yClass, height, width, margin}) => {
   return (
     <text
     fill="var(--white)" // for dark graph theme
-    x={margin.right}
+    x={margin.right+10}
     y={height-10}
     style={{fontSize:'1rem', fontWeight: 700 }}
     className={yClass}

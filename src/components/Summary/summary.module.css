@@ -4,12 +4,9 @@
 
 .summaryInfoWrap {
   grid-template-columns: repeat(auto-fill, minmax(20vw, 1fr));
-  /* grid-template-columns: repeat(auto-fill, minmax(calc(50vw -3.5rem), 1fr)); */
   grid-gap: 1rem;
   display: grid;
 }
-
-
 
 .sectionHeading {
   display: grid;
@@ -19,4 +16,21 @@
 .sectionHeading p {
   font-size: 0.8rem;
   font-weight: normal;
+}
+
+@media only screen and (max-width: 900px) {
+  .summaryInfoWrap {
+    grid-template-columns: repeat(auto-fill, minmax(30vw, 1fr));
+  }
+}
+
+@media only screen and (max-width: 300px) {
+  .summaryInfoWrap {
+    grid-template-columns: repeat(auto-fill, minmax(40vw, 1fr));
+  }
+}
+@media only screen and (max-width: 240px) {
+  .summaryInfoWrap {
+    grid-template-columns: repeat(auto-fill, minmax(70vw, 1fr));
+  }
 }

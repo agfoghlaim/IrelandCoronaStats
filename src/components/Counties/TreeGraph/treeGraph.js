@@ -32,6 +32,27 @@ const TreeGraph = ({
 
   return (
     <>
+      <BoringButton
+        onClick={() => setShowProvinces(!showProvinces)}
+        overRideStyle={{
+          background: `${showProvinces ? 'var(--lightBlack)' : 'var(--covidGreen)'}`,
+          color: `${showProvinces ? 'var(--covidGreen)' : 'var(--lightBlack)'}`,
+          borderRadius: ' 0.4rem',
+          border: 'none',
+          fontWeight: '800',
+          letterSpacing: '0.1rem',
+          textTransform: 'uppercase',
+          fontSize: '0.6rem',
+          padding: '0.5rem 1rem',
+          outline: 'none',
+          minWidth: '5rem',
+          display: 'grid',
+          alignSelf: 'center',
+          justifySelf: 'center',
+        }}
+      >
+        {showProvinces ? 'Hide Provinces' : 'Show  Provinces'}
+      </BoringButton>
       <svg
         style={{ maxWidth: '100%' }}
         viewBox={`0 0 ${width} ${height}`}
@@ -47,20 +68,6 @@ const TreeGraph = ({
           selectedCountyName={storeSections.allStatsAboutSelectedCounty.name}
         />
       </svg>
-
-      <BoringButton
-        onClick={() => setShowProvinces(!showProvinces)}
-        config={{
-          position: 'absolute',
-          right: '0',
-          top: '-1rem',
-          padding: '0.25rem 0.5rem',
-          background: 'var(--white)',
-          color: 'var(--lightBlack)',
-        }}
-      >
-        {showProvinces ? 'Hide Provinces' : 'Show  Provinces'}
-      </BoringButton>
     </>
   );
 };
