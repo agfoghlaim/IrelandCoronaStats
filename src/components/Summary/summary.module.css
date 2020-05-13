@@ -3,38 +3,13 @@
 }
 
 .summaryInfoWrap {
-  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(20vw, 1fr));
+  /* grid-template-columns: repeat(auto-fill, minmax(calc(50vw -3.5rem), 1fr)); */
   grid-gap: 1rem;
   display: grid;
 }
 
-.summaryBox {
-  background: var(--black);
-  border-radius: 0.4rem;
-  padding: 2rem 1rem;
-  color: var(--white);
-  display: grid;
-  grid-gap: 0.4rem;
-  justify-content: center;
-  align-content: center;
-  justify-items: center;
-  align-items: center;
-}
 
-.summaryBox h3 {
-  color: var(--orange);
-  margin-top: 0;
-}
-
-.summaryBox h4 {
-  font-size: 0.8rem;
-  margin: 0;
-}
-
-.summaryBox p {
-  font-size: 0.6rem;
-  margin: 0;
-}
 
 .sectionHeading {
   display: grid;

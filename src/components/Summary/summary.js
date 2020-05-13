@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import classes from './summary.module.css';
 import SectionWrapSimple from '../../UI/Sections/SectionWrapSimple/sectionWrapSimple';
+import SummaryBox from './summaryBox';
+import * as d3 from 'd3';
 
 const Summary = ({ stats }) => {
   const getLastestDailyStats = (data) => {
@@ -22,77 +24,122 @@ const Summary = ({ stats }) => {
     }
   }, [stats]);
 
+  const xExtent = d3.extent(stats, (d) => d.attributes.Date);
+
+  const xScale = d3
+    .scaleTime()
+    .domain([xExtent[0], xExtent[1]])
+    .range([0, 200]);
+
+  const yExtent = d3.extent(stats, (d) => d.attributes.ConfirmedCovidCases);
+
+  const yScale = d3
+    .scaleLog()
+    // .scaleSymlog() accepts values below zero but causes more trouble than it's worth
+    .domain(yExtent)
+    .clamp(true)
+    .range([100, 0])
+    .nice();
+
+  const niceStats = stats.map((s) => {
+    return {
+      ConfirmedCovidCases: s.attributes.ConfirmedCovidCases,
+      Date: s.attributes.Date,
+      ConfirmedCovidDeaths: s.attributes.ConfirmedCovidDeaths,
+      ConfirmedCovidRecovered: s.attributes.ConfirmedCovidRecovered,
+      HospitalisedCovidCases: s.attributes.HospitalisedCovidCases,
+      RequiringICUCovidCases: s.attributes.RequiringICUCovidCases,
+      HealthcareWorkersCovidCases: s.attributes.HealthcareWorkersCovidCases,
+      ClustersNotified: s.attributes.ClustersNotified,
+    };
+  });
+
+  const infoStats = [
+    {
+      title: 'Total Confirmed Cases',
+      fieldName: 'TotalConfirmedCovidCases',
+      yesterdayFieldName: 'ConfirmedCovidCases', //from latest
+      svgLineFieldName: 'ConfirmedCovidCases',
+      dateField: 'Date',
+    },
+    {
+      title: 'Confirmed Recovered',
+      fieldName: 'ConfirmedCovidRecovered',
+      yesterdayFieldName: undefined, //from latest
+      svgLineFieldName: 'ConfirmedCovidRecovered',
+      dateField: 'Date',
+    },
+    {
+      title: 'Total Confirmed Deaths',
+      fieldName: 'TotalCovidDeaths',
+      yesterdayFieldName: 'ConfirmedCovidDeaths', //from latest
+      svgLineFieldName: 'ConfirmedCovidDeaths',
+      dateField: 'Date',
+    },
+    {
+      title: 'Total Hospitalised',
+      fieldName: 'HospitalisedCovidCases',
+      yesterdayFieldName: undefined, //from latest
+      svgLineFieldName: 'HospitalisedCovidCases',
+      dateField: 'StatisticsProfileDate',
+    },
+    {
+      title: 'Total ICU',
+      fieldName: 'RequiringICUCovidCases',
+      yesterdayFieldName: undefined, //from latest
+      svgLineFieldName: 'RequiringICUCovidCases',
+      dateField: 'StatisticsProfileDate',
+    },
+
+    {
+      title: 'Total Healthcare Workers Cases',
+      fieldName: 'HealthcareWorkersCovidCases',
+      yesterdayFieldName: undefined, //from latest
+      svgLineFieldName: 'HealthcareWorkersCovidCases',
+      dateField: 'StatisticsProfileDate',
+    },
+    {
+      title: 'Clusters',
+      fieldName: 'ClustersNotified',
+      yesterdayFieldName: undefined, //from latest
+      svgLineFieldName: 'ClustersNotified',
+      dateField: 'StatisticsProfileDate',
+    },
+  ];
+  const temp = () => {};
+
   return (
     <SectionWrapSimple>
       {latest ? (
         <div className={classes.summaryWrap}>
-          <div className={classes.sectionHeading}>
-            <h2 style={{ color: 'var(--white' }}>
-              Last Updated {new Date(latest.Date).toString().substring(0, 15)}
-            </h2>
-            <p>
-              The graphs below are based on data from data.gov.ie, available{' '}
-              <a
-                href="https://opendata-geohive.hub.arcgis.com/datasets/d8eb52d56273413b84b0187a4e9117be_0/data?geometry=-7.694%2C53.288%2C-7.691%2C53.289"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                here
-              </a>
-              . It is updated every evening, with the latest record reporting
-              the counts recorded at 1pm the same day.
-            </p>
-          </div>
           <div className={classes.summaryInfoWrap}>
-            <div className={classes.summaryBox}>
-              <h3>
-                {latest.TotalConfirmedCovidCases.toLocaleString()}{' '}
-                <small>
-                  (+
-                  {latest.ConfirmedCovidCases.toLocaleString()})*
-                </small>
-              </h3>
-              <h4>Total Confirmed Cases</h4>
-              <p>({new Date(latest.Date).toString().substring(0, 15)})</p>
-            </div>
-            <div className={classes.summaryBox}>
-              <h3>
-                {' '}
-                {latest.TotalCovidDeaths.toLocaleString()}
-                <small>
-                  {' '}
-                  (+
-                  {latest.ConfirmedCovidDeaths.toLocaleString()})*
-                </small>
-              </h3>
-              <h4>Total Deaths</h4>
-              <p>({new Date(latest.Date).toString().substring(0, 15)})</p>
-            </div>
-            <div className={classes.summaryBox}>
-              <h3> {latest.HospitalisedCovidCases.toLocaleString()} </h3>
-              <h4>Total Hosipialised</h4>
-              <p>
-                (
-                {new Date(latest.StatisticsProfileDate)
-                  .toString()
-                  .substring(0, 15)}
-                )
-              </p>
-            </div>
-
-            <div className={classes.summaryBox}>
-              <h3> {latest.RequiringICUCovidCases.toLocaleString()} </h3>
-              <h4>Total Requiring ICU</h4>
-              <p>
-                (
-                {new Date(latest.StatisticsProfileDate)
-                  .toString()
-                  .substring(0, 15)}
-                )
-              </p>
-            </div>
+            {infoStats.map((info) => (
+              <SummaryBox
+                key={info.fieldName}
+                niceStats={niceStats}
+                xScale={xScale}
+                yScale={yScale}
+                temp={temp}
+                fieldName={info.fieldName}
+                yesterdayFieldName={info.yesterdayFieldName}
+                latest={latest}
+                text={info.title}
+                dateField={info.dateField}
+                svgLineFieldName={info.svgLineFieldName}
+              />
+            ))}
           </div>
-          <span style={{color:'var(--orange)', fontSize:'0.7rem', fontWeight:'normal'}}>*Latest daily figures</span>
+          <span
+            style={{
+              color: 'var(--gray)',
+              fontSize: '0.7rem',
+              fontWeight: 'normal',
+            }}
+          >
+            *Latest daily figures
+            <br />
+            Last Updated: {new Date(latest.Date).toString().substring(0, 15)}
+          </span>
         </div>
       ) : (
         '  Loading...'

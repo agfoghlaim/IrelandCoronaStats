@@ -1,0 +1,44 @@
+.summaryBox {
+  background: var(--midBlack);
+  border-radius: 0.4rem;
+  padding: 2rem 1rem;
+  color: var(--white);
+  display: grid;
+  grid-gap: 1rem;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+}
+
+.summaryBox h4 {
+  color: var(--white);
+  margin: 1rem 0 1rem 0;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.1rem;
+  font-size: 1.8rem;
+  position: relative;
+}
+
+.summaryBox h4 small {
+  font-size: 0.8rem;
+  font-weight: 500;
+  position: absolute;
+  left: 0;
+  bottom: -0.8rem;
+  color: var(--gray);
+}
+
+.summaryBox h3 {
+  font-size: 0.8rem;
+  margin: 0;
+  /* letter-spacing: 0.1rem; */
+  color: var(--orange);
+}
+
+.summaryBox p {
+  font-size: 0.6rem;
+  margin: 0;
+  color: var(--gray);
+}

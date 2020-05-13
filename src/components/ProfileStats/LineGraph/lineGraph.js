@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import classes from './lineGraph.module.css';
 import Lines from './lines';
 import Circles from './circles';
 import HoverRectangles from '../../../UI/Graphs/HoverRectangles/hoverRectangles';

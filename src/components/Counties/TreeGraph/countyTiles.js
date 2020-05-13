@@ -14,7 +14,7 @@ const dimensions = {
   width: 1000,
   height: 600,
 };
-const { margin, width, height } = dimensions;
+const { width, height } = dimensions;
 
 // TODO - leaving this here for now
 const divideIntoProvences = (countyData, attribute) => {

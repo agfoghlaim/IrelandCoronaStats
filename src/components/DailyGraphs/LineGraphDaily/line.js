@@ -13,7 +13,6 @@ const Line = ({
 
 }) => {
 
-  
   const line = d3
     .line()
     .x((d) => xScale(d['Date']))

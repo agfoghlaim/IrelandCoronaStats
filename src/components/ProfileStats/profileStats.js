@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Layout from '../layout';
 import Section from './Sections/section';
-import Intro from './Intro/intro.js';
 import { sections } from './sections-data';
 
 import SectionWrapSimple from '../../UI/Sections/SectionWrapSimple/sectionWrapSimple';
