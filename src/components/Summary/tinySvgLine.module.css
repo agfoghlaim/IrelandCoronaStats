@@ -1,0 +1,14 @@
+ .tinySvgLine path:hover {
+  stroke: var(--white);
+  stroke-width: 0.2rem;
+
+} 
+/* .tinySvgLine {
+  pointer-events:all;
+} */
+
+.tinySvgLine path {
+  pointer-events:all;
+  transition: all 100ms ease-out;
+  /* cursor: pointer; */
+}

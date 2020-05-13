@@ -9,15 +9,15 @@ export const removeNulls = (resp, fieldName) => {
   return noNulls;
 };
 
-export const removeFromNestedAttributes = (data) => {
-  return data.map((d) => {
-    let obj = {};
-    for (const key in d.attributes) {
-      obj[key] = d.attributes[key];
-    }
-    return obj;
-  });
-};
+// export const removeFromNestedAttributes = (data) => {
+//   return data.map((d) => {
+//     let obj = {};
+//     for (const key in d.attributes) {
+//       obj[key] = d.attributes[key];
+//     }
+//     return obj;
+//   });
+// };
 
 export const successfullyGotDataForEachSelectedAttr = (sectionAvail) => {
   const selected = sectionAvail.map((attr) => (attr.selected ? true : false));

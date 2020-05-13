@@ -6,6 +6,7 @@ const Line = ({
   graphData,
   handleHover,
   handleHoverLeave,
+  // handleClick,
   xScale,
   yScale,
   fieldName,
@@ -31,7 +32,7 @@ const Line = ({
       strokeWidth={graphData.selected ? '4px' : '2px'}
       onMouseOver={(e) => handleHover(e, color)}
       onMouseLeave={(e) => handleHoverLeave(e)}
- 
+      // onClick={handleClick ? handleClick : false}
     ></path>
   );
 };

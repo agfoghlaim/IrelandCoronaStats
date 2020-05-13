@@ -53,3 +53,67 @@ export const COUNTIES = {
     }
   ]
 };
+
+export const SUMMARY = {
+  dailyStatsSoFarUrl: `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=ConfirmedCovidCases,Date,ConfirmedCovidDeaths,TotalCovidDeaths,ConfirmedCovidRecovered,TotalConfirmedCovidCases,HospitalisedCovidCases,RequiringICUCovidCases,HealthcareWorkersCovidCases,ClustersNotified,StatisticsProfileDate&outSR=4326&f=json`,
+  
+  infoStats: [
+    {
+      title: 'Confirmed Cases',
+      shortTitle: '# Cases',
+      fieldName: 'TotalConfirmedCovidCases',
+      yesterdayFieldName: 'ConfirmedCovidCases', //from latest
+      svgLineFieldName: 'ConfirmedCovidCases',
+      dateField: 'Date',
+    },
+    {
+      title: 'Confirmed Recovered',
+      shortTitle: '# Recovered',
+      fieldName: 'ConfirmedCovidRecovered',
+      yesterdayFieldName: undefined, //from latest
+      svgLineFieldName: 'ConfirmedCovidRecovered',
+      dateField: 'Date',
+    },
+    {
+      title: 'Confirmed Deaths',
+      shortTitle: '# Deaths',
+      fieldName: 'TotalCovidDeaths',
+      yesterdayFieldName: 'ConfirmedCovidDeaths', //from latest
+      svgLineFieldName: 'ConfirmedCovidDeaths',
+      dateField: 'Date',
+    },
+    {
+      title: 'Hospitalised',
+      shortTitle: '# Hospitalised',
+      fieldName: 'HospitalisedCovidCases',
+      yesterdayFieldName: undefined, //from latest
+      svgLineFieldName: 'HospitalisedCovidCases',
+      dateField: 'StatisticsProfileDate',
+    },
+    {
+      title: '# ICU',
+      shortTitle: '# in ICU',
+      fieldName: 'RequiringICUCovidCases',
+      yesterdayFieldName: undefined, //from latest
+      svgLineFieldName: 'RequiringICUCovidCases',
+      dateField: 'StatisticsProfileDate',
+    },
+
+    {
+      title: 'Healthcare Workers Cases',
+      shortTitle: '# Healthcare Workers',
+      fieldName: 'HealthcareWorkersCovidCases',
+      yesterdayFieldName: undefined, //from latest
+      svgLineFieldName: 'HealthcareWorkersCovidCases',
+      dateField: 'StatisticsProfileDate',
+    },
+    {
+      title: 'Clusters',
+      shortTitle: '# Clusters',
+      fieldName: 'ClustersNotified',
+      yesterdayFieldName: undefined, //from latest
+      svgLineFieldName: 'ClustersNotified',
+      dateField: 'StatisticsProfileDate',
+    },
+  ]
+}

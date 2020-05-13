@@ -4,7 +4,7 @@ import { countiesStoreUtil as util, sharedUtil } from '../../util-functions';
 // Leaving this function here so one can easily see what it's doing.
 const doTediousStuff = (features) => {
   return [
-    util.removeFromNestedAttributes,
+    sharedUtil.removeFromNestedAttributes,
     util.sortIntoArraysByCounty,
     util.turnArraysIntoNiceObjects,
   ].reduce((features, fn) => {
@@ -33,7 +33,7 @@ const configureStore = () => {
       return { sections: copy };
     },
     INIT_ALL_COUNTIES_LATEST_DATA: (curState, response) => {
-      const withoutNestedAttributes = util.removeFromNestedAttributes(response);
+      const withoutNestedAttributes = sharedUtil.removeFromNestedAttributes(response);
       const copy = curState.sections;
 
       copy[0].allCountiesLatestData = withoutNestedAttributes;

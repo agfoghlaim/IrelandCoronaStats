@@ -3,8 +3,8 @@ import React from 'react';
 const ErrorComp = ({ msg }) => (
   <p
     style={{
-      color: 'white',
-      background: 'var(--purple)',
+      color: 'var(--covidPink)',
+      background: 'var(--midBlack)',
       padding: '1rem',
       borderRadius: '0.4rem',
       margin: '3rem 0'

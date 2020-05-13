@@ -1,0 +1,37 @@
+svg > .tinyAxisGroupY > g > text {
+  transform: translateX(1.4rem);
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  transition: all 100ms ease-out;
+  opacity: 0.9;
+  font-weight: 700;
+}
+svg > .tinyAxisGroupX > g > text {
+  transform: translate(1rem,1rem) rotate(-90deg);
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  transition: all 100ms ease-out;
+  opacity: 0.9;
+  font-weight: 700;
+}
+
+/**/
+svg > .tinyAxisGroupY > g > line {
+  stroke: var(--gray);
+  stroke-width: 2px;
+  opacity: 0.5;
+}
+svg > .tinyAxisGroupX > g > line {
+  stroke: var(--gray);
+  stroke-width: 2px;
+  opacity: 0.5;
+}
+
+
+.tinyAxisGroupX, .tinyAxisGroupY{
+  color: var(--gray);
+}
+.tinyAxisGroupX path, .tinyAxisGroupY path{
+  stroke: var(--gray);
+  opacity: 0;
+}

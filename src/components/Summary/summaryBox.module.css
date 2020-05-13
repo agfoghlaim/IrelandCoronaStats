@@ -17,7 +17,7 @@
   text-transform: uppercase;
   font-weight: 800;
   letter-spacing: 0.1rem;
-  font-size: 1.8rem;
+  font-size: 2.5rem;
   position: relative;
 }
 
@@ -26,15 +26,16 @@
   font-weight: 500;
   position: absolute;
   left: 0;
-  bottom: -0.8rem;
+  bottom: -1rem;
   color: var(--gray);
 }
 
 .summaryBox h3 {
   font-size: 0.8rem;
   margin: 0;
-  /* letter-spacing: 0.1rem; */
   color: var(--orange);
+  font-weight: 800;
+  letter-spacing: 0.05rem;
 }
 
 .summaryBox p {

@@ -25,16 +25,6 @@ export const countiesStoreUtil = {
     return newData;
   },
 
-  removeFromNestedAttributes: (data) => {
-    return data.map((d) => {
-      let obj = {};
-      for (const key in d.attributes) {
-        obj[key] = d.attributes[key];
-        
-      }
-      return obj;
-    });
-  },
   getLatestOrSelectedDateDataForCounty: (county, selectedDate) => {
     let dateToUse = selectedDate;
     if(!dateToUse){
@@ -88,6 +78,36 @@ export const sharedUtil = {
     const dates = county.stats.map((s) => s.TimeStampDate);
     const newestDate = Math.max(...dates.map((d) => d));
     return newestDate;
-  }
+    // const dates = removeFromNestedAttributes(county, 'stats')
+  },
+
+  getDataByFieldName: (data, fieldName, fieldValue) => {
+    return data.filter((s) => s[fieldName] === fieldValue);
+  },
+
+  removeFromNestedAttributes: (data, attr='attributes') => {
+    return data.map((d) => {
+      let obj = {};
+      for (const key in d[attr]) {
+        obj[key] = d[attr][key];
+        
+      }
+      return obj;
+    });
+  },
+  maxDate: (specificDate, data, specificDateFieldName) => {
+    let dateToUse = specificDate;
+    if(!dateToUse){
+      const dates = data.map((s) => s[specificDateFieldName]);
+      dateToUse = Math.max(...dates.map((d) => d));
+    }
+    return dateToUse;
+  },
+  getLatestDataOrDataOnSpecificDate: (data, specificDate, specificDateFieldName) => {
+    const dateToUse = sharedUtil.maxDate(specificDate, data, specificDateFieldName);
+    const newestData = sharedUtil.getDataByFieldName(data, specificDateFieldName, dateToUse);
+    return newestData[0];
+  },
+
 
 }

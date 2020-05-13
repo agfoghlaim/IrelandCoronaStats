@@ -6,10 +6,10 @@ import TextBox from '../TextBox/textBox';
 import ErrorComp from '../../../UI/error';
 import {
   removeNulls,
-  removeFromNestedAttributes,
   successfullyGotDataForEachSelectedAttr,
   getOne,
 } from './section-util';
+import { sharedUtil } from '../../../util-functions';
 
 import SectionWrap from '../../../UI/Sections/SectionWrap/sectionWrap';
 import SectionSide from '../../../UI/Sections/SectionSide/sectionSide';
@@ -31,7 +31,7 @@ const Section = ({ section }) => {
       if (features) {
         // data is from the beginning of records but first few weeks are all null for Profile Stats
         const filtered = removeNulls(features, attr.fieldName);
-        const flattened = removeFromNestedAttributes(filtered);
+        const flattened = sharedUtil.removeFromNestedAttributes(filtered);
         attr.data = flattened;
         return attr;
       }
