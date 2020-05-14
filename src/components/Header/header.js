@@ -21,6 +21,11 @@ const Header = (props) => (
             Counties
           </NavLink>
         </li>
+        <li>
+          <NavLink exact to="/contact" activeClassName={classes.navActive}>
+            Contact
+          </NavLink>
+        </li>
       </ul>
     </nav>
   </header>

@@ -115,3 +115,39 @@ export const sharedUtil = {
     return newestData[0];
   },
 };
+
+export const contactUtil = {
+  isProbablyEmail: (str) => {
+    var re = /\S+@\S+\.\S+/;
+    if (str.length < 50) {
+      return re.test(str);
+    }
+    return false;
+  },
+
+  // function from netlify docs
+  encode: (data) => {
+    return Object.keys(data)
+      .map(
+        (key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key])
+      )
+      .join('&');
+  },
+
+  validate: (val, rules) => {
+    let isValid = true;
+    if (rules.required) {
+      isValid = val.trim() !== '' && isValid;
+    }
+    if (rules.min) {
+      isValid = val.length >= rules.min && isValid;
+    }
+    if (rules.max) {
+      isValid = val.length <= rules.max && isValid;
+    }
+    if (rules.isProbablyEmail) {
+      isValid = contactUtil.isProbablyEmail(val) && isValid;
+    }
+    return isValid;
+  },
+};
