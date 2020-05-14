@@ -1,6 +1,5 @@
 import React from 'react';
 import classes from './boringButton.module.css';
-// import classes from './boringButton.module.css';
 
 const BoringButton = ({ config, onClick, children, overRideStyle }) => {
   const {

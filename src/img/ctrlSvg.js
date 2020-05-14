@@ -1,5 +1,4 @@
 import React from 'react';
-import classes from './ctrlSvg.module.css';
 
 const paths = {
   
@@ -21,7 +20,7 @@ const paths = {
 
 const CtrlSvg = ({ctrlType, color, height}) => {
 
-  return <svg style={{height}} aria-hidden="true" focusable="false" className={`${classes.ctrlSvg} ${classes[ctrlType]}`} role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  return <svg style={{height}} aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
     {paths[ctrlType](color)}
   </svg>
 }

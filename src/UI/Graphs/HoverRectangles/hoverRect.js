@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 const HoverRect = ({
   rect,
-  // graphData,
   attr, // the actual data (from api attributes:{})
   handleHoverDate,
   handleHoverLeaveDate,

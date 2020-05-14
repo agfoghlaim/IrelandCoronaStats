@@ -10,11 +10,9 @@ const CountiesSection = ({
   setIsPlaying,
   handleSelectDate,
   handleSelectData,
-  classes
+  classes,
 }) => {
-
   return (
-    
     <SectionWrap>
       <CountiesSideSection
         showCountyBtns={false}
@@ -25,17 +23,9 @@ const CountiesSection = ({
         classes={classes}
         handleSelectData={handleSelectData}
       />
-      <SectionMain>
-        {/* {isError ? <ErrorComp msg='Could not load data.' /> : ( */}
-            {children}
-        {/* // )} */}
-      
-
-      </SectionMain>
+      <SectionMain>{children}</SectionMain>
     </SectionWrap>
   );
-  
-
 };
 
 export default CountiesSection;

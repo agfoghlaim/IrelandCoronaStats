@@ -11,15 +11,14 @@ svg > .axisGroupX > g > text {
   transform: translate(-0.5rem, 1.6rem) rotate(-90deg);
 }
 
-
 svg > .axisGroupY > g > line {
-  fill:var(--white);
-  stroke: var(--white);/*for dark graph theme*/
+  fill: var(--white);
+  stroke: var(--white); /*for dark graph theme*/
   opacity: 0.1;
 }
 svg > .axisGroupX > g > line {
-  fill:var(--white);
-  stroke: var(--white);/*for dark graph theme*/
+  fill: var(--white);
+  stroke: var(--white); /*for dark graph theme*/
   opacity: 0.1;
 }
 
@@ -28,19 +27,21 @@ svg > .axisGroupX > g > line {
 }
 
 /* For dark theme graph */
-.axisGroupX  {
-  color:var(--white);
+.axisGroupX {
+  color: var(--white);
 }
 
-.axisGroupY  {
-  color:var(--white);
+.axisGroupY {
+  color: var(--white);
 }
 
 /* graph border */
-.axisGroupX, .axisGroupY{
+.axisGroupX,
+.axisGroupY {
   color: var(--white);
 }
-.axisGroupX path, .axisGroupY path{
+.axisGroupX path,
+.axisGroupY path {
   stroke: var(--white);
   opacity: 0.2;
 }

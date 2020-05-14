@@ -2,9 +2,9 @@ import * as d3 from 'd3';
 
 export const countiesStoreUtil = {
   colorScale: d3
-  .scaleSequential()
-  .domain([0, 100])
-  .interpolator(d3.interpolateRainbow),
+    .scaleSequential()
+    .domain([0, 100])
+    .interpolator(d3.interpolateRainbow),
 
   sortIntoArraysByCounty: (data, field = 'CountyName') => {
     // data in = [{galway},{galway},{longford}]
@@ -27,19 +27,18 @@ export const countiesStoreUtil = {
 
   getLatestOrSelectedDateDataForCounty: (county, selectedDate) => {
     let dateToUse = selectedDate;
-    if(!dateToUse){
+    if (!dateToUse) {
       const dates = county.stats.map((s) => s.TimeStampDate);
       dateToUse = Math.max(...dates.map((d) => d));
     }
-    
-    const newestData = county.stats.filter((s) => s.TimeStampDate === dateToUse);
+
+    const newestData = county.stats.filter(
+      (s) => s.TimeStampDate === dateToUse
+    );
     return newestData[0];
   },
 
-
-
   turnArraysIntoNiceObjects: (data) => {
-
     const createManagableObjectAndSetFirstCountyToSelected = (n, i) => {
       const obj = {};
       obj.name = n[0].CountyName;
@@ -57,7 +56,7 @@ export const countiesStoreUtil = {
       createManagableObjectAndSetFirstCountyToSelected(n, i)
     );
   },
-  selectAttributeWithThisFieldName: (attributes, fieldName)=> {
+  selectAttributeWithThisFieldName: (attributes, fieldName) => {
     return attributes.map((a) => {
       if (a.fieldName === fieldName) {
         a.selected = true;
@@ -66,15 +65,11 @@ export const countiesStoreUtil = {
       }
       return a;
     });
-  }
-  
- 
-}
+  },
+};
 
 export const sharedUtil = {
-
   getLatestDate: (county) => {
-
     const dates = county.stats.map((s) => s.TimeStampDate);
     const newestDate = Math.max(...dates.map((d) => d));
     return newestDate;
@@ -85,29 +80,38 @@ export const sharedUtil = {
     return data.filter((s) => s[fieldName] === fieldValue);
   },
 
-  removeFromNestedAttributes: (data, attr='attributes') => {
+  removeFromNestedAttributes: (data, attr = 'attributes') => {
     return data.map((d) => {
       let obj = {};
       for (const key in d[attr]) {
         obj[key] = d[attr][key];
-        
       }
       return obj;
     });
   },
   maxDate: (specificDate, data, specificDateFieldName) => {
     let dateToUse = specificDate;
-    if(!dateToUse){
+    if (!dateToUse) {
       const dates = data.map((s) => s[specificDateFieldName]);
       dateToUse = Math.max(...dates.map((d) => d));
     }
     return dateToUse;
   },
-  getLatestDataOrDataOnSpecificDate: (data, specificDate, specificDateFieldName) => {
-    const dateToUse = sharedUtil.maxDate(specificDate, data, specificDateFieldName);
-    const newestData = sharedUtil.getDataByFieldName(data, specificDateFieldName, dateToUse);
+  getLatestDataOrDataOnSpecificDate: (
+    data,
+    specificDate,
+    specificDateFieldName
+  ) => {
+    const dateToUse = sharedUtil.maxDate(
+      specificDate,
+      data,
+      specificDateFieldName
+    );
+    const newestData = sharedUtil.getDataByFieldName(
+      data,
+      specificDateFieldName,
+      dateToUse
+    );
     return newestData[0];
   },
-
-
-}
+};

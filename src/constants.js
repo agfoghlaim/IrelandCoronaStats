@@ -50,13 +50,13 @@ export const COUNTIES = {
         { name: 'Tipperary', reg: 'T' },
         { name: 'Waterford', reg: 'W' },
       ],
-    }
-  ]
+    },
+  ],
 };
 
 export const SUMMARY = {
   dailyStatsSoFarUrl: `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=ConfirmedCovidCases,Date,ConfirmedCovidDeaths,TotalCovidDeaths,ConfirmedCovidRecovered,TotalConfirmedCovidCases,HospitalisedCovidCases,RequiringICUCovidCases,HealthcareWorkersCovidCases,ClustersNotified,StatisticsProfileDate&outSR=4326&f=json`,
-  
+
   infoStats: [
     {
       title: 'Confirmed Cases',
@@ -115,5 +115,5 @@ export const SUMMARY = {
       svgLineFieldName: 'ClustersNotified',
       dateField: 'StatisticsProfileDate',
     },
-  ]
-}
+  ],
+};

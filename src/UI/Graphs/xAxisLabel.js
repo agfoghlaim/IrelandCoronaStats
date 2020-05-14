@@ -1,6 +1,6 @@
 import React from 'react'
 
-const XAxisLabel = ({text, yClass, height, width, margin}) => {
+const XAxisLabel = ({text, yClass, height, margin}) => {
   return (
     <text
     fill="var(--white)" // for dark graph theme

@@ -521,15 +521,6 @@ export  const sections = [
         color: 'var(--yellow)',
         data: [],
       },
-      // {
-      //   name: 'Analysis based on #cases',
-      //   urlPart: `StatisticsProfileDate,CovidCasesConfirmed`,
-      //   fieldName: 'CovidCasesConfirmed',
-      //   xAxisAttribute: 'StatisticsProfileDate',
-      //   selected: false,
-      //   color: 'var(--black)',
-      //   data: [],
-      // },
     ],
   },
   {

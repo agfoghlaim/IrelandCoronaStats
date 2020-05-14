@@ -1,6 +1,5 @@
 import React from 'react';
 import SectionWrapper from '../../../UI/Sections/SectionWrapper/sectionWrapper';
-// import classes from './extraInfo.module.css';
 
 const ExtraInfo = () => {
   return (

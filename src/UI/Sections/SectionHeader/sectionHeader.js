@@ -7,10 +7,8 @@ const SectionHeader = ({ title, subtitle, description, children }) => (
       {title} <br />
       <small>{subtitle} </small>
     </h3>
-    {
-      description ?  <p>{description}</p> : null
-    }
-   
+    {description ? <p>{description}</p> : null}
+
     {children}
   </div>
 );
