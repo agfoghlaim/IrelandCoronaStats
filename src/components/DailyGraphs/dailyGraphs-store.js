@@ -232,7 +232,7 @@ const configureStore = () => {
         name: 'DailyAlt',
         id: 3,
         sectionName: 'Deaths',
-        description: 'Description of deaths data.',
+        description: '',
         xAxisLabel: '# deaths',
         xAxisAttribute: 'Date',
         selectedAttributeNames: ['ConfirmedCovidDeaths'],

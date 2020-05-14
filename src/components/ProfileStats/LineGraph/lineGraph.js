@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import * as d3 from 'd3';
 import Lines from './lines';
 import Circles from './circles';
@@ -6,27 +6,6 @@ import HoverRectangles from '../../../UI/Graphs/HoverRectangles/hoverRectangles'
 import TinyTooltip from '../../../UI/Tooltips/TinyTooltip';
 import YAxisLabel from '../../../UI/Graphs/yAxisLabel';
 import Axis from '../../../UI/Graphs/axis';
-
-// Prevent lines/circles spilling over from the start of graph. Use selected attrubute with the earliest non null values for the date
-const calculateYExtentOfSelectedAttributes = (data) => {
-  const selected = data.filter((d) => d.selected);
-  const getExtentsForAllSelectedAttributes = () => {
-    const extents = selected.map((attr) => {
-      return d3.extent(attr.data, (d) => d.StatisticsProfileDate);
-    });
-    return extents;
-  };
-  const selectedExtents = getExtentsForAllSelectedAttributes();
-  const maxValue = selectedExtents.map((h) =>
-    Math.max(...selectedExtents.map((h) => h[1]))
-  )[0];
-  const minValue = selectedExtents.map((h) =>
-    Math.min(...selectedExtents.map((h) => h[0]))
-  )[0];
-  const xExtent = [minValue, maxValue];
-
-  return xExtent;
-};
 
 const dimensions = {
   margin: {
@@ -39,18 +18,40 @@ const dimensions = {
   height: 600,
 };
 const { margin, width, height } = dimensions;
+
 const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
   const [data, setData] = useState(theData);
-
-  const svgRef = useRef(null);
-
   const [isHovered, setIsHovered] = useState(false);
   const [hoverInfo, setHoverInfo] = useState();
   const [hoverColor, setHoverColor] = useState();
   const [hoverPosition, setHoverPosition] = useState([]);
 
-  // let xExtent = d3.extent(data[0].data, (d) => d[data[0].xAxisAttribute]);
-  const xExtent = calculateYExtentOfSelectedAttributes(data);
+  const svgRef = useRef(null);
+
+  // Prevent lines/circles spilling over from the start of graph. Use selected attrubute with the earliest non null values for the date.
+  const xExtent = useMemo(
+    function calcXExtent() {
+      const selected = data.filter((d) => d.selected);
+
+      const getExtentsForAllSelectedAttributes = () => {
+        const extents = selected.map((attr) => {
+          return d3.extent(attr.data, (d) => d.StatisticsProfileDate);
+        });
+        return extents;
+      };
+      const selectedExtents = getExtentsForAllSelectedAttributes();
+      const maxValue = selectedExtents.map((h) =>
+        Math.max(...selectedExtents.map((h) => h[1]))
+      )[0];
+      const minValue = selectedExtents.map((h) =>
+        Math.min(...selectedExtents.map((h) => h[0]))
+      )[0];
+      const xExtent = [minValue, maxValue];
+
+      return xExtent;
+    },
+    [data]
+  );
 
   useEffect(() => {
     setData(theData);
@@ -119,7 +120,12 @@ const LineGraph = ({ theData, handleTextBox, yAxisLabel }) => {
         </TinyTooltip>
       ) : null}
 
-      <svg ref={svgRef} viewBox="0 20 800 600" width={width} style={{maxWidth: '100%'}}>
+      <svg
+        ref={svgRef}
+        viewBox="0 20 800 600"
+        width={width}
+        style={{ maxWidth: '100%' }}
+      >
         <Axis
           dimensions={dimensions}
           xScale={xScale}

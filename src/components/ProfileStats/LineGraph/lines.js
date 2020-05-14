@@ -2,7 +2,6 @@ import React from 'react'
 import * as d3 from 'd3';
 
 const Lines = ({data, xScale, yScale}) => {
-
     const ans = data.map((graphData) => {
       if (graphData.data.length && graphData.selected) {
         const line = d3
@@ -21,6 +20,8 @@ const Lines = ({data, xScale, yScale}) => {
             strokeWidth="2px"
           ></path>
         );
+      } else {
+        return null;
       }
     });
     return ans;

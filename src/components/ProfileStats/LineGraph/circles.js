@@ -14,7 +14,6 @@ const Circles = ({
       ? graphData.data.map((attr, i) => {
           const y = yScale(attr[graphData.fieldName]);
           const x = xScale(attr[graphData.xAxisAttribute]);
-          // console.log(data,data.useDifferentShape)
           return x && y && !graphData.useDifferentShape ? (
             <circle
               key={`${graphData.fieldName}-${i}`}

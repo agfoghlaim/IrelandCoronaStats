@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import classes from './axis.module.css';
 
 const Axis = ({ dimensions, xScale, yScale, tickNumDays }) => {
+
   const xAxisRef = useRef(null);
   const yAxisRef = useRef(null);
   const xAxis = d3.axisBottom();

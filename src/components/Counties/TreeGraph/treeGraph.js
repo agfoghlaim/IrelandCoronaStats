@@ -2,6 +2,7 @@ import React, { useRef, useMemo } from 'react';
 import { useStore } from '../../../Store/store';
 import CountyTiles from './countyTiles';
 import BoringButton from '../../../UI/Buttons/boringButton';
+import ErrorComp from '../../../UI/error';
 
 const dimensions = {
   margin: {
@@ -19,6 +20,8 @@ const TreeGraph = ({
   showProvinces,
   handleSelectOneCounty,
   setShowProvinces,
+  isLoading,
+  isError
 }) => {
   const storeSections = useStore()[0].sections[0];
   const attribute = storeSections.selectedAttributeName;
@@ -53,21 +56,24 @@ const TreeGraph = ({
       >
         {showProvinces ? 'Hide Provinces' : 'Show  Provinces'}
       </BoringButton>
-      <svg
-        style={{ maxWidth: '100%' }}
-        viewBox={`0 0 ${width} ${height}`}
-        ref={svgRef}
-        width={width}
-      >
-        <CountyTiles
-          graphData={storeSections.allCountiesLatestData}
-          attribute={attribute}
-          showProvinces={showProvinces}
-          handleSelectOneCounty={handleSelectOneCounty}
-          selectedAttributeColor={selectedAttributeColor}
-          selectedCountyName={storeSections.allStatsAboutSelectedCounty.name}
-        />
-      </svg>
+      {isError ? <ErrorComp msg='Could not load data for graph.' /> : (
+              <svg
+              style={{ maxWidth: '100%' }}
+              viewBox={`0 0 ${width} ${height}`}
+              ref={svgRef}
+              width={width}
+            >
+              <CountyTiles
+                graphData={storeSections.allCountiesLatestData}
+                attribute={attribute}
+                showProvinces={showProvinces}
+                handleSelectOneCounty={handleSelectOneCounty}
+                selectedAttributeColor={selectedAttributeColor}
+                selectedCountyName={storeSections.allStatsAboutSelectedCounty.name}
+              />
+            </svg>
+      )}
+
     </>
   );
 };

@@ -15,12 +15,12 @@ svg > .axisGroupX > g > text {
 svg > .axisGroupY > g > line {
   fill:var(--white);
   stroke: var(--white);/*for dark graph theme*/
-  opacity: 0.2;
+  opacity: 0.1;
 }
 svg > .axisGroupX > g > line {
   fill:var(--white);
   stroke: var(--white);/*for dark graph theme*/
-  opacity: 0.2;
+  opacity: 0.1;
 }
 
 .axisGroupY :nth-child(1) {

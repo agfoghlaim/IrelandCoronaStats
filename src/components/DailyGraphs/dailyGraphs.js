@@ -12,6 +12,7 @@ import LineGraphDaily from './LineGraphDaily/lineGraphDaily';
 import AttributeBtns from '../../UI/Buttons/AttributeBtns/attributeBtns';
 import TextBox from './TextBox/textBox';
 import classes from './dailyGraphs.module.css'
+import ErrorComp from '../../UI/error';
 
 configureDailyGraphsStore();
 
@@ -24,6 +25,16 @@ const DailyGraphs = () => {
   const dispatch = useStore()[1];
   const graphs = useStore()[0].dailyGraphsStore;
 
+  const getDailyStats = useCallback(async () => {
+    try {
+      const response = await axios.get(dailyStatsSoFarUrl);
+      return response.data.features;
+    } catch (e) {
+      setIsLoading(false);
+      setIsError(true);
+    }
+  }, []);
+  
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -39,28 +50,22 @@ const DailyGraphs = () => {
         setIsError(true);
       }
     })();
-  }, []);
-
-  const getDailyStats = useCallback(async () => {
-    try {
-      const response = await axios.get(dailyStatsSoFarUrl);
-      return response.data.features;
-    } catch (e) {
-      setIsLoading(false);
-      setIsError(true);
-    }
+    // eslint-disable-next-line
   }, []);
 
   const handleSelectData = (e, graphId) => {
     const fieldName = e.target.name;
     dispatch('SELECT_DAILY_GRAPHS_ATTRS', { fieldName, graphId });
   };
+
   return graphs && graphs.length
     ? graphs.map((graph, index) => (
-      <SectionWrapper>
-        <SectionWrap key={index}>
+      <SectionWrapper key={index}>
+        <SectionWrap>
           <SectionSide>
-            <SectionHeader
+            { isError ? <ErrorComp msg="Could not load data." /> : (
+              <>
+              <SectionHeader
               title={graph.sectionName}
               subtitle=""
               description={graph.description}
@@ -79,6 +84,9 @@ const DailyGraphs = () => {
                 handleSelectData={handleSelectData}
               />
             </div>
+            </>
+            ) }
+            
           </SectionSide>
           <SectionMain>
             {!isLoading && graph && graph.all.length ? (

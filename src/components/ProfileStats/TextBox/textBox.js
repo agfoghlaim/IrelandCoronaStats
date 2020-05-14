@@ -19,10 +19,10 @@ const getKeysValues = (data) => {
 const TextBox = ({
   selectedDateData,
   selectedDate,
-  loading,
+  isLoading,
   numAvailableAttrs,
 }) => {
-  console.log(numAvailableAttrs);
+
   const moreManagableVersionOfSelectedData = getKeysValues(selectedDateData);
 
   const RightSpan = ({ text, color }) => {
@@ -45,7 +45,7 @@ const TextBox = ({
       // Initial height of box needs to be ok to fit all possible '.infoWraps' so there's no jumping around the page when things are selected. Use numAvailableAttrs
       style={{ minHeight: `${(numAvailableAttrs + 1)*1.8}rem` }}
     >
-      {loading ? (
+      {isLoading ? (
         <LoadingComp msg="Loading..." />
       ) : (
         <>

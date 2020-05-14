@@ -6,6 +6,7 @@ import YAxisLabel from '../../../UI/Graphs/yAxisLabel';
 import Line from './line';
 import { useStore } from '../../../Store/store';
 import ClickRectangles from '../ClickRectangles/clickRectangles';
+import ErrorComp from '../../../UI/error';
 
 const dimensions = {
   margin: {
@@ -19,7 +20,7 @@ const dimensions = {
 };
 const { margin, width, height } = dimensions;
 
-const LineGraph = ({ handleSelectCounty, handleSelectDate }) => {
+const LineGraph = ({ handleSelectCounty, handleSelectDate, isError }) => {
   const storeSections = useStore()[0].sections[0];
   const selectedData = storeSections.avail.filter((data) => data.selected)[0];
   const svgRef = useRef(null);
@@ -30,7 +31,7 @@ const LineGraph = ({ handleSelectCounty, handleSelectDate }) => {
   const [hoverPosition, setHoverPosition] = useState([]);
   const [selectedAttribute, setSelectedAttribute] = useState('');
   const [hoverInfoDate, setHoverInfoDate] = useState('');
-
+  const [useForXExtent, setUseForXExtent] = useState([]);
   useEffect(() => {
     const findSelectedAttribute = () => {
       const selected = storeSections.avail.filter((d) => d.selected)[0];
@@ -40,7 +41,13 @@ const LineGraph = ({ handleSelectCounty, handleSelectDate }) => {
     setSelectedAttribute(newSelected.fieldName);
   }, [storeSections.avail]);
 
-  const useForXExtent = storeSections.allCounties[0].stats;
+  useEffect(()=> {
+    if(storeSections.allCounties.length) {
+      setUseForXExtent(storeSections.allCounties[0].stats);
+    }
+  },[storeSections.allCounties])
+ 
+
   const xExtent = d3.extent(useForXExtent, (d) => d.TimeStampDate);
   const xScale = d3
     .scaleTime()
@@ -106,52 +113,55 @@ const LineGraph = ({ handleSelectCounty, handleSelectDate }) => {
           {hoverInfo || hoverInfoDate}
         </div>
       ) : null}
-
-    <svg
-        ref={svgRef}
-        className={classes.lineSvg}
-        viewBox={`0 40 ${width-50} ${height}`}
-        width={width}
-        style={{maxWidth:'100%'}}
-      >
-        <Axis dimensions={dimensions} xScale={xScale} yScale={yScale} />
-        <YAxisLabel
-          text={ selectedData ? selectedData.xAxisDescription : ''}
-          height={height}
-          margin={margin}
-        />
-        {storeSections && storeSections.allCountiesLatestData.length ? (
-          <ClickRectangles
-            graphData={storeSections.allCounties[0].stats.map(
-              (county) => county.TimeStampDate
-            )}
-            dimensions={dimensions}
-            xScale={xScale}
-            handleHoverLeaveDate={handleHoverLeaveDate}
-            handleHoverDate={handleHoverDate}
-            handleSelectDate={handleSelectDate}
-            selectedDate={storeSections.selectedDate}
+    {isError ? <ErrorComp msg='Could not load data for graph.' /> : (
+          <svg
+          ref={svgRef}
+          className={classes.lineSvg}
+          viewBox={`0 40 ${width-50} ${height}`}
+          width={width}
+          style={{maxWidth:'100%'}}
+        >
+          <Axis dimensions={dimensions} xScale={xScale} yScale={yScale} />
+          <YAxisLabel
+            text={ selectedData ? selectedData.xAxisDescription : ''}
+            height={height}
+            margin={margin}
           />
-        ) : null}
-        {storeSections && storeSections.allCounties.length
-          ? storeSections.allCounties.map((graphData, i) => (
-             
-                <Line
-                  graphData={graphData}
-                  i={i}
-                  key={i}
-                  handleHover={handleHover}
-                  handleHoverLeave={handleHoverLeave}
-                  xScale={xScale}
-                  yScale={yScale}
-                  colorScale={colorScale}
-                  selectedAttribute={selectedAttribute}
-                  handleSelectCounty={handleSelectCounty}
-                />
-          
-            ))
-          : null}
-      </svg>
+          {storeSections && storeSections.allCountiesLatestData.length ? (
+            <ClickRectangles
+              graphData={storeSections.allCounties[0].stats.map(
+                (county) => county.TimeStampDate
+              )}
+              dimensions={dimensions}
+              xScale={xScale}
+              handleHoverLeaveDate={handleHoverLeaveDate}
+              handleHoverDate={handleHoverDate}
+              handleSelectDate={handleSelectDate}
+              selectedDate={storeSections.selectedDate}
+            />
+          ) : null}
+          {storeSections && storeSections.allCounties.length
+            ? storeSections.allCounties.map((graphData, i) => (
+               
+                  <Line
+                    graphData={graphData}
+                    i={i}
+                    key={i}
+                    handleHover={handleHover}
+                    handleHoverLeave={handleHoverLeave}
+                    xScale={xScale}
+                    yScale={yScale}
+                    colorScale={colorScale}
+                    selectedAttribute={selectedAttribute}
+                    handleSelectCounty={handleSelectCounty}
+                  />
+            
+              ))
+            : null}
+        </svg>
+
+    ) }
+
 
     </>
   );

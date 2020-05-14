@@ -13,23 +13,6 @@ const Summary = () => {
   const [isError, setIsError] = useState(false);
   const [niceStats, setNiceStats] = useState([]);
   const [latest, setLatest] = useState();
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      setIsError(false);
-      try {
-        const data = await getDailyStats();
-        const niceData = sharedUtil.removeFromNestedAttributes(data);
-        setNiceStats(niceData);
-        setIsLoading(false);
-      } catch (e) {
-        setIsLoading(false);
-        setIsError(true);
-      }
-    })();
-  }, []);
-
   const getDailyStats = useCallback(async () => {
     try {
       const response = await axios.get(SUMMARY.dailyStatsSoFarUrl);
@@ -39,6 +22,25 @@ const Summary = () => {
       setIsError(true);
     }
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      setIsError(false);
+      try {
+      
+        const data = await getDailyStats();
+        const niceData = sharedUtil.removeFromNestedAttributes(data);
+        setNiceStats(niceData);
+        setIsLoading(false);
+      } catch (e) {
+        setIsLoading(false);
+        setIsError(true);
+      }
+    })();
+  }, [getDailyStats]);
+
+
  
   useEffect(() => {
     if (niceStats.length) {

@@ -6,9 +6,7 @@ import { sharedUtil as util } from '../../util-functions';
 import { COUNTIES } from '../../constants.js';
 
 import Layout from '../layout';
-import SectionWrapSimple from '../../UI/Sections/SectionWrapSimple/sectionWrapSimple';
 import SelectGraphBtnGroup from '../../UI/Buttons/SelectGraphBtnGroup/selectGraphBtnGroup';
-import ErrorComp from '../../UI/error';
 import CountiesSection from './Sections/countiesSection';
 import BarChart from './BarChart/barChart';
 import LineGraph from './LineGraph/lineGraph';
@@ -54,6 +52,7 @@ const Counties = () => {
         setIsError(true);
       }
     })();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -71,6 +70,7 @@ const Counties = () => {
         setIsError(true);
       }
     })();
+    // eslint-disable-next-line
   }, []);
 
   const handleSelectOneCounty = (county) => {
@@ -102,6 +102,7 @@ const Counties = () => {
             handleSelectOneCounty={handleSelectOneCounty}
             handleSelectDate={handleSelectDate}
             isLoading={isLoading}
+            isError={isError}
           />
         );
       case 'tree':
@@ -110,6 +111,7 @@ const Counties = () => {
             handleSelectOneCounty={handleSelectOneCounty}
             handleSelectDate={handleSelectDate}
             isLoading={isLoading}
+            isError={isError}
             showProvinces={showProvinces}
             setShowProvinces={setShowProvinces}
           />
@@ -119,6 +121,8 @@ const Counties = () => {
           <LineGraph
             handleSelectCounty={handleSelectCounty}
             handleSelectDate={handleSelectDate}
+            isError={isError}
+            isLoading={isLoading}
           />
         );
       default:
@@ -129,6 +133,7 @@ const Counties = () => {
             isLoading={isLoading}
             showProvinces={showProvinces}
             setShowProvinces={setShowProvinces}
+            isError={isError}
           />
         );
     }
@@ -144,6 +149,7 @@ const Counties = () => {
         handleSelectData={handleSelectData}
         handleSelectOneCounty={handleSelectOneCounty}
         isLoading={isLoading}
+        isError={isError}
       >
         {renderGraph()}
       </CountiesSection>
@@ -181,18 +187,15 @@ const Counties = () => {
 
   return (
     <Layout>
-      <>
-        {isError ? <ErrorComp msg="Could not load data." /> : null}
-
         <SectionWrapper>
+        {/* {isError ? <ErrorComp msg="Could not load data." /> : null} */}
           <SelectGraphBtnGroup
             data={availGraphs}
             handleSelectGraph={setSelectedSection}
           />
-   
-        {renderGraphSection()}
+            
+          {renderGraphSection()}
         </SectionWrapper>
-      </>
     </Layout>
   );
 };

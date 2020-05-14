@@ -27,7 +27,7 @@
   font-weight: 500;
   position: absolute;
   left: 0;
-  bottom: -1rem;
+  bottom: -0.8rem;
   color: var(--gray);
  
 
@@ -54,6 +54,7 @@
   }
   .summaryBox h4 small {
     font-size: 0.6rem;
+    bottom: -0.6rem;
 
   }
 }

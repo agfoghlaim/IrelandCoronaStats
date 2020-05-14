@@ -5,6 +5,7 @@ import { useStore } from '../../../Store/store';
 import XAxisLabel from '../../../UI/Graphs/xAxisLabel';
 import BoringButton from '../../../UI/Buttons/boringButton';
 import LoadingComp from '../../../UI/loading';
+import ErrorComp from '../../../UI/error';
 const dimensions = {
   margin: {
     left: 70,
@@ -16,8 +17,39 @@ const dimensions = {
   height: 550,
 };
 const { margin, width, height } = dimensions;
+const boringButtonStyle = (selectLogScale) => {
+  return {
+    background: `${selectLogScale ? 'var(--lightBlack)' : 'var(--covidGreen)'}`,
+    color: `${selectLogScale ? 'var(--covidGreen)' : 'var(--lightBlack)'}`,
+    borderRadius: ' 0.4rem',
+    border: 'none',
+    fontWeight: '800',
+    letterSpacing: '0.1rem',
+    textTransform: 'uppercase',
+    fontSize: '0.6rem',
+    padding: '0.5rem 1rem',
+    outline: 'none',
+    minWidth: '5rem',
+    display: 'grid',
+    alignSelf: 'center',
+    justifySelf: 'center',
+  };
+};
 
-const BarChart = ({ handleSelectOneCounty, isLoading }) => {
+const hoverStyle = (isHovered, hoverPosition) => {
+  return {
+    opacity: `${isHovered ? '1' : '0'}`,
+    position: 'fixed',
+    left: `${hoverPosition[0]}px`,
+    top: `${hoverPosition[1]}px`,
+    background: 'var(--black)',
+    color: 'var(--white)',
+    padding: '0.5rem 1rem',
+    borderRadius: '0.4rem',
+    fontSize: '0.6rem',
+  };
+};
+const BarChart = ({ handleSelectOneCounty, isLoading, isError }) => {
   const storeSections = useStore()[0].sections[0];
 
   const attribute = storeSections.selectedAttributeName;
@@ -144,45 +176,20 @@ const BarChart = ({ handleSelectOneCounty, isLoading }) => {
     <>
       <BoringButton
         onClick={toggleLogScale}
-        overRideStyle={{
-          background: `${selectLogScale ? 'var(--lightBlack)' : 'var(--covidGreen)'}`,
-          color: `${selectLogScale ? 'var(--covidGreen)' : 'var(--lightBlack)'}`,
-          borderRadius: ' 0.4rem',
-          border: 'none',
-          fontWeight: '800',
-          letterSpacing: '0.1rem',
-          textTransform: 'uppercase',
-          fontSize: '0.6rem',
-          padding: '0.5rem 1rem',
-          outline: 'none',
-          minWidth: '5rem',
-          display: 'grid',
-          alignSelf: 'center',
-          justifySelf: 'center',
-        }}
+        overRideStyle={boringButtonStyle()}
       >
-        {' '}
         {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
       </BoringButton>
+
       {isHovered && hoverPosition.length ? (
-        <div
-          style={{
-            opacity: `${isHovered ? '1' : '0'}`,
-            position: 'fixed',
-            left: `${hoverPosition[0]}px`,
-            top: `${hoverPosition[1]}px`,
-            background: 'var(--black)',
-            color: 'var(--white)',
-            padding: '0.5rem 1rem',
-            borderRadius: '0.4rem',
-            fontSize: '0.6rem',
-          }}
-        >
+        <div style={hoverStyle(isHovered, hoverPosition)}>
           {selectedData.name}: {hoverInfo}
         </div>
       ) : null}
 
-      {isLoading ? (
+      {isError ? (
+        <ErrorComp msg="Could not load data for graph." />
+      ) : isLoading ? (
         <LoadingComp />
       ) : (
         <svg

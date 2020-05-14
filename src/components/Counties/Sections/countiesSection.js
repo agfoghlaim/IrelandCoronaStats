@@ -1,8 +1,6 @@
 import React from 'react';
 import SectionWrap from '../../../UI/Sections/SectionWrap/sectionWrap';
-import SectionWrapSimple from '../../../UI/Sections/SectionWrapSimple/sectionWrapSimple';
 import SectionMain from '../../../UI/Sections/SectionMain/sectionMain';
-import LoadingComp from '../../../UI/loading';
 import CountiesSideSection from './countiesSideSection';
 
 const CountiesSection = ({
@@ -12,15 +10,11 @@ const CountiesSection = ({
   setIsPlaying,
   handleSelectDate,
   handleSelectData,
-  isLoading,
   classes
 }) => {
 
-  return isLoading ? (
-    <SectionWrapSimple minHeight="50vh">
-      <LoadingComp />
-    </SectionWrapSimple>
-  ) : (
+  return (
+    
     <SectionWrap>
       <CountiesSideSection
         showCountyBtns={false}
@@ -32,7 +26,10 @@ const CountiesSection = ({
         handleSelectData={handleSelectData}
       />
       <SectionMain>
-        {children}
+        {/* {isError ? <ErrorComp msg='Could not load data.' /> : ( */}
+            {children}
+        {/* // )} */}
+      
 
       </SectionMain>
     </SectionWrap>

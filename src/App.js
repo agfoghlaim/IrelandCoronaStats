@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import Layout from './components/layout';
 import DailyPage from './components/DailyPage/dailyPage';
 import Header from './components/Header/header';
 import ProfileStats from './components/ProfileStats/profileStats';

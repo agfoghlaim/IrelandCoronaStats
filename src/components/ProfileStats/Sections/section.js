@@ -16,6 +16,7 @@ import SectionSide from '../../../UI/Sections/SectionSide/sectionSide';
 import SectionMain from '../../../UI/Sections/SectionMain/sectionMain';
 import SectionHeader from '../../../UI/Sections/SectionHeader/sectionHeader';
 import AttributeBtns from '../../../UI/Buttons/AttributeBtns/attributeBtns';
+
 const Section = ({ section }) => {
   const [sectionAvail, setSectionAvail] = useState(section.avail);
   const [shouldUpdate, setShouldUpdate] = useState(true);
@@ -92,6 +93,7 @@ const Section = ({ section }) => {
   };
 
   const renderLineGraph = () => {
+
     if (!sectionAvail || !sectionAvail.length) {
       return;
     }
@@ -152,7 +154,7 @@ const Section = ({ section }) => {
             <div className={classes.forBreakPointBetween900And300}>
               {selectedDate && sectionAvail ? (
                 <TextBox
-                  loading={isLoading}
+                  isLoading={isLoading}
                   selectedDate={selectedDate}
                   selectedDateData={getDataOnSelectedDate()}
                   numAvailableAttrs={section.avail.length}

@@ -2,9 +2,7 @@ import axios from 'axios';
 
 export const removeNulls = (resp, fieldName) => {
   const noNulls = resp.filter((m) => {
-    for (const i in m.attributes) {
-      return m.attributes[fieldName] !== null;
-    }
+    return m.attributes[fieldName] !== null;
   });
   return noNulls;
 };
@@ -32,9 +30,9 @@ export const successfullyGotDataForEachSelectedAttr = (sectionAvail) => {
   return selectedButDataNotFetched.filter((w) => !w).length === 0;
 };
 
-export const baseUrl = (specificUrlPart) =>
-  `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=${specificUrlPart}&returnGeometry=false&outSR=4326&f=json`;
-
+export const baseUrl = (specificUrlPart) =>{
+  return `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=${specificUrlPart}&returnGeometry=false&outSR=4326&f=json`;
+}
 export const getOne = async (part) => {
   try {
     const response = await axios.get(baseUrl(part));
