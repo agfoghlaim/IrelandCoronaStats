@@ -4,7 +4,8 @@
   --black: #191919;
   --lightBlack: #313131;
   --midBlack: #262626;
-  --purple: #970a82;
+  /* --purple: #970a82; */
+  --purple: #a73cb3;
   --orange: #e35500;
   /* --green: #4fb81c; */
   --green: #4f922f;
@@ -38,6 +39,10 @@ html {
   box-sizing: inherit;
 }
 
+.App {
+  min-height: 100vh;
+  display: grid;
+}
 /*
   see dailyGraphsStore component, axis.js
   NOTE 725px is related to width of graph defined in js

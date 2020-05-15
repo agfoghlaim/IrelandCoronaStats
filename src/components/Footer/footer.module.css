@@ -8,7 +8,6 @@
   color: var(--white);
   grid-template-rows: 1fr;
   border-top: 0.1rem solid var(--gray);
-  margin-top: 1rem;
   bottom: 0;
   min-height: 6rem;
 }
