@@ -1,14 +1,14 @@
 import React, { useState, useRef } from 'react';
 import * as d3 from 'd3';
-import classes from './lineGraphDaily2.module.css';
-import Axis from './axis';
+import classes from './lineGraphDaily.module.css';
+import Axis from '../../../UI/Graphs/axis';
 import YAxisLabel from '../../../UI/Graphs/yAxisLabel';
-import Line from './line';
+import Line from '../../../UI/Graphs/line';
 import { useStore } from '../../../Store/store';
 import HoverRectangles from '../../../UI/Graphs/HoverRectangles/hoverRectangles';
 import BoringButton from '../../../UI/Buttons/boringButton';
 // temp
-import Circles from '../../AltStats/circles';
+import Dots from '../../../UI/Graphs/Dots/dots';
 const dimensions = {
   margin: {
     left: 50,
@@ -26,19 +26,6 @@ const getMinMax = (extents) => {
   return [minValue, maxValue];
 };
 
-
-// safety net has to be moved out to work for date extents!
-// const getExtentsForTheseAttributes = (attributes, array, fieldName ) => {
-//   let attributeToActuallyGetTheExtentOf = false;
-//   if( fieldName ) attributeToActuallyGetTheExtentOf = fieldName;
-//   const extents = attributes.map((attr) => {
-//     const relevant = array.filter((a) => a.fieldName === attr || attributeToActuallyGetTheExtentOf)[0];
-//     const ans = d3.extent(relevant.attrData, (d) => d[attr]);
-//     return ans;
-//   });
-
-//   return extents;
-// };
 
 const { margin, width, height } = dimensions;
 const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
@@ -285,7 +272,7 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
                     xAxisAttribute={daily.xAxisAttribute}
                   />
 
-                  <Circles
+                  <Dots
                 
                     relAvail = {daily.avail.filter((a) => a.fieldName === fieldName)[0]}
                     xScale={getXScale()}

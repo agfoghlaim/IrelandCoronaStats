@@ -1,8 +1,7 @@
 import React from 'react';
-import classes from './circles.module.css';
+import classes from './dots.module.css';
 
-// TODO rename or move rect
-const Circles = ({
+const Dots = ({
   yScale,
   xScale,
   relAvail,
@@ -50,4 +49,4 @@ const Circles = ({
 
 };
 
-export default Circles;
+export default Dots;

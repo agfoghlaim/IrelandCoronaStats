@@ -1,5 +1,5 @@
 import React from 'react';
-import Line from '../DailyGraphs/LineGraphDaily/line';
+import Line from '../../UI/Graphs/line';
 import classes from './tinySvgLine.module.css';
 import TinyAxis from './tinyAxis';
 
@@ -40,7 +40,6 @@ const TinySvgLine = ({
     ) : null}
 
     <Line
-      // graphData={shortStatsForPerformance}
       altGraphData={shortStatsForPerformance}
       xScale={xScale}
       yScale={yScale}

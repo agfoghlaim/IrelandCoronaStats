@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import configureDailyGraphsStore from './dailyGraphs-store';
+import configureDailyGraphsStore from '../DailyAndProfileData/dailyGraphs-store';
 import { useStore } from '../../Store/store';
 import SectionWrap from '../../UI/Sections/SectionWrap/sectionWrap';
 import SectionWrapper from '../../UI/Sections/SectionWrapper/sectionWrapper';

@@ -1,8 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import * as d3 from 'd3';
 import classes from './axis.module.css';
 
-const Axis = ({ dimensions, xScale, yScale, yTransformOffset = 0 }) => {
+const Axis = ({ dimensions, xScale, yScale, tickNumDays }) => {
+
   const xAxisRef = useRef(null);
   const yAxisRef = useRef(null);
   const xAxis = d3.axisBottom();
@@ -11,37 +12,33 @@ const Axis = ({ dimensions, xScale, yScale, yTransformOffset = 0 }) => {
     dimensions.width - dimensions.margin.right - dimensions.margin.left
   );
   const xTickWidth = -Math.abs(
-    dimensions.height - dimensions.margin.top - dimensions.margin.bottom
+    dimensions.height - dimensions.margin.top - dimensions.margin.bottom + 10
   );
-
-  useEffect(() => {
-    doAxis();
-  });
 
   const doAxis = () => {
     const xRef = d3.select(xAxisRef.current);
     const yRef = d3.select(yAxisRef.current);
-    xAxis.scale(xScale).ticks(d3.timeDay.every(2));
-
-    // yAxis.scale(yScale).ticks(10, ',.0f');
+    xAxis.scale(xScale).ticks(d3.timeDay.every(tickNumDays || 1));
+    // xAxis.scale(xScale).ticks(d3.timeDay);
     yAxis.scale(yScale).ticks(10, ',.1s');
-
     xRef.call(xAxis.tickSize(xTickWidth));
     yRef.call(yAxis.tickSize(yTickWidth));
   };
+  doAxis();
 
   return (
     <>
       <g
-        ref={xAxisRef}
         className={classes.axisGroupX}
+        ref={xAxisRef}
         transform={`translate(0,${
-          dimensions.height - dimensions.margin.top + yTransformOffset
+          dimensions.height - dimensions.margin.top + 10
         })`}
       ></g>
       <g
-        ref={yAxisRef}
         className={classes.axisGroupY}
+        style={{ stroke: 'none' }}
+        ref={yAxisRef}
         transform={`translate(${dimensions.margin.left}, 0)`}
       ></g>
     </>

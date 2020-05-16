@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import classes from './lineGraph2.module.css';
 import Axis from '../../../UI/Graphs/axis';
+// temp 
+// import Axis from '../../DailyGraphs/LineGraphDaily/axis';
 import YAxisLabel from '../../../UI/Graphs/yAxisLabel';
 import Line from './line';
 import { useStore } from '../../../Store/store';
@@ -121,7 +123,7 @@ const LineGraph = ({ handleSelectCounty, handleSelectDate, isError }) => {
           width={width}
           style={{maxWidth:'100%'}}
         >
-          <Axis dimensions={dimensions} xScale={xScale} yScale={yScale} />
+          <Axis dimensions={dimensions} xScale={xScale} yScale={yScale} yTransformOffset={10}  />
           <YAxisLabel
             text={ selectedData ? selectedData.xAxisDescription : ''}
             height={height}
