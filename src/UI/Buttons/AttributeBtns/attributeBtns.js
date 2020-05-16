@@ -24,7 +24,7 @@ const AttributeBtns = ({availableAttributes, handleSelectData, graphIndex}) => {
       {a.name}
     </button>
   ))
-    };
+    }
   </div>
 }
 

@@ -11,9 +11,14 @@ const Header = (props) => (
             Home
           </NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink exact to="/stats" activeClassName={classes.navActive}>
             Profiles
+          </NavLink>
+        </li> */}
+        <li>
+          <NavLink exact to="/alt" activeClassName={classes.navActive}>
+            Alt
           </NavLink>
         </li>
         <li>

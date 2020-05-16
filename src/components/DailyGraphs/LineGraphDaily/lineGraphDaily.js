@@ -7,7 +7,8 @@ import Line from './line';
 import { useStore } from '../../../Store/store';
 import HoverRectangles from '../../../UI/Graphs/HoverRectangles/hoverRectangles';
 import BoringButton from '../../../UI/Buttons/boringButton';
-
+// temp
+import Circles from '../../AltStats/circles';
 const dimensions = {
   margin: {
     left: 50,
@@ -18,10 +19,30 @@ const dimensions = {
   width: 800,
   height: 600,
 };
+
+const getMinMax = (extents) => {
+  const maxValue = extents.map(() => Math.max(...extents.map((h) => h[1])))[0];
+  const minValue = extents.map(() => Math.min(...extents.map((h) => h[0])))[0];
+  return [minValue, maxValue];
+};
+
+
+// safety net has to be moved out to work for date extents!
+// const getExtentsForTheseAttributes = (attributes, array, fieldName ) => {
+//   let attributeToActuallyGetTheExtentOf = false;
+//   if( fieldName ) attributeToActuallyGetTheExtentOf = fieldName;
+//   const extents = attributes.map((attr) => {
+//     const relevant = array.filter((a) => a.fieldName === attr || attributeToActuallyGetTheExtentOf)[0];
+//     const ans = d3.extent(relevant.attrData, (d) => d[attr]);
+//     return ans;
+//   });
+
+//   return extents;
+// };
+
 const { margin, width, height } = dimensions;
-const LineGraphDaily = ({ graphId }) => {
-  const dispatch = useStore(false)[1];
-  const dailyData = useStore()[0].dailyGraphsStore;
+const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
+  const dailyData = useStore()[0][storeName].graphs;
 
   const daily = dailyData.filter((d) => d.id === graphId)[0]; //should be called graph
 
@@ -34,22 +55,17 @@ const LineGraphDaily = ({ graphId }) => {
   const [hoverPosition, setHoverPosition] = useState([]);
 
   const calculateYExtentOfSelectedAttributes = () => {
-    // get yScale
-    const getExtentsForAllSelectedAttributes = () => {
+    const getExtentsForTheseAttributes = ( ) => {
       const extents = daily.selectedAttributeNames.map((attr) => {
-        return d3.extent(daily.all, (d) => d[attr]);
+        const relevant = daily.avail.filter((a) => a.fieldName === attr )[0];
+        return d3.extent(relevant.attrData, (d) => d[attr]);
       });
+
       return extents;
     };
-    const selectedExtents = getExtentsForAllSelectedAttributes();
-    const maxValue = selectedExtents.map((h) =>
-      Math.max(...selectedExtents.map((h) => h[1]))
-    )[0];
-    const minValue = selectedExtents.map((h) =>
-      Math.min(...selectedExtents.map((h) => h[0]))
-    )[0];
-    const yExtent = [minValue, maxValue];
-    return yExtent;
+
+    const selectedExtents = getExtentsForTheseAttributes();
+    return getMinMax(selectedExtents);
   };
 
   const getYScale = () => {
@@ -61,7 +77,9 @@ const LineGraphDaily = ({ graphId }) => {
       }
       return extent;
     };
+
     const yExtent = getYExtent();
+
     if (selectLogScale) {
       const yScale = d3
         .scaleLog()
@@ -79,12 +97,18 @@ const LineGraphDaily = ({ graphId }) => {
         .clamp(true)
         .range([height - margin.top, margin.bottom]);
       yScale.theType = 'LINEAR'; // need this for nice axis
+
       return yScale;
     }
   };
 
+ 
   const getXExtent = () => {
-    return d3.extent(daily.all, (d) => d.Date);
+    const extents = daily.selectedAttributeNames.map((selected) => {
+      const relevant = daily.avail.filter((a) => a.fieldName === selected)[0];
+      return d3.extent(relevant.attrData, (d) => d[daily.xAxisAttribute]);
+    });
+    return getMinMax(extents);
   };
 
   const getXScale = () => {
@@ -101,14 +125,17 @@ const LineGraphDaily = ({ graphId }) => {
     .domain([0, 100])
     .interpolator(d3.interpolateRainbow);
 
-  const handleTextBox = (data, dateFieldName) => {
-    if (!data || !dateFieldName) return;
-    const dateToSelect = data[dateFieldName];
-    dispatch('SET_DAILY_GRAPHS_SELECTED_DATE_AND_DATA', dateToSelect);
-  };
+  // const handleTextBox = (data, dateFieldName) => {
+  //   if (!data || !dateFieldName) return;
+  //   const dateToSelect = data[dateFieldName];
+  //   dispatch('SET_DAILY_GRAPHS_SELECTED_DATE_AND_DATA', dateToSelect);
+  // };
 
-  const handleHover = (e, color) => {
-    setHoverInfo(e.target.id);
+  const handleHover = (e, color, val) => {
+    if (!e || !color || !val) return;
+
+    setHoverInfo(`${e.target.id}: ${val}`);
+
     setHoverColor(color);
     const xP = e.clientX + 20;
     const yP = e.clientY - 10;
@@ -124,7 +151,7 @@ const LineGraphDaily = ({ graphId }) => {
     // statistics profile data date attr is 'StatisticsProfileDate'
     let dateFieldName = 'Date';
     if (!info[dateFieldName]) {
-      dateFieldName = 'Date';
+      dateFieldName = 'StatisticsProfileDate';
     }
     setHoverInfo(new Date(info[dateFieldName]).toString().substring(0, 10));
     setHoverColor('var(--lightBlack)');
@@ -160,8 +187,12 @@ const LineGraphDaily = ({ graphId }) => {
       <BoringButton
         onClick={toggleLogScale}
         overRideStyle={{
-          background: `${selectLogScale ? 'var(--lightBlack)' : 'var(--covidGreen)'}`,
-          color: `${selectLogScale ? 'var(--covidGreen)' : 'var(--lightBlack)'}`,
+          background: `${
+            selectLogScale ? 'var(--lightBlack)' : 'var(--covidGreen)'
+          }`,
+          color: `${
+            selectLogScale ? 'var(--covidGreen)' : 'var(--lightBlack)'
+          }`,
           borderRadius: ' 0.4rem',
           border: 'none',
           fontWeight: '800',
@@ -186,7 +217,9 @@ const LineGraphDaily = ({ graphId }) => {
             left: `${hoverPosition[0]}px`,
             top: `${hoverPosition[1]}px`,
             background: `${hoverColor}`,
-            color: 'var(--white)',
+            color: `${
+              hoverColor === 'var(--white)' ? 'var(--black)' : 'var(--white)'
+            }`,
             padding: '0.5rem 1rem',
             borderRadius: '0.4rem',
             fontSize: '0.6rem',
@@ -202,7 +235,7 @@ const LineGraphDaily = ({ graphId }) => {
         viewBox="0 0 800 600"
         width={width}
       >
-        {daily && daily.all.length ? (
+        {daily ? (
           <>
             <Axis
               dimensions={dimensions}
@@ -219,35 +252,54 @@ const LineGraphDaily = ({ graphId }) => {
             />
 
             <HoverRectangles
-              graphData={daily.all}
+              // graphData={daily.all}
+              // TODO is this okay...
+              altGraphData={daily.avail[0].attrData}
               dimensions={dimensions}
               xScale={getXScale()}
-              xAxisAttribute={daily.xAxisAttribute}// todo
+              xAxisAttribute={daily.xAxisAttribute} // todo
               handleHoverLeaveDate={handleHoverLeaveDate}
               handleHoverDate={handleHoverDate}
               handleTextBox={handleTextBox}
             />
-           { daily.selectedAttributeNames.map((fieldName) => {
+            {daily.selectedAttributeNames.map((fieldName) => {
               return (
-                <Line
-                  graphData={daily.all}
-                  i="0"
-                  key={fieldName}
-                  handleHover={handleHover}
-                  handleHoverLeave={handleHoverLeave}
-                  xScale={getXScale()}
-                  yScale={getYScale()}
-                  colorScale={colorScale}
-                  fieldName={fieldName}
-                  xScaleAttribute="Date"
-                  color={getColor(fieldName)}
-        
-                />
+                <>
+                  <Line
+                    graphData={daily.all}
+                    altGraphData={
+                      daily.avail.filter((a) => {
+                        return a.fieldName === fieldName;
+                      })[0].attrData
+                    }
+                   
+                    i="0"
+                    key={fieldName}
+                    handleHover={handleHover}
+                    handleHoverLeave={handleHoverLeave}
+                    xScale={getXScale()}
+                    yScale={getYScale()}
+                    colorScale={colorScale}
+                    fieldName={fieldName}
+                    color={getColor(fieldName)}
+                    xAxisAttribute={daily.xAxisAttribute}
+                  />
+
+                  <Circles
+                
+                    relAvail = {daily.avail.filter((a) => a.fieldName === fieldName)[0]}
+                    xScale={getXScale()}
+                    yScale={getYScale()}
+                    fieldName={fieldName}
+                    handleTextBox={handleTextBox}
+                    handleHover={handleHover}
+                    handleHoverLeave={handleHoverLeave}
+                  />
+                </>
               );
             })}
           </>
         ) : null}
-
       </svg>
     </>
   );

@@ -93,6 +93,7 @@ const SummaryBox = ({
         dimensions={dimensions}
         label={text}
         isHovered={isHovered}
+        xAxisAttribute={dateField}
       />
 
       {isHovered ? (

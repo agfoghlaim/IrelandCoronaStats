@@ -9,7 +9,9 @@ const Circles = ({
   handleHover,
   handleHoverLeave,
 }) => {
+ 
   return data.map((graphData) => {
+
     return graphData.data.length && graphData.selected
       ? graphData.data.map((attr, i) => {
           const y = yScale(attr[graphData.fieldName]);

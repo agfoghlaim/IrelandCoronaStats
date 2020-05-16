@@ -6,7 +6,7 @@ import Footer from './components/Footer/footer';
 import ProfileStats from './components/ProfileStats/profileStats';
 import Counties from './components/Counties/counties';
 import Contact from './components/Contact/contact';
-
+import StatGraphs from './components/AltStats/statGraphs';
 import { BrowserRouter } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 
@@ -20,6 +20,7 @@ function App() {
           <Route exact path="/stats" component={ProfileStats} />
           <Route exact path="/counties" component={Counties} />
           <Route exact path="/contact" component={Contact} />
+          <Route exact path="/alt" component={StatGraphs} />
         <Footer />
       </div>
     </BrowserRouter>

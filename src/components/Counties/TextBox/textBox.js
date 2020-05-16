@@ -6,7 +6,7 @@ const TextBox = () => {
   const storeSections = useStore()[0].sections[0];
   const selectedCountyDataForSelectedDate =
     storeSections.selectedCountyDataForSelectedDate;
-
+ 
   const RightSpan = ({ text, fieldName }) => {
     const getColor = (name) =>
       storeSections.avail.filter((s) => s.fieldName === name)[0].color;

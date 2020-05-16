@@ -3,6 +3,7 @@ import classes from './textBox.module.css';
 import LoadingComp from '../../../UI/loading';
 
 const getKeysValues = (data) => {
+
   return data.map((d) => {
     return {
       name: d.name,
@@ -23,6 +24,9 @@ const TextBox = ({
   numAvailableAttrs,
 }) => {
 
+  // console.log("selectedDate", selectedDate);
+  // console.log("numAvailableAttrs", numAvailableAttrs);
+ 
   const moreManagableVersionOfSelectedData = getKeysValues(selectedDateData);
 
   const RightSpan = ({ text, color }) => {

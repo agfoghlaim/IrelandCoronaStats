@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import HoverRect from './hoverRect';
 
 const HoverRectangles = ({
-  graphData,
+  // graphData,
+  altGraphData,
   dimensions,
   xScale,
   handleHoverDate,
@@ -11,9 +12,12 @@ const HoverRectangles = ({
   handleTextBox,
 }) => {
 
+  // console.log(graphData)
+  // console.log(altGraphData)
   const [selectedRectDate, setSelectedRectDate] = useState('');
   const { width, height, margin } = dimensions;
-
+  // temp
+  const graphData = altGraphData;
   return graphData.length
     ? graphData.map((attr, i) => {
         const graphWidth = width - margin.left - margin.right;

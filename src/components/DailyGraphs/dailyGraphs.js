@@ -10,9 +10,11 @@ import SectionHeader from '../../UI/Sections/SectionHeader/sectionHeader';
 import LineGraphDaily from './LineGraphDaily/lineGraphDaily';
 
 import AttributeBtns from '../../UI/Buttons/AttributeBtns/attributeBtns';
-import TextBox from './TextBox/textBox';
-import classes from './dailyGraphs.module.css'
+// import TextBox from './TextBox/textBox';
+import classes from './dailyGraphs.module.css';
 import ErrorComp from '../../UI/error';
+
+import AltTextBox from '../../UI/AltTextBox/altTextBox';
 
 configureDailyGraphsStore();
 
@@ -23,7 +25,7 @@ const DailyGraphs = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const dispatch = useStore()[1];
-  const graphs = useStore()[0].dailyGraphsStore;
+  const graphs = useStore()[0].dailyGraphsStore.graphs;
 
   const getDailyStats = useCallback(async () => {
     try {
@@ -34,16 +36,16 @@ const DailyGraphs = () => {
       setIsError(true);
     }
   }, []);
-  
+
   useEffect(() => {
     (async () => {
       setIsLoading(true);
       setIsError(false);
       try {
         const data = await getDailyStats();
-
+        console.log("req...")
         dispatch('SET_ALL_DAILY_GRAPHS', data);
-        dispatch('SET_DAILY_GRAPHS_SELECTED_DATE_AND_DATA');
+        dispatch('SET_DAILY_STORE_DATE_AND_DATA', {latestDate:false, storeName: 'dailyGraphsStore'});
         setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
@@ -55,49 +57,74 @@ const DailyGraphs = () => {
 
   const handleSelectData = (e, graphId) => {
     const fieldName = e.target.name;
-    dispatch('SELECT_DAILY_GRAPHS_ATTRS', { fieldName, graphId });
+    dispatch('SELECT_DAILY_GRAPHS_ATTRS', { fieldName, graphId, storeName: 'dailyGraphsStore' });
   };
+
+  const handleTextBox = (data, dateFieldName) => {
+    if (!data || !dateFieldName) return;
+    const dateToSelect = data[dateFieldName];
+    dispatch('SET_DAILY_STORE_DATE_AND_DATA', {latestDate:dateToSelect, storeName:'dailyGraphsStore'});
+  };
+
+  // TODO, bury this! see statGraphs.js
+  const prepArrayToShowInTextBox = graph => {
+    
+    return graph.selectedAttributeNames.map((name) => {
+      const title = graph.avail.filter((a) => a.fieldName === name)[0].name;
+      const color = graph.avail.filter((a) => a.fieldName === name)[0].color;
+
+      const ans = {};
+
+      ans[name] = graph.selectedDateData[name];
+      ans.color = color;
+      ans.title = title;
+      ans.fieldName = name;
+      ans.value = graph.selectedDateData[name];
+
+      return ans;
+    });
+  }
 
   return graphs && graphs.length
     ? graphs.map((graph, index) => (
-      <SectionWrapper key={index}>
-        <SectionWrap>
-          <SectionSide>
-            { isError ? <ErrorComp msg="Could not load data." /> : (
-              <>
-              <SectionHeader
-              title={graph.sectionName}
-              subtitle=""
-              description={graph.description}
-            />
+        <SectionWrapper key={index}>
+          <SectionWrap>
+            <SectionSide>
+              {isError ? (
+                <ErrorComp msg="Could not load data." />
+              ) : (
+                <>
+                  <SectionHeader
+                    title={graph.sectionName}
+                    subtitle=""
+                    description={graph.description}
+                  />
 
-            <div className={classes.forBreakPointBetween900And300}>
-              {!isLoading && graph.all.length ? (
-                <TextBox allData={graph} />
+                  <div className={classes.forBreakPointBetween900And300}>
+        
+                    {!isLoading ? (
+                      <AltTextBox arrayToShowInTextBox={prepArrayToShowInTextBox(graph)} selectedDate={graph.selectedDate} />
+                    ) : (
+                      'Loading...'
+                    )}
+
+                    <AttributeBtns
+                      availableAttributes={graph.avail}
+                      graphIndex={graph.id}
+                      handleSelectData={handleSelectData}
+                    />
+                  </div>
+                </>
+              )}
+            </SectionSide>
+            <SectionMain>
+              {!isLoading && graph ? (
+                <LineGraphDaily graphId={graph.id} storeName="dailyGraphsStore" handleTextBox={handleTextBox} />
               ) : (
                 'Loading...'
               )}
-
-              <AttributeBtns
-                availableAttributes={graph.avail}
-                graphIndex={graph.id}
-                handleSelectData={handleSelectData}
-              />
-            </div>
-            </>
-            ) }
-            
-          </SectionSide>
-          <SectionMain>
-            {!isLoading && graph && graph.all.length ? (
-              <LineGraphDaily
-                graphId={graph.id}
-              />
-            ) : (
-              'Loading...'
-            )}
-          </SectionMain>
-        </SectionWrap>
+            </SectionMain>
+          </SectionWrap>
         </SectionWrapper>
       ))
     : null;

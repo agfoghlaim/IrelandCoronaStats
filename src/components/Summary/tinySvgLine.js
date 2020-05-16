@@ -16,6 +16,7 @@ const TinySvgLine = ({
   handleClick,
   dimensions,
   isHovered,
+  xAxisAttribute
 }) => (
   <svg
     className={classes.tinySvgLine}
@@ -39,13 +40,15 @@ const TinySvgLine = ({
     ) : null}
 
     <Line
-      graphData={shortStatsForPerformance}
+      // graphData={shortStatsForPerformance}
+      altGraphData={shortStatsForPerformance}
       xScale={xScale}
       yScale={yScale}
       fieldName={fieldName}
       color="var(--gray)"
       handleHover={dummy}
       handleHoverLeave={dummy}
+      xAxisAttribute={xAxisAttribute}
     />
   </svg>
 );

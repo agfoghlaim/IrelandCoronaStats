@@ -17,6 +17,7 @@ import SectionMain from '../../../UI/Sections/SectionMain/sectionMain';
 import SectionHeader from '../../../UI/Sections/SectionHeader/sectionHeader';
 import AttributeBtns from '../../../UI/Buttons/AttributeBtns/attributeBtns';
 
+import AltTextBox from '../../../UI/AltTextBox/altTextBox';
 const Section = ({ section }) => {
   const [sectionAvail, setSectionAvail] = useState(section.avail);
   const [shouldUpdate, setShouldUpdate] = useState(true);
@@ -93,7 +94,6 @@ const Section = ({ section }) => {
   };
 
   const renderLineGraph = () => {
-
     if (!sectionAvail || !sectionAvail.length) {
       return;
     }
@@ -143,6 +143,30 @@ const Section = ({ section }) => {
     return onlyOnDate;
   };
 
+  const prepArrayToShowInTextBox = (graph) => {
+    const startHere = getDataOnSelectedDate();
+
+
+
+    const ans = startHere.map(attr=> {
+      return {
+        
+    color: attr.color,
+    title: attr.name,
+    fieldName: attr.fieldName,
+    value: attr.selectedData.map((w) => {
+      return w[attr.fieldName];
+    })[0],
+      }
+    })
+
+    // ans.selectedDate = graph.selectedDate;
+    // ans.xAxisAttribute = graph.xAxisAttribute;
+
+    return ans;
+
+  };
+
   return (
     <>
       {isError ? (
@@ -160,7 +184,12 @@ const Section = ({ section }) => {
                   numAvailableAttrs={section.avail.length}
                 />
               ) : null}
-
+              {selectedDate && sectionAvail ? (
+                <AltTextBox
+                  arrayToShowInTextBox={prepArrayToShowInTextBox()}
+                  selectedDate={selectedDate}
+                />
+              ) : null}
               <div className={classes.graphSectionBtnGroupWrap}>
                 <AttributeBtns
                   availableAttributes={section.avail}

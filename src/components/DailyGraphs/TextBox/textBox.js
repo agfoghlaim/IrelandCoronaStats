@@ -20,7 +20,8 @@ const TextBox = ({ allData }) => {
       return ans;
     });
   };
-
+  // console.log("daily.SelectedDateData (Daily):", daily.selectedDateData);
+  // console.log("STUFF", dailyWithTitle())
   const RightSpan = ({ text, fieldName, color }) => {
     let defaultColor = 'var(--blue)';
 
