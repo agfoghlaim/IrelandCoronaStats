@@ -9,7 +9,7 @@ import HoverRectangles from '../../../UI/Graphs/HoverRectangles/hoverRectangles'
 import BoringButton from '../../../UI/Buttons/boringButton';
 // temp
 import Dots from '../../../UI/Graphs/Dots/dots';
-// import TinyToolTip from '../../../UI/ToolTips/tinyToolTip';
+import ToolTip from '../../../UI/ToolTip/toolTip';
 const dimensions = {
   margin: {
     left: 50,
@@ -29,6 +29,7 @@ const getMinMax = (extents) => {
 
 const { margin, width, height } = dimensions;
 const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
+
   const dailyData = useStore()[0][storeName].graphs;
 
   const daily = dailyData.filter((d) => d.id === graphId)[0]; //should be called graph
@@ -188,14 +189,14 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
       >
         {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
       </BoringButton>
-      {/* {isHovered && hoverPosition.length ? (
-        <TinyToolTip
+      {isHovered && hoverPosition.length ? (
+        <ToolTip
           hoverPosition={hoverPosition}
           hoverColor={hoverColor}
         >
           {hoverInfo}
-        </TinyToolTip>
-      ) : null} */}
+        </ToolTip>
+      ) : null}
 
       <svg
         style={{ maxWidth: '100%' }}
