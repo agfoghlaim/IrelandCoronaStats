@@ -91,7 +91,7 @@ export const SUMMARY = {
       dateField: 'StatisticsProfileDate',
     },
     {
-      title: '# ICU',
+      title: 'ICU Admissions',
       shortTitle: '# in ICU',
       fieldName: 'RequiringICUCovidCases',
       yesterdayFieldName: undefined, //from latest

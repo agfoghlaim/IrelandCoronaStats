@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './toolTip.module.css';
 const ToolTip = ({ hoverPosition, hoverColor, children }) => {
   const blacks = ['var(--black)', 'var(--midBlack)', 'var(--lightBlack)'];
-  console.log("toolert")
+
   return (
     <div
       className={classes.toolTip}

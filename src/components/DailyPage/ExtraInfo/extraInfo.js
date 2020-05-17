@@ -5,13 +5,13 @@ const ExtraInfo = () => {
   return (
     <SectionWrapper>
       <p>
-        All data taken from data.gov.ie, available{' '}
+        All data taken from {' '}
         <a
           href="https://opendata-geohive.hub.arcgis.com/datasets/d8eb52d56273413b84b0187a4e9117be_0/data?geometry=-7.694%2C53.288%2C-7.691%2C53.289"
           rel="noopener noreferrer"
           target="_blank"
         >
-          here
+         data.gov.ie
         </a>
         . It is updated every evening, with the latest records for{' '}
         <em>Total Confirmed Cases</em>, <em>Confirmed Recovered</em> and{' '}
