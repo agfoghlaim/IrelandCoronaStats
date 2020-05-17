@@ -7,8 +7,7 @@ import Line from './line';
 import { useStore } from '../../../Store/store';
 import ClickRectangles from '../ClickRectangles/clickRectangles';
 import ErrorComp from '../../../UI/error';
-// import TinyToolTip from '../../../UI/Tooltips/tinyTooltip';
-import TinyToolTip from '../../../UI/ToolTips/tinyToolTip';
+// import TinyToolTip from '../../../UI/ToolTips/tinyToolTip';
 
 const dimensions = {
   margin: {
@@ -93,11 +92,11 @@ const LineGraph = ({ handleSelectCounty, handleSelectDate, isError }) => {
 
   return (
     <>
-      {isHovered && hoverPosition.length ? (
+      {/* {isHovered && hoverPosition.length ? (
         <TinyToolTip hoverPosition={hoverPosition} hoverColor={hoverColor}>
           {hoverInfo || hoverInfoDate}
         </TinyToolTip>
-      ) : null}
+      ) : null} */}
       {isError ? (
         <ErrorComp msg="Could not load data for graph." />
       ) : (

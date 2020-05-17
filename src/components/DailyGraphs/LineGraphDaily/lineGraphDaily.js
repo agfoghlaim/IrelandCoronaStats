@@ -9,7 +9,7 @@ import HoverRectangles from '../../../UI/Graphs/HoverRectangles/hoverRectangles'
 import BoringButton from '../../../UI/Buttons/boringButton';
 // temp
 import Dots from '../../../UI/Graphs/Dots/dots';
-import TinyToolTip from '../../../UI/ToolTips/tinyToolTip';
+// import TinyToolTip from '../../../UI/ToolTips/tinyToolTip';
 const dimensions = {
   margin: {
     left: 50,
@@ -111,12 +111,6 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
     .domain([0, 100])
     .interpolator(d3.interpolateRainbow);
 
-  // const handleTextBox = (data, dateFieldName) => {
-  //   if (!data || !dateFieldName) return;
-  //   const dateToSelect = data[dateFieldName];
-  //   dispatch('SET_DAILY_GRAPHS_SELECTED_DATE_AND_DATA', dateToSelect);
-  // };
-
   const handleHover = (e, color, val) => {
     if (!e || !color || !val) return;
 
@@ -194,14 +188,14 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
       >
         {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
       </BoringButton>
-      {isHovered && hoverPosition.length ? (
+      {/* {isHovered && hoverPosition.length ? (
         <TinyToolTip
           hoverPosition={hoverPosition}
           hoverColor={hoverColor}
         >
           {hoverInfo}
         </TinyToolTip>
-      ) : null}
+      ) : null} */}
 
       <svg
         style={{ maxWidth: '100%' }}
