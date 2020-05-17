@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from './tinyTooltip.module.css';
+import classes from './tinyToolTip.module.css';
 const TinyToolTip = ({ hoverPosition, hoverColor, children }) => {
   const blacks = ['var(--black)', 'var(--midBlack)', 'var(--lightBlack)'];
   return (

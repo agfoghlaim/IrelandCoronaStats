@@ -9,7 +9,7 @@ import HoverRectangles from '../../../UI/Graphs/HoverRectangles/hoverRectangles'
 import BoringButton from '../../../UI/Buttons/boringButton';
 // temp
 import Dots from '../../../UI/Graphs/Dots/dots';
-import TinyToolTip from '../../../UI/Tooltips/tinyTooltip';
+import TinyToolTip from '../../../UI/ToolTips/tinyToolTip';
 const dimensions = {
   margin: {
     left: 50,
