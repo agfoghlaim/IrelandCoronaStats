@@ -143,6 +143,7 @@ const Counties = () => {
     return (
       <CountiesSection
         storeSections={storeSections}
+        handleSelectCounty={handleSelectCounty}
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         handleSelectDate={handleSelectDate}
@@ -150,6 +151,7 @@ const Counties = () => {
         handleSelectOneCounty={handleSelectOneCounty}
         isLoading={isLoading}
         isError={isError}
+        showCountyBtns={selectedSection === 'line' ? true : false}
       >
         {renderGraph()}
       </CountiesSection>

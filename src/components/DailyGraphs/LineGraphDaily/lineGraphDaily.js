@@ -189,6 +189,7 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
           display: 'grid',
           alignSelf: 'center',
           justifySelf: 'center',
+          cursor: 'pointer'
         }}
       >
         {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
@@ -237,7 +238,7 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
             />
             {daily.selectedAttributeNames.map((fieldName) => {
               return (
-                <>
+                <g key={fieldName}>
                   <Line
                     graphData={daily.all}
                     altGraphData={
@@ -268,7 +269,7 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
                     handleHover={handleHover}
                     handleHoverLeave={handleHoverLeave}
                   />
-                </>
+                </g>
               );
             })}
           </>

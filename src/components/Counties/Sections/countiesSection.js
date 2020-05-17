@@ -10,12 +10,15 @@ const CountiesSection = ({
   setIsPlaying,
   handleSelectDate,
   handleSelectData,
+  handleSelectCounty,
   classes,
+  showCountyBtns
 }) => {
   return (
     <SectionWrap>
       <CountiesSideSection
-        showCountyBtns={false}
+        showCountyBtns={showCountyBtns} //!
+        handleSelectCounty={handleSelectCounty}
         storeSections={storeSections}
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}

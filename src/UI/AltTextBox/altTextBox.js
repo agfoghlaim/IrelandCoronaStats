@@ -1,20 +1,12 @@
 import React from 'react';
 import classes from './altTextBox.module.css';
 
-/* Want prop like this: 
-[
-  {
-    title: 'Confirmed Cases',
-    fieldName: 'ConfirmedCovidCases',
-    value: 100,
-    xAxixAttribute
-    color: 'var(--green)'
-  }, ...
-]
+const AltTextBox = ({
+  arrayToShowInTextBox,
+  selectedDate,
+  numAvailableAttrs,
+}) => {
 
-*/
-const AltTextBox = ({ arrayToShowInTextBox, selectedDate }) => {
-// console.log(arrayToShowInTextBox)
   const RightSpan = ({ text, color }) => {
     return (
       <span
@@ -30,9 +22,17 @@ const AltTextBox = ({ arrayToShowInTextBox, selectedDate }) => {
   };
 
   return (
-    <div className={classes.profileStatsTextBox}>
+    <div
+      className={classes.profileStatsTextBox}
+      // Initial height of box needs to be ok to fit all possible '.infoWraps' so there's no jumping around the page when things are selected. grid-gap on parent is 0.4rem, h4 = 2rem
+      style={{
+        minHeight: `${
+          (numAvailableAttrs + 2) * 2 + (numAvailableAttrs + 2) * 0.4
+        }rem`,
+      }}
+    >
       <div className={classes.infoWrap}>
-        <p>{new Date(selectedDate).toString().substring(0, 16)}</p>
+        <h4>{new Date(selectedDate).toString().substring(0, 16)}</h4>
       </div>
       {arrayToShowInTextBox.map((d, i) => {
         return (

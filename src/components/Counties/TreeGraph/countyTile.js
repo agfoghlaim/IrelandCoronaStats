@@ -1,4 +1,5 @@
 import React from 'react';
+import classes from './countyTile.module.css';
 
 const CountyTile = ({
   tree,
@@ -27,6 +28,7 @@ const CountyTile = ({
         opacity="1"
       />
       <rect
+        className={classes.countyTileRect}
         stroke={rect.stroke}
         strokeWidth="0.1rem"
         fill={rect.isSelected ? 'var(--white)' : rect.fill}
@@ -40,10 +42,9 @@ const CountyTile = ({
       {showProvinces &&
       (i === 0 || tree.parent.data.name !== arr[i - 1].parent.data.name) ? (
         <text
+          className={classes.provinceText}
           x={rect.x}
           y={rect.y - 4}
-          fontSize="0.6rem"
-          fontWeight="900"
           fill="var(--yellow)"
         >
           {tree.parent.data.name
@@ -54,57 +55,54 @@ const CountyTile = ({
       ) : null}
 
       {/* If rect is ~wide enough show county name, otherwise show county reg */}
-      {rect.width > 80 ? (
+      {rect.width > 100 ? (
         <>
           <text
+           className={classes.countyText}
             x={rect.x + 4}
-            y={rect.y + 12}
+            y={rect.y + 16}
             height="20"
-            fontSize="0.6rem"
-            fontWeight="900"
+            fontSize="1rem"
             fill={rect.isSelected ? 'var(--lightBlack)' : 'var(--white)'}
-            style={{ textTransform: 'uppercase', letterSpacing: '0.2rem' }}
           >
             {tree.data.CountyName}{' '}
           </text>
           {/*  Only if rect is ~tall enough show number */}
-          {rect.height > 20 ? (
+          {rect.height > 30 ? (
             <text
+              className={classes.numText}
               x={rect.x + 4}
-              y={rect.y + 22}
+              y={rect.y + 34}
               height="20"
-              fontSize="0.5rem"
-              fontWeight="500"
-              fill={rect.isSelected ? 'var(--lightBlack)' : 'var(--white)'}
-              style={{ textTransform: 'uppercase', letterSpacing: '0.1rem' }}
-            >
-              ({Math.round(tree.data[attribute])})
+              fontSize="0.9rem"
+              fill={rect.isSelected ? `${rect.fill}` : 'var(--white)'}
+            >  
+              ({Math.round(tree.data[attribute]).toLocaleString()})
             </text>
           ) : null}
         </>
       ) : (
         <>
           <text
+            className={classes.countyText}
             x={rect.x + 4}
-            y={rect.y + 12}
+            y={rect.y + 16}
             height="20"
-            fontSize={rect.width < 30 ? '0.5rem' : '0.6rem'}
-            fontWeight="900"
+            fontSize={rect.width < 30 ? '1rem' : '1rem'}
             fill={rect.isSelected ? 'var(--lightBlack)' : 'var(--white)'}
           >
             {tree.data.reg}{' '}
           </text>
           {rect.height > 30 ? (
             <text
+              className={classes.numText}
               x={rect.x + 4}
-              y={rect.y + 22}
+              y={rect.y + 34}
               height="20"
-              fontSize="0.5rem"
-              fontWeight="500"
-              fill={rect.isSelected ? 'var(--lightBlack)' : 'var(--white)'}
-              style={{ textTransform: 'uppercase', letterSpacing: '0.1rem' }}
+              fontSize="1rem"
+              fill={rect.isSelected ? `${rect.fill}` : 'var(--white)'}
             >
-              ({Math.round(tree.data[attribute])})
+              ({Math.round(tree.data[attribute]).toLocaleString()})
             </text>
           ) : null}
         </>

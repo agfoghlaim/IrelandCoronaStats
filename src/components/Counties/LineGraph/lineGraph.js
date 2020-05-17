@@ -2,10 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import classes from './lineGraph2.module.css';
 import Axis from '../../../UI/Graphs/axis';
-// temp
-// import Axis from '../../DailyGraphs/LineGraphDaily/axis';
 import YAxisLabel from '../../../UI/Graphs/yAxisLabel';
-import TinyTooltip from '../../../UI/Tooltips/tinyTooltip';
 import Line from './line';
 import { useStore } from '../../../Store/store';
 import ClickRectangles from '../ClickRectangles/clickRectangles';

@@ -21,7 +21,7 @@ export const profileStatsStore = {
         xAxisDescription: '#Cases',
         xAxisAttribute: 'StatisticsProfileDate',
         selected: true,
-        color: 'var(--green)',
+        color: 'var(--covidGreen)',
         attrData: [],
       },
       {
@@ -39,7 +39,7 @@ export const profileStatsStore = {
         xAxisDescription: '#Cases',
         xAxisAttribute: 'StatisticsProfileDate',
         selected: false,
-        color: 'var(--yellow)',
+        color: 'var(--covidYellow)',
         attrData: [],
       },
       {
@@ -80,7 +80,7 @@ export const profileStatsStore = {
         xAxisAttribute: 'StatisticsProfileDate',
         xAxisDescription: '#Cases Hospitalised',
         selected: true,
-        color: 'var(--yellow)',
+        color: 'var(--covidYellow)',
         attrData: [],
       },
       {
@@ -89,7 +89,7 @@ export const profileStatsStore = {
         xAxisAttribute: 'StatisticsProfileDate',
         xAxisDescription: '#Cases Hospitalised',
         selected: false,
-        color: 'var(--green)',
+        color: 'var(--covidGreen)',
         attrData: [],
       },
 
@@ -122,7 +122,7 @@ export const profileStatsStore = {
         xAxisAttribute: 'StatisticsProfileDate',
         xAxisDescription: '# Cases',
         selected: true,
-        color: 'var(--yellow)',
+        color: 'var(--covidYellow)',
         attrData: [],
       },
       {
@@ -131,7 +131,7 @@ export const profileStatsStore = {
         xAxisAttribute: 'StatisticsProfileDate',
         xAxisDescription: '# Cases',
         selected: false,
-        color: 'var(--green)',
+        color: 'var(--covidGreen)',
         attrData: [],
       },
       {
@@ -217,7 +217,7 @@ export const profileStatsStore = {
         xAxisAttribute: 'StatisticsProfileDate',
         xAxisDescription: '#Cases in Age Group',
         selected: false,
-        color: 'var(--yellow)',
+        color: 'var(--covidYellow)',
         attrData: [],
       },
       {
@@ -226,7 +226,7 @@ export const profileStatsStore = {
         xAxisAttribute: 'StatisticsProfileDate',
         xAxisDescription: '#Cases in Age Group',
         selected: false,
-        color: 'var(--green)',
+        color: 'var(--covidGreen)',
         attrData: [],
       },
       {
@@ -261,7 +261,7 @@ export const profileStatsStore = {
   {
     name: 'hospitalisedAgeProfiles',
     id: 5,
-    sectionName: 'Age Profiles - Hospitalised',
+    sectionName: 'Age Profiles (Hospitalised)',
     description: '',
     xAxisLabel: '#Hospitalised in Age Group',
     xAxisAttribute: 'StatisticsProfileDate',
@@ -321,7 +321,7 @@ export const profileStatsStore = {
         xAxisAttribute: 'StatisticsProfileDate',
         xAxisDescription: '#Hospitalised in Age Group',
         selected: false,
-        color: 'var(--yellow)',
+        color: 'var(--covidYellow)',
         attrData: [],
       },
       {
@@ -330,7 +330,7 @@ export const profileStatsStore = {
         xAxisAttribute: 'StatisticsProfileDate',
         xAxisDescription: '#Hospitalised in Age Group',
         selected: false,
-        color: 'var(--green)',
+        color: 'var(--covidGreen)',
         attrData: [],
       },
       {
@@ -357,7 +357,7 @@ export const profileStatsStore = {
         xAxisAttribute: 'StatisticsProfileDate',
         xAxisDescription: '#Hospitalised in Age Group',
         selected: false,
-        color: 'var(--yellow)',
+        color: 'var(--covidYellow)',
         attrData: [],
       },
       {
@@ -374,7 +374,7 @@ export const profileStatsStore = {
   {
     name: 'hospitalisedAndCasesAgeProfiles',
     id: 6,
-    sectionName: 'Age Profiles - Hospitalised & Cases',
+    sectionName: 'Age Profiles (Hospitalised Vs Cases)',
     description: '',
     xAxisLabel: '#Cases vs #Hospitalised in Age Group',
     xAxisAttribute: 'StatisticsProfileDate',
@@ -484,7 +484,7 @@ export const profileStatsStore = {
         xAxisAttribute: 'StatisticsProfileDate',
         xAxisDescription: '#Cases vs #Hospitalised in Age Group',
         selected: false,
-        color: 'var(--yellow)',
+        color: 'var(--covidYellow)',
         attrData: [],
       },
       {
@@ -494,7 +494,7 @@ export const profileStatsStore = {
         xAxisDescription: '#Cases vs #Hospitalised in Age Group',
         selected: false,
         useDifferentShape: true,
-        color: 'var(--yellow)',
+        color: 'var(--covidYellow)',
         attrData: [],
       },
       {
@@ -503,7 +503,7 @@ export const profileStatsStore = {
         xAxisAttribute: 'StatisticsProfileDate',
         xAxisDescription: '#Cases vs #Hospitalised in Age Group',
         selected: false,
-        color: 'var(--green)',
+        color: 'var(--covidGreen)',
         attrData: [],
       },
       {
@@ -553,7 +553,7 @@ export const profileStatsStore = {
         xAxisAttribute: 'StatisticsProfileDate',
         xAxisDescription: '# Clusters Notified',
         selected: true,
-        color: 'var(--yellow)',
+        color: 'var(--covidYellow)',
         attrData: [],
       },
     ],
@@ -576,7 +576,7 @@ export const profileStatsStore = {
         xAxisAttribute: 'StatisticsProfileDate',
         xAxisDescription: '# Median age of Cases',
         selected: true,
-        color: 'var(--yellow)',
+        color: 'var(--covidYellow)',
         attrData: [],
       },
      

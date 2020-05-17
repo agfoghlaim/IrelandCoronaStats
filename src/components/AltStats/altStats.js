@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import classes from './altStats.module.css';
 
 import axios from 'axios';
-
-import { ALTSTATS } from '../../constants';
 import configureDailyGraphsStore from '../DailyAndProfileData/dailyGraphs-store'; //?
+import { sharedUtil } from '../../util-functions';
+import { ALT_STATS } from '../../constants';
 import { useStore } from '../../Store/store';
 
 import Layout from '../layout';
@@ -13,7 +13,9 @@ import SelectGraphBtnGroup from '../../UI/Buttons/SelectGraphBtnGroup/selectGrap
 import AltStatsGraphs from './altStatsGraphs';
 
 configureDailyGraphsStore();
-const { profileStatsUrl } = ALTSTATS;
+
+const { profileStatsUrl } = ALT_STATS;
+const { prepArrayToShowInTextBox } = sharedUtil;
 
 const AltStats = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +51,6 @@ const AltStats = () => {
   const selectedGraphName = () =>
     allAvailableGraphs.filter((graph) => graph.selected)[0].name;
 
-  // console.log(graphs)
   const getProfileStats = useCallback(async () => {
     try {
       const response = await axios.get(profileStatsUrl);
@@ -97,23 +98,6 @@ const AltStats = () => {
       fieldName,
       graphId,
       storeName: 'profileStatsStore',
-    });
-  };
-
-  // TODO, see repeat dailyGraphs.js...
-  // do After textbox styling
-  const prepArrayToShowInTextBox = (graph) => {
-    return graph.selectedAttributeNames.map((name) => {
-      const title = graph.avail.filter((a) => a.fieldName === name)[0].name;
-      const color = graph.avail.filter((a) => a.fieldName === name)[0].color;
-      const ans = {};
-
-      ans[name] = graph.selectedDateData[name];
-      ans.color = color;
-      ans.title = title;
-      ans.fieldName = name;
-      ans.value = graph.selectedDateData[name];
-      return ans;
     });
   };
 

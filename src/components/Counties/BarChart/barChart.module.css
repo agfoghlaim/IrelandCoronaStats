@@ -16,6 +16,8 @@ rect.barChartRect:hover {
 
 .barChartSvg text {
   fill: var(--white);
+  font-size: 0.8rem;
+
 }
 
 .barChartSvg {

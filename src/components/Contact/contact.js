@@ -5,7 +5,6 @@ import ContactForm from './contactForm';
 import  {contactUtil} from '../../util-functions';
 const { encode, validate } = contactUtil;
 
-
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -45,7 +44,7 @@ const Contact = () => {
       rules: {
         required: true,
         min: 2,
-        max: 700,
+        max: 10000,
       },
     },
   });
@@ -104,14 +103,6 @@ const Contact = () => {
         setFailed(true);
       });
   };
-
-  // put this in index.html...
-  // <!-- A little help for the Netlify post-processing bots -->
-  // <form name="contact-stats" netlify netlify-honeypot="bot-field" hidden>
-  //   <input type="text" name="name" />
-  //   <input type="email" name="email" />
-  //   <textarea name="msg"></textarea>
-  // </form>
 
   return (
     <Layout>

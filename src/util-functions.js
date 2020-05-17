@@ -114,6 +114,23 @@ export const sharedUtil = {
     );
     return newestData[0];
   },
+  prepArrayToShowInTextBox: graph => {
+    
+    return graph.selectedAttributeNames.map((name) => {
+      const title = graph.avail.filter((a) => a.fieldName === name)[0].name;
+      const color = graph.avail.filter((a) => a.fieldName === name)[0].color;
+
+      const ans = {};
+
+      ans[name] = graph.selectedDateData[name];
+      ans.color = color;
+      ans.title = title;
+      ans.fieldName = name;
+      ans.value = graph.selectedDateData[name];
+
+      return ans;
+    });
+  }
 };
 
 export const contactUtil = {

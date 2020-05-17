@@ -7,8 +7,9 @@
   /* --purple: #970a82; */
   --purple: #a73cb3;
   --orange: #e35500;
-  /* --green: #4fb81c; */
-  --green: #4f922f;
+  --green: #4fb81c;
+  /* --green: #4f922f; */
+  /* --green: #1bc2c7; */
   --white: #eff1ef;
   --gray: #939493;
 
@@ -16,7 +17,7 @@
   --covidPink: #f04494;
   --covidLime: #ccd038;
   --covidGreen: #19d1b6;
-  --covidPurple: #a73cb3;
+  --covidPurple: #6c43b1;
   --covidBlue: #3292e1;
   --covidOrange: #ff833d;
   --covidYellow: #ccd038;
@@ -28,6 +29,7 @@ text {
     Arial, sans-serif;
   letter-spacing: normal;
   font-weight: 500;
+  font-size: 1rem;
 }
 
 html {

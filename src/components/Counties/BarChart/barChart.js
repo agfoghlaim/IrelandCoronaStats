@@ -14,7 +14,8 @@ const dimensions = {
     bottom: 60,
   },
   width: 1000,
-  height: 550,
+  height: 800
+  // height: 550,
 };
 const { margin, width, height } = dimensions;
 const boringButtonStyle = (selectLogScale) => {
@@ -33,6 +34,7 @@ const boringButtonStyle = (selectLogScale) => {
     display: 'grid',
     alignSelf: 'center',
     justifySelf: 'center',
+    cursor: 'pointer'
   };
 };
 
@@ -194,7 +196,7 @@ const BarChart = ({ handleSelectOneCounty, isLoading, isError }) => {
       ) : (
         <svg
           className={classes.barChartSvg}
-          viewBox={`0 40 ${width - 50} ${height}`}
+          viewBox={`-20 40 ${width} ${height}`}
           ref={svgRef}
           width={width}
         >

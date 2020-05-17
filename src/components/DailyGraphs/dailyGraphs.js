@@ -1,25 +1,26 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import classes from './dailyGraphs.module.css';
 import axios from 'axios';
+
 import configureDailyGraphsStore from '../DailyAndProfileData/dailyGraphs-store';
 import { useStore } from '../../Store/store';
+import { DAILY_GRAPHS } from '../../constants';
+import { sharedUtil } from '../../util-functions';
+
 import SectionWrap from '../../UI/Sections/SectionWrap/sectionWrap';
 import SectionWrapper from '../../UI/Sections/SectionWrapper/sectionWrapper';
 import SectionMain from '../../UI/Sections/SectionMain/sectionMain';
 import SectionSide from '../../UI/Sections/SectionSide/sectionSide';
 import SectionHeader from '../../UI/Sections/SectionHeader/sectionHeader';
 import LineGraphDaily from './LineGraphDaily/lineGraphDaily';
-
 import AttributeBtns from '../../UI/Buttons/AttributeBtns/attributeBtns';
-// import TextBox from './TextBox/textBox';
-import classes from './dailyGraphs.module.css';
 import ErrorComp from '../../UI/error';
-
 import AltTextBox from '../../UI/AltTextBox/altTextBox';
 
 configureDailyGraphsStore();
 
-// Daily data only (no Statistics Profile fields) for each day.
-const dailyStatsSoFarUrl = `https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=Date,ConfirmedCovidCases,TotalConfirmedCovidCases,ConfirmedCovidDeaths,TotalCovidDeaths,ConfirmedCovidRecovered,TotalCovidRecovered,FID&returnGeometry=false&outSR=4326&f=json`;
+const { dailyStatsSoFarUrl } = DAILY_GRAPHS;
+const { prepArrayToShowInTextBox } = sharedUtil;
 
 const DailyGraphs = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -43,9 +44,12 @@ const DailyGraphs = () => {
       setIsError(false);
       try {
         const data = await getDailyStats();
-        console.log("req...")
+        
         dispatch('SET_ALL_DAILY_GRAPHS', data);
-        dispatch('SET_DAILY_STORE_DATE_AND_DATA', {latestDate:false, storeName: 'dailyGraphsStore'});
+        dispatch('SET_DAILY_STORE_DATE_AND_DATA', {
+          latestDate: false,
+          storeName: 'dailyGraphsStore',
+        });
         setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
@@ -57,33 +61,21 @@ const DailyGraphs = () => {
 
   const handleSelectData = (e, graphId) => {
     const fieldName = e.target.name;
-    dispatch('SELECT_DAILY_GRAPHS_ATTRS', { fieldName, graphId, storeName: 'dailyGraphsStore' });
+    dispatch('SELECT_DAILY_GRAPHS_ATTRS', {
+      fieldName,
+      graphId,
+      storeName: 'dailyGraphsStore',
+    });
   };
 
   const handleTextBox = (data, dateFieldName) => {
     if (!data || !dateFieldName) return;
     const dateToSelect = data[dateFieldName];
-    dispatch('SET_DAILY_STORE_DATE_AND_DATA', {latestDate:dateToSelect, storeName:'dailyGraphsStore'});
-  };
-
-  // TODO, bury this! see statGraphs.js
-  const prepArrayToShowInTextBox = graph => {
-    
-    return graph.selectedAttributeNames.map((name) => {
-      const title = graph.avail.filter((a) => a.fieldName === name)[0].name;
-      const color = graph.avail.filter((a) => a.fieldName === name)[0].color;
-
-      const ans = {};
-
-      ans[name] = graph.selectedDateData[name];
-      ans.color = color;
-      ans.title = title;
-      ans.fieldName = name;
-      ans.value = graph.selectedDateData[name];
-
-      return ans;
+    dispatch('SET_DAILY_STORE_DATE_AND_DATA', {
+      latestDate: dateToSelect,
+      storeName: 'dailyGraphsStore',
     });
-  }
+  };
 
   return graphs && graphs.length
     ? graphs.map((graph, index) => (
@@ -101,9 +93,12 @@ const DailyGraphs = () => {
                   />
 
                   <div className={classes.forBreakPointBetween900And300}>
-        
                     {!isLoading ? (
-                      <AltTextBox arrayToShowInTextBox={prepArrayToShowInTextBox(graph)} selectedDate={graph.selectedDate} />
+                      <AltTextBox
+                        arrayToShowInTextBox={prepArrayToShowInTextBox(graph)}
+                        selectedDate={graph.selectedDate}
+                        numAvailableAttrs={graph.avail.length}
+                      />
                     ) : (
                       'Loading...'
                     )}
@@ -119,7 +114,11 @@ const DailyGraphs = () => {
             </SectionSide>
             <SectionMain>
               {!isLoading && graph ? (
-                <LineGraphDaily graphId={graph.id} storeName="dailyGraphsStore" handleTextBox={handleTextBox} />
+                <LineGraphDaily
+                  graphId={graph.id}
+                  storeName="dailyGraphsStore"
+                  handleTextBox={handleTextBox}
+                />
               ) : (
                 'Loading...'
               )}

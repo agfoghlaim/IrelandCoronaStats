@@ -17,11 +17,18 @@
   border-radius: 0.4rem;
   align-content: center;
   align-items: center;
+  min-height: 2rem;
 }
 
 .infoWrap p {
   margin: 0;
   font-size: 0.8rem;
+}
+
+.infoWrap h4 {
+  font-size: 1rem;
+  margin: 0.5rem;
+  line-height: 1rem;
 }
 
 .genericTextItem h3 {
@@ -38,6 +45,7 @@
   width: 3rem;
   display: grid;
   justify-content: center;
-  height: 100%;
   align-content: center;
+  min-height: 2rem;
+  height: 100%;
 }

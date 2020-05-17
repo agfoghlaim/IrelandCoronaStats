@@ -12,10 +12,12 @@ const AttributeBtns = ({availableAttributes, handleSelectData, graphIndex}) => {
       selected={a.selected}
       style={{
         opacity: `${!a.selected ? '0.8' : `1`}`,
-        background: `${a.selected ? `${a.color}` : `var(--gray)`}`,
+        background: `${a.selected ? `${a.color}` : `none`}`,
         border: `${
-          !a.selected ? `0.1rem solid ${a.color}` : `${a.color} `
+          !a.selected ? `0.1rem solid ${a.color}` : `0.1rem solid ${a.color}`
         }`,
+        // border: `${`0.1rem solid ${a.color}`
+        // }`,
         color: `${a.selected && a.color === 'var(--white)' ? `var(--lightBlack)` : `var(--white)`}`,
         outline: 'none',
       }}

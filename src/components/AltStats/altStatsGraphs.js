@@ -14,8 +14,9 @@ const AltStatsGraphs = ({graphs, classes, isError, isLoading, selectedGraphName,
 
   return(
     graphs.map((graph, i) => {
+
       return graph.name === selectedGraphName() ? (
-        <SectionWrap>
+        <SectionWrap key={i}>
           <SectionSide>
             {isError ? (
               <ErrorComp msg="Could not load data." />
@@ -32,6 +33,7 @@ const AltStatsGraphs = ({graphs, classes, isError, isLoading, selectedGraphName,
                     <AltTextBox
                       arrayToShowInTextBox={prepArrayToShowInTextBox(graph)}
                       selectedDate={graph.selectedDate}
+                      numAvailableAttrs={graph.avail.length}
                     />
                   ) : (
                     <LoadingComp />

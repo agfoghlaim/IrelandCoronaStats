@@ -7,7 +7,7 @@
   padding: 1rem;
   align-content: center;
   justify-content: center;
-  min-height: calc(100vh - 16rem); 
+  min-height: calc(100vh - 16rem);
 }
 .form {
   background: var(--midBlack);
@@ -47,8 +47,7 @@
   border: none;
   width: 100%;
   padding: 0.5rem;
-  font-family: 'Courier New', Courier, monospace;
-  /* border: 0.1rem solid var(--covidPink) */
+  /* font-family: 'Courier New', Courier, monospace; */
 }
 
 .inputSection textarea {
@@ -75,9 +74,7 @@
   color: var(--white);
 }
 
-
-.formBtn.active
- {
+.formBtn.active {
   border: 0.2rem solid var(--gray);
   color: var(--gray);
 }
@@ -104,7 +101,7 @@
   }
 }
 
-.formError{
+.formError {
   color: var(--covidPink);
   font-size: 0.6rem;
   text-transform: uppercase;
@@ -117,7 +114,8 @@
   opacity: 1;
 }
 
-.formSuccess, .formFail {
+.formSuccess,
+.formFail {
   font-size: 1.2rem;
   border-radius: 0.4rem;
   text-transform: uppercase;

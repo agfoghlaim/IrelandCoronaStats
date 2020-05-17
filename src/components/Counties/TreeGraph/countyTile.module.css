@@ -1,0 +1,24 @@
+/*
+
+
+}
+
+
+
+
+ */
+ .countyText {
+  /* text-transform: uppercase; */
+  font-weight: 900;
+  transition: all 100ms linear;
+}
+.numText {
+  text-transform: uppercase;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: all 100ms linear;
+}
+.provinceText {
+  font-weight: 900;
+  font-size: 1rem;
+}

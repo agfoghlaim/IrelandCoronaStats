@@ -7,14 +7,18 @@
   grid-gap: 0.5rem;
 }
 .btnGroupWrap button {
-  background: var(--blue);
-  border: none;
   min-height: 2rem;
   padding: 0.2rem 0.4rem;
   border-radius: 0.4rem;
-  color: var(--white);
   font-weight: 700;
   font-size: 0.6rem;
   cursor: pointer;
   outline-color: var(--purple);
+  text-transform: uppercase;
+  transition: background 100ms ease-out;
+}
+
+/* TODO this is bad but better than no feedback*/
+.btnGroupWrap button:hover {
+  border-color: currentColor !important;
 }

@@ -22,7 +22,7 @@ export const dailyGraphsStore = {
         xAxisDescription: 'Number of Confirmed Cases',
         xAxisAttribute: 'Date',
         selected: true,
-        color: 'var(--green)',
+        color: 'var(--covidPurple)',
         attrData: [],
       },
       {
@@ -31,7 +31,7 @@ export const dailyGraphsStore = {
         xAxisAttribute: 'Date',
         xAxisDescription: 'AverageConfirmedCases',
         selected: false,
-        color: 'var(--yellow)',
+        color: 'var(--covidOrange)',
         attrData: [],
       },
       {
@@ -64,7 +64,7 @@ export const dailyGraphsStore = {
         xAxisAttribute: 'Date',
         xAxisDescription: '% Daily Change (newCases)',
         selected: true,
-        color: 'var(--blue)',
+        color: 'var(--covidBlue)',
         attrData: [],
       },
       {
@@ -73,7 +73,7 @@ export const dailyGraphsStore = {
         xAxisDescription: 'percentageDailyChange5DayAverage',
         xAxisAttribute: 'Date',
         selected: false,
-        color: 'var(--purple)',
+        color: 'var(--covidPurple)',
         attrData: [],
       },
     ],
@@ -96,7 +96,7 @@ export const dailyGraphsStore = {
         xAxisDescription: 'Number of Deaths',
         xAxisAttribute: 'Date',
         selected: true,
-        color: 'var(--green)',
+        color: 'var(--white)',
         attrData: [],
       },
 
@@ -106,7 +106,7 @@ export const dailyGraphsStore = {
         xAxisDescription: 'Total Number of Deaths',
         xAxisAttribute: 'Date',
         selected: false,
-        color: 'var(--orange)',
+        color: 'var(--covidOrange)',
         attrData: [],
       },
     ],

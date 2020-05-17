@@ -3,3 +3,20 @@
   justify-content: center;
   justify-items: center;
 }
+
+.forBreakPointBetween900And300 {
+  display: grid;
+  grid-gap: 2rem;
+}
+
+@media only screen and (max-width: 900px) {
+  .forBreakPointBetween900And300 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 300px) {
+  .forBreakPointBetween900And300 {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './header.module.css';
 import { NavLink } from 'react-router-dom';
+
 const Header = (props) => (
   <header className={classes.header}>
     <h1>Ireland Coronavirus Stats</h1>
@@ -11,14 +12,9 @@ const Header = (props) => (
             Home
           </NavLink>
         </li>
-        {/* <li>
-          <NavLink exact to="/stats" activeClassName={classes.navActive}>
-            Profiles
-          </NavLink>
-        </li> */}
         <li>
-          <NavLink exact to="/alt" activeClassName={classes.navActive}>
-            Alt
+          <NavLink exact to="/stats" activeClassName={classes.navActive}>
+            Profile Stats
           </NavLink>
         </li>
         <li>

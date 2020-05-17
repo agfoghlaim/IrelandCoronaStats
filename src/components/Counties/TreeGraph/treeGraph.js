@@ -52,6 +52,7 @@ const TreeGraph = ({
           display: 'grid',
           alignSelf: 'center',
           justifySelf: 'center',
+          cursor: 'pointer'
         }}
       >
         {showProvinces ? 'Hide Provinces' : 'Show  Provinces'}
