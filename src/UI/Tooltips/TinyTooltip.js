@@ -1,16 +1,18 @@
 import React from 'react';
-
-const TinyToolTip = ({ isHovered, hoverPosition, hoverColor, children }) => {
-
+import classes from './tinyTooltip.module.css';
+const TinyToolTip = ({ hoverPosition, hoverColor, children }) => {
+  const blacks = ['var(--black)', 'var(--midBlack)', 'var(--lightBlack)'];
   return (
     <div
+      className={classes.tinyTooltip}
       style={{
-        opacity: `${isHovered ? '1' : '0'}`,
         position: 'fixed',
         left: `${hoverPosition[0]}px`,
         top: `${hoverPosition[1]}px`,
         background: `${hoverColor}`,
-        color: 'var(--white)',
+        color: `${
+          blacks.includes(hoverColor) ? 'var(--white)' : 'var(--black)'
+        }`,
         padding: '0.5rem 1rem',
         borderRadius: '0.4rem',
         fontSize: '0.6rem',

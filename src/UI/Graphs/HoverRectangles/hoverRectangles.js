@@ -29,7 +29,7 @@ const HoverRectangles = ({
           y: margin.top,
           graphWidth,
           rectWidth,
-          height: height - margin.bottom,
+          height: height - margin.bottom-margin.top,
           xOffset,
           key: `${graphData.fieldName}-${i}`,
 

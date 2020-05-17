@@ -47,11 +47,11 @@
 }
 
 @media only screen and (max-width: 320px) {
-  .summaryBox h4 {
+  /* .summaryBox h4 {
     font-size: 1.2rem;
   }
   .summaryBox h4 small {
     font-size: 0.6rem;
     bottom: -0.6rem;
-  }
+  } */
 }

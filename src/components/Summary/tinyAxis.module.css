@@ -1,6 +1,6 @@
 svg > .tinyAxisGroupY > g > text {
   transform: translateX(1.4rem);
-  font-size: 0.5rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   transition: all 100ms ease-out;
   opacity: 0.9;
@@ -8,7 +8,7 @@ svg > .tinyAxisGroupY > g > text {
 }
 svg > .tinyAxisGroupX > g > text {
   transform: translate(1rem, 1rem) rotate(-90deg);
-  font-size: 0.5rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   transition: all 100ms ease-out;
   opacity: 0.9;

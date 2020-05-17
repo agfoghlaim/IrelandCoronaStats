@@ -9,6 +9,7 @@ import HoverRectangles from '../../../UI/Graphs/HoverRectangles/hoverRectangles'
 import BoringButton from '../../../UI/Buttons/boringButton';
 // temp
 import Dots from '../../../UI/Graphs/Dots/dots';
+import TinyToolTip from '../../../UI/Tooltips/tinyTooltip';
 const dimensions = {
   margin: {
     left: 50,
@@ -26,7 +27,6 @@ const getMinMax = (extents) => {
   return [minValue, maxValue];
 };
 
-
 const { margin, width, height } = dimensions;
 const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
   const dailyData = useStore()[0][storeName].graphs;
@@ -42,9 +42,9 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
   const [hoverPosition, setHoverPosition] = useState([]);
 
   const calculateYExtentOfSelectedAttributes = () => {
-    const getExtentsForTheseAttributes = ( ) => {
+    const getExtentsForTheseAttributes = () => {
       const extents = daily.selectedAttributeNames.map((attr) => {
-        const relevant = daily.avail.filter((a) => a.fieldName === attr )[0];
+        const relevant = daily.avail.filter((a) => a.fieldName === attr)[0];
         return d3.extent(relevant.attrData, (d) => d[attr]);
       });
 
@@ -89,7 +89,6 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
     }
   };
 
- 
   const getXExtent = () => {
     const extents = daily.selectedAttributeNames.map((selected) => {
       const relevant = daily.avail.filter((a) => a.fieldName === selected)[0];
@@ -168,9 +167,7 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
 
   return (
     <>
-      {/* <BoringButton onClick={toggleLogScale} config={{position: 'absolute', right: '0', top: '-1rem', padding: '0.25rem 0.5rem', background:'var(--white)', color:'var(--lightBlack)'}}>
-        {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
-      </BoringButton> */}
+
       <BoringButton
         onClick={toggleLogScale}
         overRideStyle={{
@@ -197,23 +194,12 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
         {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
       </BoringButton>
       {isHovered && hoverPosition.length ? (
-        <div
-          style={{
-            opacity: `${isHovered ? '1' : '0'}`,
-            position: 'fixed',
-            left: `${hoverPosition[0]}px`,
-            top: `${hoverPosition[1]}px`,
-            background: `${hoverColor}`,
-            color: `${
-              hoverColor === 'var(--white)' ? 'var(--black)' : 'var(--white)'
-            }`,
-            padding: '0.5rem 1rem',
-            borderRadius: '0.4rem',
-            fontSize: '0.6rem',
-          }}
+        <TinyToolTip
+          hoverPosition={hoverPosition}
+          hoverColor={hoverColor}
         >
           {hoverInfo}
-        </div>
+        </TinyToolTip>
       ) : null}
 
       <svg
@@ -259,7 +245,6 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
                         return a.fieldName === fieldName;
                       })[0].attrData
                     }
-                   
                     i="0"
                     key={fieldName}
                     handleHover={handleHover}
@@ -273,8 +258,9 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
                   />
 
                   <Dots
-                
-                    relAvail = {daily.avail.filter((a) => a.fieldName === fieldName)[0]}
+                    relAvail={
+                      daily.avail.filter((a) => a.fieldName === fieldName)[0]
+                    }
                     xScale={getXScale()}
                     yScale={getYScale()}
                     fieldName={fieldName}

@@ -22,6 +22,14 @@
   --covidYellow: #ccd038;
 }
 
+/* svg */
+text {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  letter-spacing: normal;
+  font-weight: 500;
+}
+
 html {
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,

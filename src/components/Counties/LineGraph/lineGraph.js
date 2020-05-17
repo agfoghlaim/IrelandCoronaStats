@@ -2,13 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import classes from './lineGraph2.module.css';
 import Axis from '../../../UI/Graphs/axis';
-// temp 
+// temp
 // import Axis from '../../DailyGraphs/LineGraphDaily/axis';
 import YAxisLabel from '../../../UI/Graphs/yAxisLabel';
+import TinyTooltip from '../../../UI/Tooltips/tinyTooltip';
 import Line from './line';
 import { useStore } from '../../../Store/store';
 import ClickRectangles from '../ClickRectangles/clickRectangles';
 import ErrorComp from '../../../UI/error';
+import TinyToolTip from '../../../UI/Tooltips/tinyTooltip';
 
 const dimensions = {
   margin: {
@@ -43,12 +45,11 @@ const LineGraph = ({ handleSelectCounty, handleSelectDate, isError }) => {
     setSelectedAttribute(newSelected.fieldName);
   }, [storeSections.avail]);
 
-  useEffect(()=> {
-    if(storeSections.allCounties.length) {
+  useEffect(() => {
+    if (storeSections.allCounties.length) {
       setUseForXExtent(storeSections.allCounties[0].stats);
     }
-  },[storeSections.allCounties])
- 
+  }, [storeSections.allCounties]);
 
   const xExtent = d3.extent(useForXExtent, (d) => d.TimeStampDate);
   const xScale = d3
@@ -78,7 +79,6 @@ const LineGraph = ({ handleSelectCounty, handleSelectDate, isError }) => {
   };
 
   const handleHoverLeave = (e) => {
-
     setIsHovered(false);
   };
 
@@ -91,41 +91,33 @@ const LineGraph = ({ handleSelectCounty, handleSelectDate, isError }) => {
   };
 
   // TODO ?
-  const handleHoverLeaveDate = () => {
-
-  };
+  const handleHoverLeaveDate = () => {};
 
   return (
     <>
-  
-     { isHovered && hoverPosition.length ? (
-        <div
-          style={{
-            opacity: `${isHovered ? '1' : '0'}`,
-            position: 'fixed',
-            left: `${hoverPosition[0]}px`,
-            top: `${hoverPosition[1]}px`,
-            background: `${hoverColor}`,
-            color: 'var(--white)',
-            padding: '0.5rem 1rem',
-            borderRadius: '0.4rem',
-            fontSize: '0.6rem',
-          }}
-        >
+      {isHovered && hoverPosition.length ? (
+        <TinyToolTip hoverPosition={hoverPosition} hoverColor={hoverColor}>
           {hoverInfo || hoverInfoDate}
-        </div>
+        </TinyToolTip>
       ) : null}
-    {isError ? <ErrorComp msg='Could not load data for graph.' /> : (
-          <svg
+      {isError ? (
+        <ErrorComp msg="Could not load data for graph." />
+      ) : (
+        <svg
           ref={svgRef}
           className={classes.lineSvg}
-          viewBox={`0 40 ${width-50} ${height}`}
+          viewBox={`0 40 ${width - 50} ${height}`}
           width={width}
-          style={{maxWidth:'100%'}}
+          style={{ maxWidth: '100%' }}
         >
-          <Axis dimensions={dimensions} xScale={xScale} yScale={yScale} yTransformOffset={10}  />
+          <Axis
+            dimensions={dimensions}
+            xScale={xScale}
+            yScale={yScale}
+            yTransformOffset={10}
+          />
           <YAxisLabel
-            text={ selectedData ? selectedData.xAxisDescription : ''}
+            text={selectedData ? selectedData.xAxisDescription : ''}
             height={height}
             margin={margin}
           />
@@ -144,27 +136,22 @@ const LineGraph = ({ handleSelectCounty, handleSelectDate, isError }) => {
           ) : null}
           {storeSections && storeSections.allCounties.length
             ? storeSections.allCounties.map((graphData, i) => (
-               
-                  <Line
-                    graphData={graphData}
-                    i={i}
-                    key={i}
-                    handleHover={handleHover}
-                    handleHoverLeave={handleHoverLeave}
-                    xScale={xScale}
-                    yScale={yScale}
-                    colorScale={colorScale}
-                    selectedAttribute={selectedAttribute}
-                    handleSelectCounty={handleSelectCounty}
-                  />
-            
+                <Line
+                  graphData={graphData}
+                  i={i}
+                  key={i}
+                  handleHover={handleHover}
+                  handleHoverLeave={handleHoverLeave}
+                  xScale={xScale}
+                  yScale={yScale}
+                  colorScale={colorScale}
+                  selectedAttribute={selectedAttribute}
+                  handleSelectCounty={handleSelectCounty}
+                />
               ))
             : null}
         </svg>
-
-    ) }
-
-
+      )}
     </>
   );
 };

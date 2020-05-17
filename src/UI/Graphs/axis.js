@@ -21,7 +21,7 @@ const Axis = ({ dimensions, xScale, yScale, yTransformOffset = 0 }) => {
   const doAxis = () => {
     const xRef = d3.select(xAxisRef.current);
     const yRef = d3.select(yAxisRef.current);
-    xAxis.scale(xScale).ticks(d3.timeDay.every(2));
+    xAxis.scale(xScale).ticks(d3.timeDay.every(3));
 
     // yAxis.scale(yScale).ticks(10, ',.0f');
     yAxis.scale(yScale).ticks(10, ',.1s');
