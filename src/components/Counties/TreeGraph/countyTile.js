@@ -1,41 +1,95 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSpring, animated } from 'react-spring';
 import classes from './countyTile.module.css';
 
 const CountyTile = ({
   tree,
-  rect,
+  rectX,
   handleSelectOneCounty,
   showProvinces,
   i,
   arr,
   attribute,
 }) => {
+  const [rect, setRect] = useState(rectX);
+
+  const prevRectRef = useRef();
+  useEffect(() => {
+    setRect(rectX);
+    prevRectRef.current = rect;
+  }, [rect, rectX]);
+  const prevRect = prevRectRef.current;
+
+  const animationConfig = {
+    duration: 250,
+    tension: 120,
+    friction: 14,
+    clamp: true,
+  };
+
+  const rectConfig = {
+    from: {
+      width: prevRect ? prevRect.width : rect.width,
+      height: prevRect ? prevRect.height : rect.height,
+      x: prevRect ? prevRect.x : rect.x,
+      y: prevRect ? prevRect.y : rect.y,
+    },
+    to: {
+      width: rect.width,
+      height: rect.height,
+      x: rect.x,
+      y: rect.y,
+    },
+    config: animationConfig,
+  };
+
+  const textConfig = {
+    from: {
+      x: prevRect ? prevRect.x + 4 : rect.x + 4,
+      y: prevRect ? prevRect.y + 16 : rect.y + 16,
+    },
+    to: {
+      x: rect.x + 4,
+      y: rect.y + 16,
+    },
+    config: animationConfig,
+  };
+
+  const numConfig = {
+    from: {
+      x: prevRect ? prevRect.x + 4 : rect.x + 4,
+      y: prevRect ? prevRect.y + 34 : rect.y + 34,
+    },
+    to: {
+      x: rect.x + 4,
+      y: rect.y + 34,
+    },
+    config: animationConfig,
+  };
+  const rectProps = useSpring(rectConfig);
+  const textProps = useSpring(textConfig);
+  const numProps = useSpring(numConfig);
+
   return (
     <g
       key={tree.data.CountyName}
-      style={{ cursor: 'pointer' }}
       onClick={() => handleSelectOneCounty(tree.data.CountyName)}
     >
       {/* white background - otherwise low numbers are darker than high (not intuitive) */}
-      <rect
+      <animated.rect
+        {...rectProps}
         stroke={rect.stroke}
         strokeWidth="0.1rem"
         fill="var(--white)"
-        x={rect.x}
-        y={rect.y}
-        width={rect.width}
-        height={rect.height}
         opacity="1"
       />
-      <rect
+
+      <animated.rect
+        {...rectProps}
         className={classes.countyTileRect}
         stroke={rect.stroke}
         strokeWidth="0.1rem"
         fill={rect.isSelected ? 'var(--white)' : rect.fill}
-        x={rect.x}
-        y={rect.y}
-        width={rect.width}
-        height={rect.height}
         opacity={rect.opacity}
       />
       {/* Add Province names */}
@@ -57,53 +111,49 @@ const CountyTile = ({
       {/* If rect is ~wide enough show county name, otherwise show county reg */}
       {rect.width > 100 ? (
         <>
-          <text
-           className={classes.countyText}
-            x={rect.x + 4}
-            y={rect.y + 16}
+          <animated.text
+            {...textProps}
+            className={classes.countyText}
             height="20"
             fontSize="1rem"
-            fill={rect.isSelected ? 'var(--lightBlack)' : 'var(--white)'}
+            fill={rect.isSelected ? 'var(--lightBlack)' : 'var(--black)'}
           >
             {tree.data.CountyName}{' '}
-          </text>
+          </animated.text>
           {/*  Only if rect is ~tall enough show number */}
           {rect.height > 30 ? (
-            <text
+            <animated.text
               className={classes.numText}
-              x={rect.x + 4}
-              y={rect.y + 34}
+              {...numProps}
               height="20"
               fontSize="0.9rem"
-              fill={rect.isSelected ? `${rect.fill}` : 'var(--white)'}
-            >  
+              fill={rect.isSelected ? `${rect.fill}` : 'var(--black)'}
+            >
               ({Math.round(tree.data[attribute]).toLocaleString()})
-            </text>
+            </animated.text>
           ) : null}
         </>
       ) : (
         <>
-          <text
+          <animated.text
             className={classes.countyText}
-            x={rect.x + 4}
-            y={rect.y + 16}
+            {...textProps}
             height="20"
             fontSize={rect.width < 30 ? '1rem' : '1rem'}
-            fill={rect.isSelected ? 'var(--lightBlack)' : 'var(--white)'}
+            fill={rect.isSelected ? 'var(--lightBlack)' : 'var(--black)'}
           >
             {tree.data.reg}{' '}
-          </text>
+          </animated.text>
           {rect.height > 30 ? (
-            <text
+            <animated.text
               className={classes.numText}
-              x={rect.x + 4}
-              y={rect.y + 34}
+              {...numProps}
               height="20"
               fontSize="1rem"
-              fill={rect.isSelected ? `${rect.fill}` : 'var(--white)'}
+              fill={rect.isSelected ? `${rect.fill}` : 'var(--black)'}
             >
               ({Math.round(tree.data[attribute]).toLocaleString()})
-            </text>
+            </animated.text>
           ) : null}
         </>
       )}

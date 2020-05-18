@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as d3 from 'd3';
 import classes from './barChart.module.css';
 import { useStore } from '../../../Store/store';
+import Rect from './rect';
 import XAxisLabel from '../../../UI/Graphs/xAxisLabel';
 import BoringButton from '../../../UI/Buttons/boringButton';
 import LoadingComp from '../../../UI/loading';
@@ -14,8 +15,7 @@ const dimensions = {
     bottom: 60,
   },
   width: 1000,
-  height: 800
-  // height: 550,
+  height: 800,
 };
 const { margin, width, height } = dimensions;
 const boringButtonStyle = (selectLogScale) => {
@@ -34,7 +34,7 @@ const boringButtonStyle = (selectLogScale) => {
     display: 'grid',
     alignSelf: 'center',
     justifySelf: 'center',
-    cursor: 'pointer'
+    cursor: 'pointer',
   };
 };
 
@@ -140,37 +140,30 @@ const BarChart = ({ handleSelectOneCounty, isLoading, isError }) => {
       const numCounties = 26;
       const barHeight = (height - margin.top - margin.bottom) / numCounties;
       const y = yScale(c.CountyName);
-      const length = xScale(c[attribute]) - margin.left;
+      const barWidth = xScale(c[attribute]) - margin.left;
+      const rect = {
+        width: barWidth, 
+        height: barHeight,
+        y: y,
 
+      }
       return (
-        <g key={c.CountyName}>
-          <rect
-            onClick={() => localHandleSelectCounty(c.CountyName)}
-            className={classes.barChartRect}
-            onMouseEnter={(e) => handleHover(e, c[attribute])}
-            onMouseLeave={(e) => handleHoverLeave(e)}
-            width={length}
-            height={barHeight}
-            strokeWidth="1"
-            stroke={
-              c.CountyName === storeSections.allStatsAboutSelectedCounty.name
-                ? selectedData.color
-                : 'var(--white)'
-            }
-            fill={
-              c.CountyName === storeSections.allStatsAboutSelectedCounty.name
-                ? 'var(--white)'
-                : selectedData.color
-            }
-            opacity={`${
-              c.CountyName === storeSections.allStatsAboutSelectedCounty.name
-                ? 1
-                : 0.75
-            }`}
-            x={margin.left}
-            y={y}
-          ></rect>
-        </g>
+        <Rect
+          key={c.CountyName}
+          allCountiesLatestData={c}
+          rectangle={rect}
+          localHandleSelectCounty={localHandleSelectCounty}
+          classes={classes}
+          handleHover={handleHover}
+          handleHoverLeave={handleHoverLeave}
+          width={barWidth}
+          barHeight={barHeight}
+          attribute={attribute}
+          storeSections={storeSections}
+          selectedData={selectedData}
+          margin={margin}
+          y={y}
+        />
       );
     });
   };

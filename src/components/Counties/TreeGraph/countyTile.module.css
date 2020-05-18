@@ -1,13 +1,4 @@
-/*
-
-
-}
-
-
-
-
- */
- .countyText {
+.countyText {
   /* text-transform: uppercase; */
   font-weight: 900;
   transition: all 100ms linear;
@@ -21,4 +12,8 @@
 .provinceText {
   font-weight: 900;
   font-size: 1rem;
+}
+
+.countyTileRect {
+  cursor: pointer;
 }

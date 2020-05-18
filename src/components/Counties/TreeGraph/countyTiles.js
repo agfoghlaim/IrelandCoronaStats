@@ -2,6 +2,7 @@ import React from 'react';
 import * as d3 from 'd3';
 import CountyTile from './countyTile';
 import { COUNTIES } from '../../../constants';
+import { useSpring, animated } from 'react-spring';
 
 const { PROVINCES } = COUNTIES;
 const dimensions = {
@@ -49,6 +50,8 @@ const getOpacity = (graphData, attribute) =>
     .domain(graphData.map((d) => d[attribute]))
     .range([0.5,0.6, 0.7, 0.8]);
 
+
+
 const CountyTiles = ({
   graphData,
   attribute,
@@ -57,7 +60,6 @@ const CountyTiles = ({
   selectedAttributeColor,
   selectedCountyName,
 }) => {
-
   // TODO, this should happen automatically in store maybe? Definitely too much sorting going on here.
   const sortedGraphData = graphData.sort((a, b) => a[attribute] - b[attribute]);
 
@@ -68,7 +70,8 @@ const CountyTiles = ({
     ? withProvinces
     : withoutProvinces(sortedGraphData);
 
-  const opacity = getOpacity(graphData, attribute);
+  const opacity = getOpacity(graphData, attribute, selectedAttributeColor);
+
   const root = d3
     .hierarchy(dataWithOrWithoutProvinces)
     .sum((d) => d[attribute]);
@@ -83,24 +86,27 @@ const CountyTiles = ({
     .paddingBottom(10)(root);
 
   return root.leaves().map((tree, i, arr) => {
+
     const rect = {
-      isSelected:
-      tree.data.CountyName === selectedCountyName ? true : false,
+   
+      isSelected: tree.data.CountyName === selectedCountyName ? true : false,
       x: tree.x0,
       y: tree.y0,
       width: tree.x1 - tree.x0,
       height: tree.y1 - tree.y0,
       fill: selectedAttributeColor,
+  
       stroke:
         tree.data.CountyName === selectedCountyName ? 'var(--white)' : 'none',
       opacity: opacity(tree.data[attribute]),
+      // newColor: newColor(tree.data[attribute])
     };
 
     return (
-      <CountyTile 
+      <CountyTile
         key={i}
         tree={tree}
-        rect={rect}
+        rectX={rect}
         handleSelectOneCounty={handleSelectOneCounty}
         showProvinces={showProvinces}
         i={i}

@@ -15,13 +15,19 @@ const dimensions = {
   height: 600,
 };
 const { width, height } = dimensions;
+const animationConfig = {
+  duration: 250,
+  tension: 210,
+  friction: 20,
+  clamp: true,
+};
 
 const TreeGraph = ({
   showProvinces,
   handleSelectOneCounty,
   setShowProvinces,
   isLoading,
-  isError
+  isError,
 }) => {
   const storeSections = useStore()[0].sections[0];
   const attribute = storeSections.selectedAttributeName;
@@ -38,7 +44,9 @@ const TreeGraph = ({
       <BoringButton
         onClick={() => setShowProvinces(!showProvinces)}
         overRideStyle={{
-          background: `${showProvinces ? 'var(--lightBlack)' : 'var(--covidGreen)'}`,
+          background: `${
+            showProvinces ? 'var(--lightBlack)' : 'var(--covidGreen)'
+          }`,
           color: `${showProvinces ? 'var(--covidGreen)' : 'var(--lightBlack)'}`,
           borderRadius: ' 0.4rem',
           border: 'none',
@@ -52,29 +60,30 @@ const TreeGraph = ({
           display: 'grid',
           alignSelf: 'center',
           justifySelf: 'center',
-          cursor: 'pointer'
+          cursor: 'pointer',
         }}
       >
         {showProvinces ? 'Hide Provinces' : 'Show  Provinces'}
       </BoringButton>
-      {isError ? <ErrorComp msg='Could not load data for graph.' /> : (
-              <svg
-              style={{ maxWidth: '100%' }}
-              viewBox={`0 0 ${width} ${height}`}
-              ref={svgRef}
-              width={width}
-            >
-              <CountyTiles
-                graphData={storeSections.allCountiesLatestData}
-                attribute={attribute}
-                showProvinces={showProvinces}
-                handleSelectOneCounty={handleSelectOneCounty}
-                selectedAttributeColor={selectedAttributeColor}
-                selectedCountyName={storeSections.allStatsAboutSelectedCounty.name}
-              />
-            </svg>
+      {isError ? (
+        <ErrorComp msg="Could not load data for graph." />
+      ) : (
+        <svg
+          style={{ maxWidth: '100%' }}
+          viewBox={`0 0 ${width} ${height}`}
+          ref={svgRef}
+          width={width}
+        >
+          <CountyTiles
+            graphData={storeSections.allCountiesLatestData}
+            attribute={attribute}
+            showProvinces={showProvinces}
+            handleSelectOneCounty={handleSelectOneCounty}
+            selectedAttributeColor={selectedAttributeColor}
+            selectedCountyName={storeSections.allStatsAboutSelectedCounty.name}
+          />
+        </svg>
       )}
-
     </>
   );
 };

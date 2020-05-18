@@ -26,8 +26,8 @@ const AltTextBox = ({
       className={classes.profileStatsTextBox}
       // Initial height of box needs to be ok to fit all possible '.infoWraps' so there's no jumping around the page when things are selected. grid-gap on parent is 0.4rem, h4 = 2rem
       style={{
-        minHeight: `${
-          (numAvailableAttrs + 2) * 2 + (numAvailableAttrs + 2) * 0.4
+        height: `${
+          (numAvailableAttrs + 1) * 2 + (numAvailableAttrs + 2) * 0.4
         }rem`,
       }}
     >
