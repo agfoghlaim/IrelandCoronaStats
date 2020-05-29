@@ -2,7 +2,6 @@ import React from 'react';
 import * as d3 from 'd3';
 import CountyTile from './countyTile';
 import { COUNTIES } from '../../../constants';
-import { useSpring, animated } from 'react-spring';
 
 const { PROVINCES } = COUNTIES;
 const dimensions = {
