@@ -19,9 +19,9 @@ const CountiesSideSectionHeader = ({
         <ClickArrows
           handleSelectDate={handleSelectDate}
           selectedDate={storeSections.selectedDate}
-          justDates={storeSections.allCounties[0].stats.map(
-            (s) => s.TimeStampDate
-          )}
+          justDates={storeSections.allCounties[0].stats.map((s) => {
+            return s.TimeStamp;
+          })}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
         />

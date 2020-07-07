@@ -11,9 +11,6 @@ const HoverRectangles = ({
   handleHoverLeaveDate,
   handleTextBox,
 }) => {
-
-  // console.log(graphData)
-  // console.log(altGraphData)
   const [selectedRectDate, setSelectedRectDate] = useState('');
   const { width, height, margin } = dimensions;
   // temp
@@ -29,21 +26,19 @@ const HoverRectangles = ({
           y: margin.top,
           graphWidth,
           rectWidth,
-          height: height - margin.bottom-margin.top,
+          height: height - margin.bottom - margin.top,
           xOffset,
-          key: `${graphData.fieldName}-${i}`,
+          key: `${attr[xAxisAttribute]}-${i}`,
 
-          selected:
-            selectedRectDate === attr[xAxisAttribute]
-              ? true
-              : false,
+          selected: selectedRectDate === attr[xAxisAttribute] ? true : false,
           date: attr[xAxisAttribute],
         };
+    
         return x ? (
           <HoverRect
             rect={rect}
             attr={attr}
-            key={attr[xAxisAttribute]}
+            key={rect.key}
             handleHoverLeaveDate={handleHoverLeaveDate}
             handleHoverDate={handleHoverDate}
             handleTextBox={handleTextBox}

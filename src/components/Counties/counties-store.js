@@ -18,12 +18,25 @@ const configureStore = () => {
       const copy = curState.sections;
 
       const allCounties = doTediousStuff(response);
-      copy[0].allCounties = allCounties;
+
+      // no data until 21st march 2020;
+      const MARCH_21 = 1584748800000;
+
+      const allCountiesAfter21March = allCounties.map((county) => {
+        county.stats = county.stats.filter((c) => c.TimeStamp >= MARCH_21);
+        return county;
+      });
+
+      copy[0].allCounties = allCountiesAfter21March;
 
       // Init Default selected county to first county in array
-      copy[0].allStatsAboutSelectedCounty = allCounties[0];
+      //copy[0].allStatsAboutSelectedCounty = allCounties[0];
+
+      copy[0].allStatsAboutSelectedCounty = allCountiesAfter21March[0];
+ 
       copy[0].selectedCountyDataForSelectedDate = util.getLatestOrSelectedDateDataForCounty(
-        allCounties[0],
+   
+        allCountiesAfter21March[0],
         undefined
       );
 
@@ -33,7 +46,9 @@ const configureStore = () => {
       return { sections: copy };
     },
     INIT_ALL_COUNTIES_LATEST_DATA: (curState, response) => {
-      const withoutNestedAttributes = sharedUtil.removeFromNestedAttributes(response);
+      const withoutNestedAttributes = sharedUtil.removeFromNestedAttributes(
+        response
+      );
       const copy = curState.sections;
 
       copy[0].allCountiesLatestData = withoutNestedAttributes;
@@ -45,8 +60,11 @@ const configureStore = () => {
 
       const newAllCountiesLatestData = copy[0].allCounties.map(
         (county) =>
-          county.stats.filter((stat) => stat.TimeStampDate === date)[0]
+          county.stats.filter((stat) => {
+            return stat.TimeStamp === date;
+          })[0] || '' //  Empty strings stops play from breaking if there's no stats (30th June)
       );
+
       copy[0].allCountiesLatestData = newAllCountiesLatestData;
 
       return { sections: copy };
@@ -69,8 +87,12 @@ const configureStore = () => {
     },
 
     SELECT_COUNTY: (curState, county) => {
+      
       const copy = curState.sections;
 
+      // if clicked before loaded
+      if(!copy[0].allCounties || copy[0].allCounties.length === 0) return;
+      
       const selectedCounty = copy[0].allCounties.filter(
         (a) => a.name === county
       )[0];
@@ -99,11 +121,13 @@ const configureStore = () => {
     SELECT_DATE: (curState, date) => {
       // want to set selectedCountyLatest data to whatever is in allStatsAboutSelectedCounty ie find correct one by date in allStatsAboutSelectedCounty.stats
       const copy = curState.sections;
-      const ans = copy[0].allStatsAboutSelectedCounty.stats.filter(
-        (county) => county.TimeStampDate === date
-      )[0];
+
+      const ans = copy[0].allStatsAboutSelectedCounty.stats.filter((county) => {
+        return county.TimeStamp === date;
+      })[0];
 
       copy[0].selectedCountyDataForSelectedDate = ans;
+
       copy[0].selectedDate = date;
 
       // also set allCountiesLatestData
@@ -118,7 +142,7 @@ const configureStore = () => {
         allCounties: [], // allCountiesAllResultsConfirmedCasesMoreThanZero
         allCountiesLatestData: [], // [{county}x26]
         allStatsAboutSelectedCounty: {}, // Is one {} from allCounties[]
-        xAxisAttribute: 'TimeStampDate',
+        xAxisAttribute: 'TimeStamp',
         selectedDate: '',
         selectedCountyDataForSelectedDate: {}, // Rename, may as well use this for selected date data as well
         selectedAttributeName: 'ConfirmedCovidCases',

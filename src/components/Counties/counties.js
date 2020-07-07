@@ -17,7 +17,9 @@ configureStore();
 const {
   ONE_DAY,
   uriLatestAllCounties,
-  allCountiesAllResultsConfirmedCasesMoreThanZero,
+  objectIdsUrl,
+  uriUpdatedSeventhJuly,
+  // allCountiesAllResultsConfirmedCasesMoreThanZero,
 } = COUNTIES;
 
 const Counties = () => {
@@ -45,6 +47,7 @@ const Counties = () => {
         setIsLoading(true);
         setIsError(false);
         const response = await axios.get(uriLatestAllCounties);
+
         dispatch('INIT_ALL_COUNTIES_LATEST_DATA', response.data.features);
         setIsLoading(false);
       } catch (e) {
@@ -60,10 +63,36 @@ const Counties = () => {
       try {
         setIsLoading(true);
         setIsError(false);
-        const response = await axios.get(
-          allCountiesAllResultsConfirmedCasesMoreThanZero
-        );
-        dispatch('INIT_COUNTY_DATA', response.data.features);
+        // const response = await axios.get(
+        //   allCountiesAllResultsConfirmedCasesMoreThanZero
+        // );
+        const getIdsOnly = await axios.get(objectIdsUrl);
+        function doStuff(copyIds) {
+          const arr = [];
+          while (copyIds.length > 200) {
+            arr.push(copyIds.slice(0, 200));
+            copyIds = copyIds.slice(200, copyIds.length);
+          }
+          arr.push(copyIds); // leftovers
+
+          return arr;
+        }
+
+        const arrayOfArrayOfObjectIds = doStuff(getIdsOnly.data.objectIds);
+
+        // July 2020 update. There's a limit to the number of features queryable at one time. First get all object ids then query them in batches of 200 and concat. This makes things really slow to load initially but it's too much effort to change.
+        const batches = async () => {
+          return await Promise.all(
+            arrayOfArrayOfObjectIds.map(async (a) => {
+              const ids = `objectIds=${a.toString()}`;
+              const batch = await axios.get(uriUpdatedSeventhJuly(ids));
+              return batch.data.features;
+            })
+          );
+        };
+        const allBatches = await batches();
+        const ans = [].concat.apply([], allBatches);
+        dispatch('INIT_COUNTY_DATA', ans);
         setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
@@ -189,15 +218,15 @@ const Counties = () => {
 
   return (
     <Layout>
-        <SectionWrapper>
+      <SectionWrapper>
         {/* {isError ? <ErrorComp msg="Could not load data." /> : null} */}
-          <SelectGraphBtnGroup
-            data={availGraphs}
-            handleSelectGraph={setSelectedSection}
-          />
-            
-          {renderGraphSection()}
-        </SectionWrapper>
+        <SelectGraphBtnGroup
+          data={availGraphs}
+          handleSelectGraph={setSelectedSection}
+        />
+
+        {renderGraphSection()}
+      </SectionWrapper>
     </Layout>
   );
 };

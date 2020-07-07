@@ -48,7 +48,7 @@ const LineGraph = ({ handleSelectCounty, handleSelectDate, isError }) => {
     }
   }, [storeSections.allCounties]);
 
-  const xExtent = d3.extent(useForXExtent, (d) => d.TimeStampDate);
+  const xExtent = d3.extent(useForXExtent, (d) => d.TimeStamp);
   const xScale = d3
     .scaleTime()
     .domain([xExtent[0], xExtent[1]])
@@ -121,7 +121,7 @@ const LineGraph = ({ handleSelectCounty, handleSelectDate, isError }) => {
           {storeSections && storeSections.allCountiesLatestData.length ? (
             <ClickRectangles
               graphData={storeSections.allCounties[0].stats.map(
-                (county) => county.TimeStampDate
+                (county) => county.TimeStamp
               )}
               dimensions={dimensions}
               xScale={xScale}

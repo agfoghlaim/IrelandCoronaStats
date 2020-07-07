@@ -29,7 +29,6 @@ const getMinMax = (extents) => {
 
 const { margin, width, height } = dimensions;
 const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
-
   const dailyData = useStore()[0][storeName].graphs;
 
   const daily = dailyData.filter((d) => d.id === graphId)[0]; //should be called graph
@@ -162,7 +161,6 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
 
   return (
     <>
-
       <BoringButton
         onClick={toggleLogScale}
         overRideStyle={{
@@ -184,16 +182,13 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
           display: 'grid',
           alignSelf: 'center',
           justifySelf: 'center',
-          cursor: 'pointer'
+          cursor: 'pointer',
         }}
       >
         {selectLogScale ? 'Use Linear Scale' : 'Use Log Scale'}
       </BoringButton>
       {isHovered && hoverPosition.length ? (
-        <ToolTip
-          hoverPosition={hoverPosition}
-          hoverColor={hoverColor}
-        >
+        <ToolTip hoverPosition={hoverPosition} hoverColor={hoverColor}>
           {hoverInfo}
         </ToolTip>
       ) : null}
@@ -222,7 +217,7 @@ const LineGraphDaily = ({ graphId, storeName, handleTextBox }) => {
 
             <HoverRectangles
               // graphData={daily.all}
-              // TODO is this okay...
+              
               altGraphData={daily.avail[0].attrData}
               dimensions={dimensions}
               xScale={getXScale()}

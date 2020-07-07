@@ -26,15 +26,19 @@ export const countiesStoreUtil = {
   },
 
   getLatestOrSelectedDateDataForCounty: (county, selectedDate) => {
+
     let dateToUse = selectedDate;
     if (!dateToUse) {
-      const dates = county.stats.map((s) => s.TimeStampDate);
+      // const dates = county.stats.map((s) => s.TimeStampDate);
+      const dates = county.stats.map((s) => s.TimeStamp);
       dateToUse = Math.max(...dates.map((d) => d));
     }
 
     const newestData = county.stats.filter(
-      (s) => s.TimeStampDate === dateToUse
+      // (s) => s.TimeStampDate === dateToUse
+      (s) => s.TimeStamp=== dateToUse
     );
+
     return newestData[0];
   },
 
@@ -70,8 +74,11 @@ export const countiesStoreUtil = {
 
 export const sharedUtil = {
   getLatestDate: (county) => {
-    const dates = county.stats.map((s) => s.TimeStampDate);
+
+    //const dates = county.stats.map((s) => s.TimeStampDate);
+    const dates = county.stats.map((s) => s.TimeStamp); // renamed seventh july
     const newestDate = Math.max(...dates.map((d) => d));
+
     return newestDate;
     // const dates = removeFromNestedAttributes(county, 'stats')
   },

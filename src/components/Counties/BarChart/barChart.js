@@ -69,10 +69,14 @@ const BarChart = ({ handleSelectOneCounty, isLoading, isError }) => {
 
   const xExtent = d3.extent(
     storeSections.allCountiesLatestData,
-    (county) => county[attribute]
+    (county) => {
+      if(!county) return 0;
+      return county[attribute];
+    }
   );
+
   const countyNamesForAxisLabel = storeSections.allCountiesLatestData.map(
-    (c) => c.CountyName
+    (c) => c.CountyName 
   );
   const xAxis = d3.axisBottom();
   const yAxis = d3.axisLeft();

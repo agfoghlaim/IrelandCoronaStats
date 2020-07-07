@@ -19,7 +19,7 @@ const Line = ({
   
   const line = d3
     .line()
-    .x((d) => xScale(d['TimeStampDate']))
+    .x((d) => xScale(d['TimeStamp']))
     .y((d) => {
       return yScale(d[selectedAttr]);
     });

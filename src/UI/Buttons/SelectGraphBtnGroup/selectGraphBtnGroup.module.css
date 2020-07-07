@@ -18,6 +18,7 @@
   line-height: 0.6rem;
   min-height: 2rem;
   transition: background 100ms linear;
+  align-items: center;
 }
 
 .tabBtn:hover {

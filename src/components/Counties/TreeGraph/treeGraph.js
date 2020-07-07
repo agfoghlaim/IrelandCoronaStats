@@ -15,12 +15,6 @@ const dimensions = {
   height: 600,
 };
 const { width, height } = dimensions;
-const animationConfig = {
-  duration: 250,
-  tension: 210,
-  friction: 20,
-  clamp: true,
-};
 
 const TreeGraph = ({
   showProvinces,
