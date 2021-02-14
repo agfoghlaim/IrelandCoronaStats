@@ -72,14 +72,14 @@ export const SUMMARY = {
       svgLineFieldName: 'ConfirmedCovidCases',
       dateField: 'Date',
     },
-    {
-      title: 'Confirmed Recovered',
-      shortTitle: '# Recovered',
-      fieldName: 'ConfirmedCovidRecovered',
-      yesterdayFieldName: undefined, //from latest
-      svgLineFieldName: 'ConfirmedCovidRecovered',
-      dateField: 'Date',
-    },
+    // {
+    //   title: 'Confirmed Recovered',
+    //   shortTitle: '# Recovered',
+    //   fieldName: 'ConfirmedCovidRecovered',
+    //   yesterdayFieldName: undefined, //from latest
+    //   svgLineFieldName: 'ConfirmedCovidRecovered',
+    //   dateField: 'Date',
+    // },
     {
       title: 'Confirmed Deaths',
       shortTitle: '# Deaths',
